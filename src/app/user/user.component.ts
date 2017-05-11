@@ -60,8 +60,6 @@ export class UserComponent implements OnInit {
 		EmitterService.get(this.reset).subscribe( (reset:boolean) => {
 			this.isReset = false;
 		});
-
-
 		EmitterService.get(this.userList).subscribe( (userList:string) => {
 			this.usersList = userList;
 		});

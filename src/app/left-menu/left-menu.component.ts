@@ -1,19 +1,25 @@
 import { Component, OnInit } from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs/Observable'; 
 @Component({
   selector: 'app-left-menu',
   templateUrl: './left-menu.component.html',
   styleUrls: ['./left-menu.component.css']
 })
 export class LeftMenuComponent implements OnInit {
-  theHtmlString: Observable<string>;
-  constructor() {  }
+   
+  constructor() {
+     
+   }
+   
 
   ngOnInit() {
+    
      
   }
-  setMenu(innerHtml)
+  public get LeftMenu()
   {
-    this.theHtmlString.subscribe(value=> "innerHtml");
+    
+    return "Menu";
   }
+   
 }

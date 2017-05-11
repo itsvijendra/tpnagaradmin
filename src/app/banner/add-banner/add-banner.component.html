@@ -1,4 +1,5 @@
-<div class="divtablemainBanner">
+<form materialize class="col s12" [formGroup]="form" (ngSubmit)="save()">
+  <div class="divtablemainBanner">
             <ul class="ulheader">
             <li class="liCol25"><span class="spacer30"></span></li>
            <li class="liCol75"><span class="spacer10"></span></li>
@@ -6,41 +7,82 @@
            </ul>
            <ul class="ulmain">
             <li class="liCol25"><span class="spacer30"></span>Banner Name:</li>
-           <li class="liCol75"><span class="spacer10"></span><input id="txtBannerName"  name="txtBannerName"  type="text" style="width:120px!important;"  /></li>
+           <li class="liCol75"><span class="spacer10"></span>
+             <input id="hdnBannerId" type="hidden" 
+               [(ngModel)]="banner.BannerId" formControlName="BannerId"
+             />
+             <input id="txtBannerName"  name="txtBannerName"
+             [(ngModel)]="banner.BannerName" formControlName="BannerName"
+               type="text" style="width:120px!important;"  /></li>
             
            </ul>
            <ul class="ulalternate">
             <li class="liCol25"><span class="spacer30"></span>Banner Size:</li>
            <li class="liCol75"><span class="spacer10"></span>
-              <select name="selBannerSize">
+              <select name="selBannerSize" 
+               [(ngModel)]="banner.BannerSize" formControlName="BannerSize" >
                  <option value="select">select</option>
-                 <option value="S32X50">32 X 50</option>
-                 <option value="S100X200">100 X 200 </option>                 
+                 <option value="S32X50">210 X 210</option>
+                 <option value="S210X510">210 X 510 </option>                 
               </select> 
             </li>
            </ul>
             <ul class="ulmain">
               <li class="liCol25"><span class="spacer30"></span>Select Image:</li>
-              <li class="liCol75"><span class="spacer10"></span><input type="file" multiple="multiple" name="fileBannerImage" id="fileBannerImage" accept="image/*" />
+              <li class="liCol75"><span class="spacer10"></span>
+                <input type="file" multiple="multiple" name="fileBannerImage"
+                    [(ngModel)]="banner.BannerImageUrl" formControlName="BannerImageUrl"
+                 id="fileBannerImage" accept="image/*" />
               </li>              
            </ul>          
            <ul class="ulalternate">
             <li class="liCol25"><span class="spacer30"></span>Start date:</li>
-           <li class="liCol75"><span class="spacer10"></span><input id="txtStartDate" name="txtStartDate" type="text" style="width:80px!important;" /></li>
+           <li class="liCol75"><span class="spacer10"></span>
+              <input id="txtStartDate" name="txtStartDate"
+                   [(ngModel)]="banner.BannerStartDate" formControlName="BannerStartDate"
+               type="text" style="width:80px!important;" /></li>
             
            </ul>
            <ul class="ulmain">
             <li class="liCol25"><span class="spacer30"></span>End date</li>
-           <li class="liCol75"><span class="spacer10"></span><input id="txtEndDate" name="txtEndDate" type="text" style="width:80px!important;" /></li>
+           <li class="liCol75"><span class="spacer10"></span>
+           <input id="txtEndDate" name="txtEndDate" type="text" 
+              [(ngModel)]="banner.BannerEndDate" formControlName="BannerEndDate"
+            style="width:80px!important;" /></li>
             
            </ul>
           <ul class="ulalternate">
             <li class="liCol25"><span class="spacer30"></span>Active</li>
-           <li class="liCol75"><span class="spacer10"></span><input type="checkbox" id="chkActive" name="chkActive" checked="checked" style="width:13px!important;"  /></li>
-            
+           <li class="liCol75"><span class="spacer10"></span>
+            <input type="checkbox" id="chkActive" name="chkActive" 
+              [(ngModel)]="banner.IsActive" formControlName="IsActive"
+            checked="checked" style="width:13px!important;"  /></li>            
           </ul>
           <ul class="ulmain">
             <li class="liCol25"><span class="spacer30"></span></li>
-           <li class="liCol75"><span class="spacer10"></span><input type="button" value="Save"  style="width:60px!important;" /><span class="spacer10">&nbsp;</span><input type="submit" value="Cancel" style="width:60px!important;" /></li>            
+           <li class="liCol75"><span class="spacer10"></span><input type="submit" value="Save"  style="width:60px!important;" /><span class="spacer10">&nbsp;</span><input type="button" value="Cancel" style="width:60px!important;" /></li>            
           </ul>
     </div>
+</form>
+ <div class="divtablemain">
+        <ul class="ulheader">
+           <li class="liheader" style="width:5%!important;text-align:center!important;">S.No.</li>            
+             <li class="liheader" style="width:12%!important;">Banner Name</li>
+             <li class="liheader" style="width:12%!important;">Banner Size</li>
+             <li class="liheader" style="width:19%!important;">Banner Url</li>
+              <li class="liheader" style="width:12%!important;">Banner Start Date</li>
+               <li class="liheader" style="width:12%!important;">Banner End Date</li>
+             <li class="liheader" style="width:12%!important;">Is Active</li>
+             <li class="liheader" style="width:10%!important;">Edit / Delete</li>
+        </ul>
+         <ul class="ulalternate" *ngFor="let banner of bannerList;let i = index;trackBy:i;">
+               <li class="liheader" style="width:5%!important;text-align:center!important;">{{i+1}}</li>               
+               <li class="lirow" style="width:12%!important;">{{banner.BannerName}}</li>
+               <li class="lirow" style="width:12%!important;">{{banner.BannerSize}}</li>
+               <li class="lirow" style="width:19%!important;">{{banner.BannerUrl}}</li>
+               <li class="lirow" style="width:12%!important;text-align: center;">{{banner.BannerStartDate | date: 'dd/MM/yyyy'}}</li>
+               <li class="lirow" style="width:12%!important;text-align: center;">{{banner.BannerEndDate | date: 'dd/MM/yyyy'}}</li>
+               <li class="lirow" style="width:12%!important;text-align: center;">{{banner.IsActive ? 'Yes' : 'No'}}</li>
+               <li class="lirow" style="width:10%!important;text-align: center;"><a href="javascript:;" (click)="editBanner(banner)" >Edit </a> | <a> Delete </a></li>
+         </ul>
+ </div>

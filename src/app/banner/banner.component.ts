@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LeftMenuComponent } from '../left-menu/left-menu.component';
-
+import { BannerServices } from '../services/banner.services';
+import { EmitterService } from '../services/emitter.services';
 @Component({
   selector: 'app-banner',
   templateUrl: './banner.component.html',
@@ -8,9 +9,10 @@ import { LeftMenuComponent } from '../left-menu/left-menu.component';
 })
 export class BannerComponent implements OnInit {
  
-  constructor() {
-      let leftmenu = new LeftMenuComponent();
-      leftmenu.setMenu("banner menu")
+  constructor(private userServices: BannerServices) {
+      //let leftmenu = new LeftMenuComponent();
+     // leftmenu.setMenu("banner menu")
+     
    }
   ngOnInit() {
       

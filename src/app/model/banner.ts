@@ -3,8 +3,9 @@ export class Banner {
 		public BannerId?: number,
 		public BannerName?: string,
 		public BannerSize?: string,
-        public StartDate?: Date,
-        public EndDate?: Date,
+        public BannerImageUrl?: string,
+        public BannerStartDate?: Date,
+        public BannerEndDate?: Date,
         public IsActive?: boolean
 	) {}
 }

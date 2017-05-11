@@ -1,3 +1,63 @@
-<p>
-  banner-config works!
-</p>
+<form materialize class="col s12" [formGroup]="form" (ngSubmit)="save()">
+  <div class="divtablemainBanner">
+            <ul class="ulheader">
+            <li class="liCol25"><span class="spacer30"></span></li>
+           <li class="liCol75"><span class="spacer10"></span></li>
+            
+           </ul>           
+           <ul class="ulmain">
+            <li class="liCol25"><span class="spacer30"></span>Banner Page Category:</li>
+           <li class="liCol75"><span class="spacer10"></span>
+              <select name="selBannerSize" 
+               [(ngModel)]="bannerconfig.BannerPageCategory" formControlName="BannerPageCategory" >
+                 <option value="select">select</option>
+                 <option value="homepage">Home Page</option>
+                 <option value="otherpage">Other Page</option>                 
+              </select> 
+            </li>
+           </ul>
+           <ul class="ulalternate">
+            <li class="liCol25"><span class="spacer30"></span>Banner Size:</li>
+           <li class="liCol75"><span class="spacer10"></span>
+              <select name="selBannerSize" 
+               [(ngModel)]="bannerconfig.BannerSize" formControlName="BannerSize" >
+                 <option value="select">select</option>
+                 <option value="S32X50">210 X 210</option>
+                 <option value="S210X510">210 X 510 </option>                 
+              </select> 
+            </li>
+           </ul> 
+          <ul class="ulmain">
+            <li class="liCol25"><span class="spacer30"></span>Banner Frequency:</li>
+           <li class="liCol75"><span class="spacer10"></span>
+              <select name="selBannerSize" 
+               [(ngModel)]="bannerconfig.BannerFrequency" formControlName="BannerFrequency" >
+                 <option value="0">select</option>
+                 <option value="10000">10 Sec</option>
+                 <option value="20000">20 Sec</option> 
+                 <option value="30000">30 Sec</option>                 
+              </select> 
+            </li>            
+          </ul>
+          <ul class="ulmain">
+            <li class="liCol25"><span class="spacer30"></span></li>
+           <li class="liCol75"><span class="spacer10"></span><input type="submit" value="Save"  style="width:60px!important;" /><span class="spacer10">&nbsp;</span><input type="button" value="Cancel" style="width:60px!important;" /></li>            
+          </ul>
+    </div>
+</form>
+<div class="divtablemain">
+        <ul class="ulheader">
+           <li class="liheader" style="width:5%!important;text-align:center!important;">S.No.</li>            
+             <li class="liheader" style="width:25%!important;">Banner Page Category</li>
+             <li class="liheader" style="width:25%!important;">Banner Size</li>
+             <li class="liheader" style="width:25%!important;">Banner Freuency</li>
+              <li class="liheader" style="width:10%!important;">Edit / Delete</li>
+        </ul>
+         <ul class="ulalternate" *ngFor="let bannerconfig of bannerConfigList;let i = index;trackBy:i;">
+               <li class="liheader" style="width:5%!important;text-align:center!important;">{{i+1}}</li>               
+               <li class="lirow" style="width:25%!important;">{{bannerconfig.BannerPageCategory}}</li>
+               <li class="lirow" style="width:25%!important;">{{bannerconfig.BannerSize}}</li>
+               <li class="lirow" style="width:25%!important;">{{(bannerconfig.BannerFrequency/1000) + ' Sec'}}</li> 
+               <li class="lirow" style="width:10%!important;text-align: center;">Edit / Delete</li>              
+         </ul>
+ </div>

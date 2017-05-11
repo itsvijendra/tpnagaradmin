@@ -1,0 +1,14 @@
+<h3 class="user-list-heading">List of Users</h3>
+<hr>
+
+<div class="list-of-todos">
+	<ul class="list-group">
+		<li *ngFor="let user of usersList" 
+			class="list-group-item"
+			(click)="userSelected(user)"
+			[class.active]="isSelected(user) && isReset">
+			{{ user.name}}
+			<div class="deleteUsers" (click)="deleteUser(user._id)">X</div>
+		</li>
+	</ul>
+</div>

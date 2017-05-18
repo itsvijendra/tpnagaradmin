@@ -11,20 +11,24 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { UserModule } from "./user/user.module";
 import { BannerModule } from "./banner/banner.module";
 import { LeftMenuComponent } from './left-menu/left-menu.component';
+import { DatepickerComponent } from './datepicker/datepicker.component';
+import {DpDatePickerModule} from 'ng2-date-picker';
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     NotFoundComponent,
     NavBarComponent,
-    LeftMenuComponent,  
+    LeftMenuComponent,
+    DatepickerComponent,      
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
     UserModule,
-    BannerModule,
+    BannerModule,  
+    DpDatePickerModule, 
     routes
   ],
   providers: [],

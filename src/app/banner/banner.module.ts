@@ -6,6 +6,8 @@ import { BannerComponent } from './banner.component';
 import {AddBannerComponent} from './add-banner/add-banner.component';
 import { BannerServices } from '../services/banner.services';
 import { BannerConfigComponent } from '../banner/banner-config/banner-config.component';
+import { BannerConfigDetailComponent } from './banner-config-detail/banner-config-detail.component';
+import { ContentHeaders } from '../common/contentheaders';
 @NgModule({
   imports: [
     CommonModule,
@@ -16,13 +18,14 @@ import { BannerConfigComponent } from '../banner/banner-config/banner-config.com
   declarations: [
      BannerComponent,
      AddBannerComponent,
-     BannerConfigComponent
+     BannerConfigComponent,
+     BannerConfigDetailComponent
   ],
   exports: [
     BannerComponent
   ],
   providers: [ 
-     BannerServices
+     BannerServices,ContentHeaders
    ]
 })
 export class BannerModule { }

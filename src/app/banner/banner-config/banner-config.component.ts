@@ -31,23 +31,47 @@ export class BannerConfigComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.bannerServices.getAllBannerConfig().subscribe(
+      this.bannerServices.getToken().subscribe(
+                   response => {  
+                      localStorage.setItem('token', response.token);
+                         this.bannerServices.getAllBannerConfig(response.token).subscribe(
                        response => this.bannerConfigList = response.recordset,
                        error=>  { alert(`Can't get banner config.`); }
-                    );
-  }
+                       );          
+                     },
+                   error=>  { alert(`Can't get token.`); }
+                   );
    
+  }
+   editBannerConfig(bannerconfig)
+   { 
+     alert(bannerconfig.BannerConfigId);   
+     this.bannerconfig = bannerconfig;
+   } 
+   deleteBannerConfig(bannerconfigid)
+   {
+       var result;
+       if(confirm("Are you sure you want to delete this record?"))
+       {
+        
+        result = this.bannerServices.deleteBannerConfig(bannerconfigid);
+        result.subscribe(data => this.bannerServices.getAllBannerConfig(localStorage.getItem('token')).subscribe(
+                        response => this.bannerConfigList = response.recordset,
+                        error=>  { alert(`Can't delete banner config.`); }
+                      ));
+       }
+   }
    save() {
     var result,
         bannerconfigValue = this.form.value;
      
-    if (bannerconfigValue.BannerConfigId){
+    if (bannerconfigValue.BannerConfigId > 0){
       result = this.bannerServices.updateBannerConfig(bannerconfigValue);
     } else {
       result = this.bannerServices.addBannerConfig(bannerconfigValue);
     }
 
-    result.subscribe(data => this.bannerServices.getAllBannerConfig().subscribe(
+    result.subscribe(data => this.bannerServices.getAllBannerConfig(localStorage.getItem('token')).subscribe(
                        response => this.bannerConfigList = response.recordset,
                        error=>  { alert(`Can't get banner config.`); }
                     ));

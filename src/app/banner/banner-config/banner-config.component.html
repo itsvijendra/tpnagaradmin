@@ -8,11 +8,13 @@
            <ul class="ulmain">
             <li class="liCol25"><span class="spacer30"></span>Banner Page Category:</li>
            <li class="liCol75"><span class="spacer10"></span>
+               <input id="hdnBannerConfigId" type="hidden" 
+               [(ngModel)]="bannerconfig.BannerConfigId" formControlName="BannerConfigId" />
               <select name="selBannerSize" 
                [(ngModel)]="bannerconfig.BannerPageCategory" formControlName="BannerPageCategory" >
                  <option value="select">select</option>
                  <option value="homepage">Home Page</option>
-                 <option value="otherpage">Other Page</option>                 
+                 <option value="listingpage">Listing Page</option>                 
               </select> 
             </li>
            </ul>
@@ -22,7 +24,7 @@
               <select name="selBannerSize" 
                [(ngModel)]="bannerconfig.BannerSize" formControlName="BannerSize" >
                  <option value="select">select</option>
-                 <option value="S32X50">210 X 210</option>
+                 <option value="S210X210">210 X 210</option>
                  <option value="S210X510">210 X 510 </option>                 
               </select> 
             </li>
@@ -58,6 +60,6 @@
                <li class="lirow" style="width:25%!important;">{{bannerconfig.BannerPageCategory}}</li>
                <li class="lirow" style="width:25%!important;">{{bannerconfig.BannerSize}}</li>
                <li class="lirow" style="width:25%!important;">{{(bannerconfig.BannerFrequency/1000) + ' Sec'}}</li> 
-               <li class="lirow" style="width:10%!important;text-align: center;">Edit / Delete</li>              
+               <li class="lirow" style="width:10%!important;text-align: center;"><a href="javascript:;" (click)="editBannerConfig(bannerconfig)" >Edit </a> | <a href="javascript:;" (click)="deleteBannerConfig(bannerconfig.BannerConfigId)"> Delete </a></li>
          </ul>
  </div>

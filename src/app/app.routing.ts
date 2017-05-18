@@ -6,11 +6,13 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { UserComponent } from './user/user.component'; 
 import {AddBannerComponent} from './banner/add-banner/add-banner.component';
 import { BannerConfigComponent } from './banner/banner-config/banner-config.component';
+import { BannerConfigDetailComponent } from './banner/banner-config-detail/banner-config-detail.component';
 const appRoutes: Routes = [
   { path: '', pathMatch: 'full', component: HomeComponent },
   { path: 'user', component: UserComponent },
   { path: 'bannermaster', component: AddBannerComponent },
   { path: 'bannerconfigmaster', component: BannerConfigComponent },
+   { path: 'bannerconfigdetail', component: BannerConfigDetailComponent },
   { path: 'not-found', component: NotFoundComponent },
   { path: '**', redirectTo: 'not-found' }
 ];

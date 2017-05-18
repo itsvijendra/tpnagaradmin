@@ -1,0 +1,76 @@
+<form materialize class="col s12" [formGroup]="form" (ngSubmit)="save()">
+  <div class="divtablemainBanner">
+            <ul class="ulheader">
+            <li class="liCol25"><span class="spacer30"></span></li>
+           <li class="liCol75"><span class="spacer10"></span></li>
+            
+           </ul>           
+           <ul class="ulmain">
+            <li class="liCol25"><span class="spacer30"></span>Banner Name:</li>
+           <li class="liCol75"><span class="spacer10"></span>   
+            <input id="hdnBannerConfigDetId" type="hidden" 
+               [(ngModel)]="bannerconfigdetail.BannerConfigDetId" formControlName="BannerConfigDetId" />           
+              <select name="selBannerId" 
+               [(ngModel)]="bannerconfigdetail.BannerId" formControlName="BannerId" >
+                  <option value="0">select</option>
+                 <option *ngFor="let x of bannerList"  [ngValue]="x.BannerId" >{{x.BannerName}}</option>                             
+              </select> 
+            </li>
+           </ul>
+           <ul class="ulalternate">
+            <li class="liCol25"><span class="spacer30"></span>Banner Page Category:</li>
+           <li class="liCol75"><span class="spacer10"></span>             
+              <select name="selBannerConfigId" 
+               [(ngModel)]="bannerconfigdetail.BannerConfigId" formControlName="BannerConfigId" >
+                  <option value="0">select</option>
+                 <option *ngFor="let x of bannerConfigList"  [ngValue]="x.BannerConfigId" >{{x.BannerPageCategory + '- Size-' + x.BannerSize + '-Frequency-' + (x.BannerFrequency/1000) + ' Sec'}}</option> 
+                       
+              </select> 
+            </li>
+           </ul> 
+          <ul class="ulmain">
+            <li class="liCol25"><span class="spacer30"></span>Banner City:</li>
+           <li class="liCol75"><span class="spacer10"></span>             
+              <select name="selBannerCityId" 
+               [(ngModel)]="bannerconfigdetail.BannerCityId" formControlName="BannerCityId" >
+                  <option value="0">select</option>
+                 <option *ngFor="let x of cityList"  [ngValue]="x.Id" >{{x.City_Name}}</option>                                        
+              </select> 
+            </li>            
+          </ul>
+          <ul class="ulalternate">
+            <li class="liCol25"><span class="spacer30"></span>Banner Display Order:</li>
+           <li class="liCol75"><span class="spacer10"></span>             
+               <input id="txtBannerDisplayOrder"  name="txtBannerDisplayOrder"
+             [(ngModel)]="bannerconfigdetail.BannerDisplayOrder" formControlName="BannerDisplayOrder"
+               type="text" style="width:120px!important;"  />
+            </li>            
+          </ul>
+          <ul class="ulmain">
+            <li class="liCol25"><span class="spacer30"></span></li>
+           <li class="liCol75"><span class="spacer10"></span><input type="submit" value="Save"  style="width:60px!important;" /><span class="spacer10">&nbsp;</span><input type="button" value="Cancel" style="width:60px!important;" /></li>            
+          </ul>
+    </div>
+</form>
+ <div class="divtablemain">
+        <ul class="ulheader">
+           <li class="liheader" style="width:5%!important;text-align:center!important;">S.No.</li>            
+             <li class="liheader" style="width:12%!important;">Banner Name</li>
+             <li class="liheader" style="width:12%!important;">Banner Page Category</li>
+             <li class="liheader" style="width:19%!important;">Banner Size</li>
+              <li class="liheader" style="width:12%!important;">Banner Frequency</li>
+               <li class="liheader" style="width:12%!important;">Banner City</li>
+             <li class="liheader" style="width:12%!important;">Banner Display Order</li>
+             <li class="liheader" style="width:10%!important;">Edit / Delete</li>
+        </ul>
+         <ul class="ulalternate" *ngFor="let bannerconfigdetail of bannerConfigdetailList;let i = index;trackBy:i;">
+               <li class="liheader" style="width:5%!important;text-align:center!important;">{{i+1}}</li>               
+               <li class="lirow" style="width:12%!important;">{{bannerconfigdetail.BannerName}}</li>
+               <li class="lirow" style="width:12%!important;">{{bannerconfigdetail.BannerPageCategory}}</li>
+               <li class="lirow" style="width:19%!important;">{{bannerconfigdetail.BannerSize}}</li>
+               <li class="lirow" style="width:12%!important;text-align: center;">{{(bannerconfigdetail.BannerFrequency/1000) + ' ' + 'Sec'}}</li>
+               <li class="lirow" style="width:12%!important;text-align: center;">{{bannerconfigdetail.City_Name}}</li>
+               <li class="lirow" style="width:12%!important;text-align: center;">{{bannerconfigdetail.BannerDisplayOrder}}</li>
+               <li class="lirow" style="width:10%!important;text-align: center;"><a href="javascript:;" (click)="editBannerConfigDetail(bannerconfigdetail)" >Edit </a> | <a href="javascript:;" (click)="deleteBannerConfigDetail(bannerconfigdetail.BannerConfigDetId)"> Delete </a></li>
+         </ul>
+ </div>

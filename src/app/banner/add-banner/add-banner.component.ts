@@ -17,6 +17,9 @@ export class AddBannerComponent implements OnInit {
 	private banner:Banner = new Banner(null,'','select','',null,null,true);
   private bannerList;
   private token;
+  private errorMessage: string;
+  private errorGridMessage: string;
+
   constructor( formBuilder: FormBuilder, 
     private router: Router,
     private route: ActivatedRoute,
@@ -24,7 +27,10 @@ export class AddBannerComponent implements OnInit {
      
       this.form = formBuilder.group({
         BannerId:[],
-        BannerName:[],
+        BannerName:['', [
+          Validators.required,
+          Validators.minLength(3)
+        ]],
         BannerSize:[],
         BannerImageUrl:[],
         BannerStartDate:[],
@@ -42,14 +48,40 @@ export class AddBannerComponent implements OnInit {
                       localStorage.setItem('token', response.token);
                         this.bannerServices.getAllBanner(this.token).subscribe(
                        response => this.bannerList = response.recordset,
-                          error=>  { alert(`Can't get banners.`); }
+                          error=>  { this.errorMessage = 'Unable to retrieve banner.' }
                       );                  
                      },
-                   error=>  { alert(`Can't get token.`); }
+                   error=>  { this.errorMessage = 'Unable to retrieve token.' }
                    );
     
      
   }
+   validateInput()
+   {
+      var value = this.form.value;
+      if(value.BannerName == "")
+      {
+         this.errorMessage = "Please enter Banner Name";
+         return false;
+      }
+      if(value.BannerSize == "select")
+      {
+         this.errorMessage = "Please Banner Size.";
+         return false;
+      }
+      if(value.BannerStartDate == null)
+      {
+         this.errorMessage = "Please select Banner Start Date.";
+         return false;
+      }
+      if(value.BannerEndDate == null)
+      {
+         this.errorMessage = "Please select Banner End Date.";
+         return false;
+      }
+      this.errorMessage = ""; 
+      return true;
+   }
    editBanner(banner)
    {     
      this.banner = banner;
@@ -62,7 +94,7 @@ export class AddBannerComponent implements OnInit {
         result = this.bannerServices.deleteBanner(bannerid);
         result.subscribe(data =>  this.bannerServices.getAllBanner(localStorage.getItem('token')).subscribe(
                         response => this.bannerList = response.recordset,
-                        error=>  { alert(`Can't get banners.`); }
+                        error=>  { this.errorMessage = 'Unable to retrieve token' }
                       ));
        }
    }
@@ -70,17 +102,20 @@ export class AddBannerComponent implements OnInit {
     var result,
         bannerValue = this.form.value;
      //alert(bannerValue.BannerId);
-    if (bannerValue.BannerId){
-      alert(bannerValue.BannerId)
-      result = this.bannerServices.updateBanner(bannerValue);
-    } else {
-     // alert('calling add banner')
-      result = this.bannerServices.addBanner(bannerValue);
-    }
-    result.subscribe(data =>  this.bannerServices.getAllBanner(localStorage.getItem('token')).subscribe(
-                       response => this.bannerList = response.recordset,
-                       error=>  { alert(`Can't get banners.`); }
-                    ));
-    this.banner = new Banner(null,'','select','',null,null,true);  
-  }
+     if(this.validateInput())
+     {
+        if (bannerValue.BannerId){
+          alert(bannerValue.BannerId)
+          result = this.bannerServices.updateBanner(bannerValue);
+        } else {
+        // alert('calling add banner')
+          result = this.bannerServices.addBanner(bannerValue);
+        }
+         result.subscribe(data =>  this.bannerServices.getAllBanner(localStorage.getItem('token')).subscribe(
+                          response => this.bannerList = response.recordset,
+                          error=>  { this.errorMessage = 'Unable to retrieve token.' }
+                        ));
+         this.banner = new Banner(null,'','select','',null,null,true);  
+       }
+   }
 }

@@ -3,20 +3,19 @@
 
   <div class="divtablemainBanner">
             <ul class="ulheader">
-            <li class="liCol25"><span class="spacer30"></span></li>
+            <li class="liCol25"><span class="spacer30" style="font-size:14px;color:white;font-weight:bold;">Banner Master</span></li>
            <li class="liCol75"><span class="spacer10"></span></li>
-            
-           </ul>
+            </ul>           
            <ul class="ulmain">
             <li class="liCol25"><span class="spacer30"></span>Banner Name:</li>
            <li class="liCol75"><span class="spacer10"></span>
              <input id="hdnBannerId" type="hidden" 
                [(ngModel)]="banner.BannerId" formControlName="BannerId"
              />
-             <input id="txtBannerName"  name="txtBannerName"
-             [(ngModel)]="banner.BannerName" formControlName="BannerName"
-               type="text" style="width:120px!important;"  /></li>
-            
+             <input id="BannerName"  name="BannerName"
+             [(ngModel)]="banner.BannerName" formControlName="BannerName"             
+               type="text" style="width:120px!important;"  />           
+             </li>            
            </ul>
            <ul class="ulalternate">
             <li class="liCol25"><span class="spacer30"></span>Banner Size:</li>
@@ -65,6 +64,10 @@
             <li class="liCol25"><span class="spacer30"></span></li>
            <li class="liCol75"><span class="spacer10"></span><input type="submit" value="Save"  style="width:60px!important;" /><span class="spacer10">&nbsp;</span><input type="button" value="Cancel" style="width:60px!important;" /></li>            
           </ul>
+           <ul class="ulalternate">
+            <li class="liCol25"><span class="spacer30" style="color:Red;">{{errorMessage}}</span></li>
+           <li class="liCol75"><span class="spacer10"></span></li>
+           </ul>
     </div>
 </form>
  <div class="divtablemain">

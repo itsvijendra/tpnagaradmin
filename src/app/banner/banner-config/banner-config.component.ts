@@ -17,6 +17,7 @@ export class BannerConfigComponent implements OnInit {
   private isInsert:boolean = true;
 	private bannerconfig:BannerConfig = new BannerConfig(null,'select','select',0);
   private bannerConfigList;
+  private errorMessage:string;
   constructor( formBuilder: FormBuilder, 
     private router: Router,
     private route: ActivatedRoute,
@@ -43,6 +44,28 @@ export class BannerConfigComponent implements OnInit {
                    );
    
   }
+   validateInput()
+   {
+      var value = this.form.value;
+      
+      if(value.BannerPageCategory == "select")
+      {
+         this.errorMessage = "Please select page category.";
+         return false;
+      }
+      if(value.BannerSize == "select")
+      {
+         this.errorMessage = "Please select Banner size.";
+         return false;
+      }
+      if(value.BannerFrequency == "select")
+      {
+         this.errorMessage = "Please select Banner frequency.";
+         return false;
+      }
+      this.errorMessage = ""; 
+      return true;
+   }
    editBannerConfig(bannerconfig)
    { 
      alert(bannerconfig.BannerConfigId);   

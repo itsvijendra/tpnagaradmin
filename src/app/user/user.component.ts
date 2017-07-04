@@ -37,7 +37,7 @@ export class UserComponent implements OnInit {
 		if(!this.currentUser) {
 			return false;
 		}
-		return this.currentUser._id ===  user._id ? true : false;
+		return this.currentUser.UserName ===  user.UserName ? true : false;
 	}
 
 	public deleteUser(userId:string){

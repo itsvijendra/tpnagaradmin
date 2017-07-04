@@ -1,9 +1,9 @@
 
 
-<app-nav-bar></app-nav-bar>
+<app-nav-bar *ngIf="!isLoginRequired"></app-nav-bar>
 <div class="container">
-  <div class="BodyMainLeft" id="BodyMainLeft">
-            <app-left-menu></app-left-menu>
+  <div class="BodyMainLeft" id="BodyMainLeft" *ngIf="!isLoginRequired">
+            <app-left-menu></app-left-menu>            
         </div>
         <div class="BodyMainRight" id="BodyMainRight">
             <router-outlet></router-outlet>

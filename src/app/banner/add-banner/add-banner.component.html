@@ -1,6 +1,6 @@
-<form materialize class="col s12" [formGroup]="form" (ngSubmit)="save()">
-  
 
+<form materialize class="col s12" [formGroup]="form" (ngSubmit)="save()"> 
+             
   <div class="divtablemainBanner">
             <ul class="ulheader">
             <li class="liCol25"><span class="spacer30" style="font-size:14px;color:white;font-weight:bold;">Banner Master</span></li>
@@ -38,19 +38,16 @@
            </ul>          
            <ul class="ulalternate">
             <li class="liCol25"><span class="spacer30"></span>Start date:</li>
-           <li class="liCol75"><span class="spacer10"></span>
-              <input id="txtStartDate" name="txtStartDate"
-                   [(ngModel)]="banner.BannerStartDate" formControlName="BannerStartDate"
-               type="text" style="width:80px!important;" />                       
+           <li class="liCol75"><span class="spacer10" style="z-index:-1"></span>             
+                  <ng2-datepicker formControlName="BannerStartDate" [options]="options" [(ngModel)]="banner.BannerStartDate"></ng2-datepicker>  
                 </li>
             
            </ul>
            <ul class="ulmain">
             <li class="liCol25"><span class="spacer30"></span>End date</li>
-           <li class="liCol75"><span class="spacer10"></span>
-           <input id="txtEndDate" name="txtEndDate" type="text" 
-              [(ngModel)]="banner.BannerEndDate" formControlName="BannerEndDate"
-            style="width:80px!important;" /></li>
+           <li class="liCol75"><span class="spacer10"></span>           
+              <ng2-datepicker formControlName="BannerEndDate" [options]="options" [(ngModel)]="banner.BannerEndDate"></ng2-datepicker>  
+            </li>
             
            </ul>
           <ul class="ulalternate">

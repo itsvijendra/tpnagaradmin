@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
@@ -11,8 +11,12 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { UserModule } from "./user/user.module";
 import { BannerModule } from "./banner/banner.module";
 import { LeftMenuComponent } from './left-menu/left-menu.component';
-import { DatepickerComponent } from './datepicker/datepicker.component';
-import {DpDatePickerModule} from 'ng2-date-picker';
+import { DatePickerModule } from 'ng2-datepicker';
+import { LoginComponent } from './login/login.component';
+import { CompanyComponent } from './company/company.component';
+import { Authentication } from './services/authentication.services';
+//import { DatepickerModule } from 'ng2-bootstrap';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,18 +24,21 @@ import {DpDatePickerModule} from 'ng2-date-picker';
     NotFoundComponent,
     NavBarComponent,
     LeftMenuComponent,
-    DatepickerComponent,      
+    LoginComponent,
+    CompanyComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpModule,
     UserModule,
-    BannerModule,  
-    DpDatePickerModule, 
+    BannerModule, 
+    DatePickerModule,  
+    //DatepickerModule.forRoot(),  
     routes
   ],
-  providers: [],
+  providers: [Authentication],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

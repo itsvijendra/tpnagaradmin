@@ -9,7 +9,7 @@ export class ContentHeaders {
     getHeaders(headerContents)
     {
         this.headersvalue = new Headers();
-        this.headersvalue.append('Content-Type', 'application/json');
+        this.headersvalue.append('Content-Type', 'application/json; text/html; charset=utf-8');
         if(headerContents != null)
         {
             for(let header of headerContents)

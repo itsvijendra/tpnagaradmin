@@ -5,6 +5,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Banner } from '../../model/banner';
 import { BannerServices } from '../../services/banner.services';
 import { EmitterService } from '../../services/emitter.services';
+import { DatePickerOptions, DateModel } from 'ng2-datepicker';
+
 @Component({
   selector: 'app-add-banner',
   templateUrl: './add-banner.component.html',  
@@ -19,6 +21,8 @@ export class AddBannerComponent implements OnInit {
   private token;
   private errorMessage: string;
   private errorGridMessage: string;
+  date: DateModel;
+  options: DatePickerOptions;
 
   constructor( formBuilder: FormBuilder, 
     private router: Router,
@@ -37,7 +41,9 @@ export class AddBannerComponent implements OnInit {
         BannerEndDate:[],
         IsActive:[]
       });
-       
+      this.options = new DatePickerOptions();  
+      this.options.format = 'DD/MM/YYYY';
+      this.options.autoApply = true;
   }
  
   ngOnInit() {
@@ -101,6 +107,9 @@ export class AddBannerComponent implements OnInit {
    save() {
     var result,
         bannerValue = this.form.value;
+        bannerValue.BannerStartDate = this.form.value.BannerStartDate.formatted;
+        bannerValue.BannerEndDate = this.form.value.BannerEndDate.formatted;
+        
      //alert(bannerValue.BannerId);
      if(this.validateInput())
      {

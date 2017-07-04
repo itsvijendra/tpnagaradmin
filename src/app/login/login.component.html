@@ -1,0 +1,30 @@
+<form materialize class="col s12" [formGroup]="form" (ngSubmit)="login()"> 
+ <div class="divtablemainBanner" style="width:500px!important;margin-left:100px;margin-top:50px;">
+            <ul class="ulheader">
+            <li class="liCol25"><span class="spacer30" style="font-size:14px;color:white;font-weight:bold;">Login</span></li>
+           <li class="liCol75"><span class="spacer10"></span></li>
+            </ul>           
+           <ul class="ulmain">
+            <li class="liCol25"><span class="spacer30"></span>User Name:</li>
+           <li class="liCol75"><span class="spacer10"></span>            
+             <input id="UserName"  name="UserName" [(ngModel)]="user.UserName" formControlName="UserName"             
+               type="text" style="width:140px!important;"  />           
+             </li>            
+           </ul> 
+           <ul class="ulalternate">
+            <li class="liCol25"><span class="spacer30"></span>Password</li>
+           <li class="liCol75"><span class="spacer10" style="z-index:-1"></span>             
+                 <input type="password" style="width:140px!important;" [(ngModel)]="user.Password" formControlName="Password" />
+                </li>            
+           </ul> 
+            <ul class="ulmain">
+            <li class="liCol25"><span class="spacer30"></span></li>
+           <li class="liCol75"><span class="spacer10"></span><input type="submit" value="Login"  style="width:60px!important;" /><span class="spacer10">&nbsp;</span><input type="button" value="Cancel" style="width:60px!important;" /></li>            
+          </ul>
+           <ul class="ulalternate">
+            <li class="liCol25"><span class="spacer30" style="color:Red;">{{errorMessage}}</span></li>
+           <li class="liCol75"><span class="spacer10"></span></li>
+           </ul>
+    </div>
+</form>
+ 

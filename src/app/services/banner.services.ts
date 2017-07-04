@@ -102,7 +102,7 @@ export class BannerServices {
 		let options = new RequestOptions({
         	headers: headersvalue			
         });	
-		return this.http.post(`${this.BASE_URL_BannerConfig + '?token=' + localStorage.getItem('token')}`,JSON.stringify(body), options)
+		return this.http.post(`${this.BASE_URL_BannerConfig}`,JSON.stringify(body), options)
 			.map((res:Response) => res.json())
 			.catch((error:any) => Observable.throw(error.json().error || 'Server error'));
 	}

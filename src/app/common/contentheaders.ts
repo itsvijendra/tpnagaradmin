@@ -10,6 +10,7 @@ export class ContentHeaders {
     {
         this.headersvalue = new Headers();
         this.headersvalue.append('Content-Type', 'application/json; text/html; charset=utf-8');
+        this.headersvalue.append('Access-Control-Allow-Origin', '*'); 
         if(headerContents != null)
         {
             for(let header of headerContents)

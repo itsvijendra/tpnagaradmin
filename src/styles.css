@@ -274,6 +274,26 @@ mark {
 	margin:0px;
 	 
 }
+.lifooter
+{
+	 
+	float:left;
+	padding-top:7px;
+	padding-left:2px;
+	padding-bottom:2px; 
+	 border-width:1px;
+    border-style:solid;
+    border-color:#ffffff;
+    color:#ffffff;
+    background-color:#0079ad;	 
+	min-height:19px;
+	list-style-type:none;
+	text-align:left;
+	font-family:Arial;
+	font-size:11px;
+	margin:0px;
+	 
+}
 .lirow
 {
 	 
@@ -311,7 +331,25 @@ mark {
 	font-size:11px;
 	margin:0px;
 }
- 
+ .lirowbig
+{
+	 
+	float:left;
+	padding-top:7px;
+	padding-left:2px;
+	padding-bottom:2px;
+	 border-width:1px;
+    border-style:solid;
+    border-color:#ffffff;
+    background-color:#EDEFEE;
+   	min-height:100px;
+	list-style-type:none;
+	text-align:left;
+	font-family:Arial;
+	font-size:11px;
+	margin:0px;
+	 
+}
 .ulmain
 {
   background-color :#F0F0F0;
@@ -1505,6 +1543,20 @@ html>body .subsection {
   padding-left:0px;
   margin:0px;
 }
+.ulmainbig
+{
+	
+  background-color:#ffffff;
+  border-width:0px;
+   border-style:solid;
+   border-color:#97daf0;
+  list-style-type : none;
+  float : left;
+  height:100px;
+  width:100%;
+  padding-left:0px;
+  margin:0px;
+}
 .ulalternate
 { 
    background-color:#edefee;
@@ -1514,6 +1566,19 @@ html>body .subsection {
   list-style-type : none;
   float : left;
   height:30px;
+  width:100%;
+  padding-left:0px;
+  margin:0px;
+}
+.ulalternatebig
+{ 
+   background-color:#edefee;
+   border-width:0px;
+   border-style:solid;
+   border-color:#ffffff;
+  list-style-type : none;
+  float : left;
+  height:auto;
   width:100%;
   padding-left:0px;
   margin:0px;

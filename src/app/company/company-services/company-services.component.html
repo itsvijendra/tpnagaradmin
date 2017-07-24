@@ -1,0 +1,68 @@
+<div class="divtablemain" Id="divService" *ngIf="isServiceSelected" style="margin-left:100px;width:650px!important;">
+        <ul class="ulheader"> 
+             <li class="liheader" style="width:648px!important;">Company Name: {{service[0].CompanyName}}</li>  
+             
+        </ul>
+        <ul class="ulheader"> 
+             <li class="liheader" style="width:40px!important;"></li>  
+             <li class="liheader" style="width:175px!important;">Service Name</li>
+             <li class="liheader" style="width:170px!important;">Service Desc</li> 
+             <li class="liheader" style="width:247px!important;">Destination</li> 
+        </ul>
+         <ul class="ulalternatebig" *ngFor="let srv of service;let i = index;trackBy:i;">  
+               <li class="lirow" style="width:40px!important;"><input type="checkbox"  [(ngModel)]="srv.isApproved" (click) = "SelectServices(srv)" /></li>  
+               <li class="lirow" style="width:175px!important;">{{srv.ServiceName}}</li>
+               <li class="lirow" style="width:170px!important;">{{srv.ServiceDesc}}</li> 
+               <li class="lirow" style="width:247px!important;">
+                      <table>
+                        <tr *ngFor="let dest of srv.Destinations">
+                          <td><input type="checkbox"  [(ngModel)]="dest.IsActive" (click) = "SelectServiceDestinations(dest)"  /></td>
+                          <td>
+                             {{dest.CompanyServiceDest}}
+                          </td>
+                        </tr>
+                      </table>
+                 </li>                                     
+         </ul>
+          <ul class="ulheader"> 
+             <li class="lifooter" style="width:650px!important;text-align: center;margin-top:5px;">
+               <input type="button" value="Approve" (click) = "approveCompanyServiceDestination()" style="width:60px!important;" />
+               <input type="button" value="Cancel" (click) ="Cancel()"  style="width:60px!important;" />
+               </li>  
+             
+        </ul>
+ </div>
+
+<div class="divtablemain" *ngIf="!isServiceSelected">
+        <ul class="ulheader">           
+             <li class="liheader" style="width:100%!important;"> Company Type
+                <select name="SelCompanyType" [(ngModel)]="companyType" >
+                 <option value="-1" >All</option>
+                 <option value="1">Broker</option>
+                 <option value="2">Contractor</option>                 
+              </select> 
+               Company Name: <input type="text" [(ngModel)]="searchtext"  id="txtCompanySearch"  style="width:150px!important;" /> 
+               <input type="button" value="Search"  (click) = "CompanySearch()" style="width:60px!important;" /></li>           
+             
+        </ul>
+        <ul class="ulheader">           
+             <li class="liheader" style="width:12%!important;">Company Name</li>
+             <li class="liheader" style="width:16%!important;">Address</li>
+             <li class="liheader" style="width:15%!important;">Contact No</li>          
+               <li class="liheader" style="width:11%!important;">State Name</li>
+             <li class="liheader" style="width:11%!important;">City Name</li>
+             <li class="liheader" style="width:11%!important;">Company Type</li>
+              <li class="liheader" style="width:10%!important;">IsTPNagarApproved</li> 
+              <li class="liheader" style="width:10%!important;">Action</li>       
+        </ul>
+         <ul class="ulalternatebig" *ngFor="let companyservice of CompanyServicesList;let i = index;trackBy:i;">       
+               <li class="lirow" style="width:12%!important;">{{companyservice.CompanyName}}</li>
+               <li class="lirow" style="width:16%!important;">{{companyservice.Address}}</li>
+               <li class="lirow" style="width:15%!important;"><div>{{companyservice.ContactNo}} </div></li>           
+               <li class="lirow" style="width:11%!important;text-align: center;">{{companyservice.StateName}}</li>
+               <li class="lirow" style="width:11%!important;text-align: center;">{{companyservice.CityName}}</li>
+               <li class="lirow" style="width:11%!important;text-align: center;">{{companyservice.CompanyType}}</li>
+               <li class="lirow" style="width:10%!important;text-align: center;">{{companyservice.IsTPNagarApproved ? 'Yes' : 'No'}}</li>
+               <li class="lirow" style="width:10%!important;text-align: center;"><a href="javascript:;" (click)="ApproveCompanyServices(companyservice)" >Approve/Reject </a></li>
+         </ul>
+ </div>

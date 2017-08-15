@@ -3,7 +3,8 @@ export class Banner {
 		public BannerId?: number,
 		public BannerName?: string,
 		public BannerSize?: string,
-        public BannerImageUrl?: string,
+        public BannerUrl?: string,
+        public BannerRedirectUrl?: string,
         public BannerStartDate?: Date,
         public BannerEndDate?: Date,
         public IsActive?: boolean

@@ -32,21 +32,35 @@
               <li class="liCol25"><span class="spacer30"></span>Banner Image Url:</li>
               <li class="liCol75"><span class="spacer10"></span>
                 <input type="text"  multiple="multiple" name="fileBannerImage"
-                    [(ngModel)]="banner.BannerImageUrl" formControlName="BannerImageUrl"
-                 id="fileBannerImage" accept="image/*" />
+                    [(ngModel)]="banner.BannerUrl" formControlName="BannerUrl"
+                 id="fileBannerImage" />
               </li>              
-           </ul>          
+           </ul> 
+           <ul class="ulmain">
+              <li class="liCol25"><span class="spacer30"></span>Banner Redirect Url:</li>
+              <li class="liCol75"><span class="spacer10"></span>
+                <input type="text"  multiple="multiple" name="fileBannerRedirectImage"
+                    [(ngModel)]="banner.BannerRedirectUrl" formControlName="BannerRedirectUrl"
+                 id="fileBannerRedirectImage" />
+              </li>              
+           </ul>            
            <ul class="ulalternate">
             <li class="liCol25"><span class="spacer30"></span>Start date:</li>
            <li class="liCol75"><span class="spacer10" style="z-index:-1"></span>             
-                  <ng2-datepicker formControlName="BannerStartDate" [options]="options" [(ngModel)]="banner.BannerStartDate"></ng2-datepicker>  
+                 <!-- <ng2-datepicker formControlName="BannerStartDate" [options]="options" [(ngModel)]="banner.BannerStartDate"></ng2-datepicker> --> 
+                         <input id="BannerStartDate"  name="BannerStartDate"
+                  [(ngModel)]="banner.BannerStartDate" formControlName="BannerStartDate"             
+                    type="text" style="width:120px!important;"  />   
                 </li>
             
            </ul>
            <ul class="ulmain">
             <li class="liCol25"><span class="spacer30"></span>End date</li>
            <li class="liCol75"><span class="spacer10"></span>           
-              <ng2-datepicker formControlName="BannerEndDate" [options]="options" [(ngModel)]="banner.BannerEndDate"></ng2-datepicker>  
+             <!-- <ng2-datepicker formControlName="BannerEndDate" [options]="options" [(ngModel)]="banner.BannerEndDate"></ng2-datepicker>  -->  
+               <input id="BannerEndDate"  name="BannerEndDate"
+                  [(ngModel)]="banner.BannerEndDate" formControlName="BannerEndDate"             
+                    type="text" style="width:120px!important;"  />  
             </li>
             
            </ul>
@@ -71,21 +85,23 @@
         <ul class="ulheader">
            <li class="liheader" style="width:5%!important;text-align:center!important;">S.No.</li>            
              <li class="liheader" style="width:12%!important;">Banner Name</li>
-             <li class="liheader" style="width:12%!important;">Banner Size</li>
+             <li class="liheader" style="width:8%!important;">Banner Size</li>
              <li class="liheader" style="width:19%!important;">Banner Url</li>
-              <li class="liheader" style="width:12%!important;">Banner Start Date</li>
-               <li class="liheader" style="width:12%!important;">Banner End Date</li>
-             <li class="liheader" style="width:12%!important;">Is Active</li>
-             <li class="liheader" style="width:10%!important;">Edit / Delete</li>
+              <li class="liheader" style="width:19%!important;">Banner Redirect Url</li>
+              <li class="liheader" style="width:8%!important;">Start Date</li>
+               <li class="liheader" style="width:8%!important;">End Date</li>
+             <li class="liheader" style="width:8%!important;">Is Active</li>
+             <li class="liheader" style="width:8%!important;">Edit / Delete</li>
         </ul>
          <ul class="ulalternate" *ngFor="let banner of bannerList;let i = index;trackBy:i;">
                <li class="liheader" style="width:5%!important;text-align:center!important;">{{i+1}}</li>               
                <li class="lirow" style="width:12%!important;">{{banner.BannerName}}</li>
-               <li class="lirow" style="width:12%!important;">{{banner.BannerSize}}</li>
+               <li class="lirow" style="width:8%!important;">{{banner.BannerSize}}</li>
                <li class="lirow" style="width:19%!important;">{{banner.BannerUrl}}</li>
-               <li class="lirow" style="width:12%!important;text-align: center;">{{banner.BannerStartDate | date: 'dd/MM/yyyy'}}</li>
-               <li class="lirow" style="width:12%!important;text-align: center;">{{banner.BannerEndDate | date: 'dd/MM/yyyy'}}</li>
-               <li class="lirow" style="width:12%!important;text-align: center;">{{banner.IsActive ? 'Yes' : 'No'}}</li>
-               <li class="lirow" style="width:10%!important;text-align: center;"><a href="javascript:;" (click)="editBanner(banner)" >Edit </a> | <a href="javascript:;" (click)="deleteBanner(banner.BannerId)"> Delete </a></li>
+                <li class="lirow" style="width:19%!important;">{{banner.BannerRedirectUrl}}</li>
+               <li class="lirow" style="width:8%!important;text-align: center;">{{banner.BannerStartDate}}</li>
+               <li class="lirow" style="width:8%!important;text-align: center;">{{banner.BannerEndDate}}</li>
+               <li class="lirow" style="width:8%!important;text-align: center;">{{banner.IsActive ? 'Yes' : 'No'}}</li>
+               <li class="lirow" style="width:8%!important;text-align: center;"><a href="javascript:;" (click)="editBanner(banner)" >Edit </a> | <a href="javascript:;" (click)="deleteBanner(banner.BannerId)"> Delete </a></li>
          </ul>
  </div>

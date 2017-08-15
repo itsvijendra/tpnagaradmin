@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Company } from '../../model/company';
 import { Service } from '../../model/service';
+import { ServiceType } from '../../model/servicetype';
 import { CompanyServiceDestination } from '../../model/companyservicedestination'
 import { CompanyServices } from '../../model/companyservice'
 import { CompanyService } from '../../services/company.services';
@@ -27,6 +28,7 @@ export class CompanyServicesComponent implements OnInit {
   private companyservices: CompanyServices[] =[];
   private companyType: number = -1;
   private searchtext: string = "";
+  private serviceTypes: ServiceType = [];
   constructor(formBuilder: FormBuilder, 
     private router: Router,
     private route: ActivatedRoute,
@@ -38,9 +40,16 @@ export class CompanyServicesComponent implements OnInit {
                       this.token = response.token;                      
                       localStorage.setItem('token', response.token);
                         this.companyservice.getCompanyDetailsForApproval(this.token,-1,-1,'').subscribe(
-                       response => {this.CompanyServicesList = response.recordset; console.log(JSON.stringify(response.recordset))},
-                          error=>  { this.errorMessage = 'Unable to retrieve banner.' }
-                      );                  
+                       response => {
+                            this.CompanyServicesList = response.recordset; console.log(JSON.stringify(response.recordset))
+                              this.companyservice.getServiceTypes().subscribe(
+                                  response => {this.serviceTypes = response.recordset; console.log(JSON.stringify(response.recordset))},
+                                 error=>  { this.errorMessage = 'Unable to retrieve service types.' }
+                               );    
+                           },
+                          error=>  { this.errorMessage = 'Unable to retrieve company services.' }
+                      );  
+                                    
                      },
                    error=>  { this.errorMessage = 'Unable to retrieve token.' }
                    );
@@ -57,16 +66,17 @@ export class CompanyServicesComponent implements OnInit {
            var servicename = services[srv].split("####")[1];
            //console.log(serviceId);
            var servicedesc = services[srv].split('####')[2];
-           var isApproved = services[srv].split('####')[3] == "1" ? true : false;
+           var IsApproved = services[srv].split('####')[3] == "1" ? true : false;
            var Destinations = services[srv].split('####')[4] != "" ? services[srv].split('####')[4].split('[]') : [];
+           var servicetypeid = Number(services[srv].split('####')[5]);
            let companyDestinations: CompanyServiceDestination[] = [];
            for(let dest in Destinations)
            {
-                 console.log( "dest:" + Destinations[dest]);
+                console.log( "dest:" + Destinations[dest]);
                 companyDestinations.push(new CompanyServiceDestination(Number(Destinations[dest].split('@')[0])
-                ,Destinations[dest].split('@')[1],(Destinations[dest].split('@')[2] == '1' ? true : false)));                
+                ,Destinations[dest].split('@')[1],Number(Destinations[dest].split('@')[3]),(Destinations[dest].split('@')[2] == '1' ? true : false)));                
            }
-           this.service.push(new Service(this.company.CompanyId,serviceId,servicename,servicedesc,isApproved,companyDestinations,this.company.CompanyName));
+           this.service.push(new Service(this.company.CompanyId,serviceId,servicename,servicedesc,IsApproved,companyDestinations,this.company.CompanyName,servicetypeid));
            console.log(JSON.stringify(companyDestinations));         
         }
        this.isServiceSelected = true;
@@ -87,7 +97,7 @@ export class CompanyServicesComponent implements OnInit {
        {
          this.companyservices.splice(indx,1);
        }     
-       this.companyservices.push(new CompanyServices(srve.CompanyId,srve.ServiceId, srve.isApproved));
+       this.companyservices.push(new CompanyServices(srve.CompanyId,srve.ServiceId, srve.ServiceTypeId, srve.IsApproved));
        console.log(JSON.stringify(this.companyservices));     
        
   }
@@ -102,7 +112,7 @@ export class CompanyServicesComponent implements OnInit {
        {
          this.companyServiceDestinations.splice(indx,1);
        }     
-       this.companyServiceDestinations.push(new CompanyServiceDestination(dest.CompanyServiceDestId,dest.CompanyServiceDest,dest.IsActive));
+       this.companyServiceDestinations.push(new CompanyServiceDestination(dest.CompanyServiceDestId,dest.CompanyServiceDest,dest.ServiceTypeId,dest.IsApproved));
        console.log(JSON.stringify(this.companyServiceDestinations)); 
       
   }
@@ -114,7 +124,7 @@ export class CompanyServicesComponent implements OnInit {
              if(companyservicesstr != "") {
               companyservicesstr += "|"
              }
-             companyservicesstr += String(this.companyservices[srv].CompanyServiceId) + "@" + String(this.companyservices[srv].IsApproved)
+             companyservicesstr += String(this.companyservices[srv].CompanyServiceId) + "@" + String(this.companyservices[srv].IsApproved ? true : false) + "#" + String(this.companyservices[srv].ServiceTypeId)
          }
          console.log(companyservicesstr);
         
@@ -123,10 +133,24 @@ export class CompanyServicesComponent implements OnInit {
          for (let srvdest in this.companyServiceDestinations) {
              if(companyservicesdeststr != "")
               companyservicesdeststr += "|"
-             companyservicesdeststr += String(this.companyServiceDestinations[srvdest].CompanyServiceDestId) + "@" + String(this.companyServiceDestinations[srvdest].IsActive)             
+             companyservicesdeststr += String(this.companyServiceDestinations[srvdest].CompanyServiceDestId) + "@" + String(this.companyServiceDestinations[srvdest].IsApproved ? true : false) + "#" + String(this.companyServiceDestinations[srvdest].ServiceTypeId);             
          }
          console.log(companyservicesdeststr);
-         this.companyservice.approveCompanyServiceDetails(companyservicesstr,companyservicesdeststr)
+         var result = this.companyservice.approveCompanyServiceDetails(companyservicesstr,companyservicesdeststr);
+        result.subscribe(data =>  this.companyservice.getCompanyDetailsForApproval(this.token,-1,-1,'').subscribe(
+                       response => {
+                            this.CompanyServicesList = response.recordset; console.log(JSON.stringify(response.recordset))
+                              this.companyservice.getServiceTypes().subscribe(
+                                  response => {
+                                    this.serviceTypes = response.recordset; 
+                                    console.log(JSON.stringify(response.recordset))
+                                    this.isServiceSelected = false;
+                                  },
+                                 error=>  { this.errorMessage = 'Unable to retrieve service types.' }
+                               );    
+                           },
+                          error=>  { this.errorMessage = 'Unable to retrieve company services.' }
+                      ));  
   }
   CompanySearch()
   {

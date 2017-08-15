@@ -1,31 +1,49 @@
-<div class="divtablemain" Id="divService" *ngIf="isServiceSelected" style="margin-left:100px;width:650px!important;">
+<div class="divtablemain" Id="divService" *ngIf="isServiceSelected" style="width:940px!important;">
         <ul class="ulheader"> 
-             <li class="liheader" style="width:648px!important;">Company Name: {{service[0].CompanyName}}</li>  
+             <li class="liheader" style="width:938px!important;">Company Name: {{service[0].CompanyName}}</li>  
              
         </ul>
         <ul class="ulheader"> 
-             <li class="liheader" style="width:40px!important;"></li>  
+             <li class="liheader" style="width:40px!important;">&nbsp;</li>  
              <li class="liheader" style="width:175px!important;">Service Name</li>
              <li class="liheader" style="width:170px!important;">Service Desc</li> 
-             <li class="liheader" style="width:247px!important;">Destination</li> 
+             <li class="liheader" style="width:170px!important;">Service Category</li>
+             <li class="liheader" style="width:352px!important;">Destination</li> 
         </ul>
          <ul class="ulalternatebig" *ngFor="let srv of service;let i = index;trackBy:i;">  
-               <li class="lirow" style="width:40px!important;"><input type="checkbox"  [(ngModel)]="srv.isApproved" (click) = "SelectServices(srv)" /></li>  
+               <li class="lirow" style="width:40px!important;"><input type="checkbox"  [(ngModel)]="srv.IsApproved" (click) = "SelectServices(srv)" /></li>  
                <li class="lirow" style="width:175px!important;">{{srv.ServiceName}}</li>
                <li class="lirow" style="width:170px!important;">{{srv.ServiceDesc}}</li> 
-               <li class="lirow" style="width:247px!important;">
+               <li class="lirow" style="width:170px!important;">
+                     <select name="selServiceType"  style="width:90px!important;" (change) = "SelectServices(srv)"
+                    [(ngModel)]="srv.ServiceTypeId">
+                       <option *ngFor="let x of serviceTypes" [ngValue]="x.Id">{{x.ServiceType}}</option>                                   
+                    </select> 
+                 </li> 
+               <li class="lirow" style="width:352px!important;">
                       <table>
+                        <tr *ngIf = "srv.Destinations.length > 0">
+                          <td></td>
+                           <td></td>
+                            <td>Category</td>
+                        </tr>
                         <tr *ngFor="let dest of srv.Destinations">
-                          <td><input type="checkbox"  [(ngModel)]="dest.IsActive" (click) = "SelectServiceDestinations(dest)"  /></td>
+                          <td><input type="checkbox"  [(ngModel)]="dest.IsApproved" (click) = "SelectServiceDestinations(dest)"  /></td>
                           <td>
                              {{dest.CompanyServiceDest}}
+                          </td>
+                          <td>
+                             <select name="selServiceType" style="width:90px!important;" (change) = "SelectServiceDestinations(dest)"
+                             [(ngModel)]="dest.ServiceTypeId">
+                             <option *ngFor="let x of serviceTypes" [ngValue]="x.Id">{{x.ServiceType}}</option>                                   
+                             </select> 
                           </td>
                         </tr>
                       </table>
                  </li>                                     
          </ul>
           <ul class="ulheader"> 
-             <li class="lifooter" style="width:650px!important;text-align: center;margin-top:5px;">
+             <li class="lifooter" style="width:940px!important;text-align: center;margin-top:5px;">
                <input type="button" value="Approve" (click) = "approveCompanyServiceDestination()" style="width:60px!important;" />
                <input type="button" value="Cancel" (click) ="Cancel()"  style="width:60px!important;" />
                </li>  

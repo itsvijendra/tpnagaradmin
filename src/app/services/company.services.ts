@@ -6,6 +6,7 @@ import { Banner } from '../model/banner';
 import { Headercontent } from '../model/headercontent';
 import { Company } from '../model/company';
 import { Service } from '../model/service';
+import { CompanyServiceApprovalContent } from '../model/companyserviceapprovalcontent';
 import { ContentHeaders } from '../common/contentheaders';
 import {Observable} from 'rxjs/Rx';
 
@@ -17,6 +18,7 @@ import 'rxjs/add/operator/catch';
 export class CompanyService {
     private TOKEN_URL:string = 'http://localhost:5001/api/gettoken';
     private COMPANY_URL:string = 'http://localhost:5001/api/companyandserviceapproval';
+	 private Service_URL:string = 'http://localhost:5001/api/servicetype';
     constructor(
 	        private http: Http,		
 		    private contentHeaders:ContentHeaders
@@ -36,6 +38,16 @@ export class CompanyService {
 			.map((res:Response) => res.json() )
 			.catch((error:any) => Observable.throw(error.json().error || 'Server error'));
 	}
+	getServiceTypes(){
+		var headersvalue = this.contentHeaders.getHeaders([]);
+		console.log(JSON.stringify(headersvalue));
+		let options = new RequestOptions({
+        	headers: headersvalue			
+        });		
+		return this.http.get(`${this.Service_URL}`,options)
+			.map((res:Response) => res.json())
+			.catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+	}
     getCompanyDetailsForApproval(token, companyid, companytypeid, searchText){
 		var headersvalue = this.contentHeaders.getHeaders([new Headercontent('x-access-token',localStorage.getItem('token'))]);
 		console.log(JSON.stringify(headersvalue));
@@ -47,18 +59,15 @@ export class CompanyService {
 			.catch((error:any) => Observable.throw(error.json().error || 'Server error'));
 	}
 	approveCompanyServiceDetails(CompanyServicesString, CompanyServiceDestString){
-		var headersvalue = this.contentHeaders.getHeaders([
-		 	new Headercontent('CompanyServicesString',CompanyServicesString)
-		   ,new Headercontent('CompanyServiceDestString',CompanyServiceDestString)
-		   ,new Headercontent('x-access-token',localStorage.getItem('token'))
-		]);
+		var headersvalue = this.contentHeaders.getHeaders([]);
 		console.log(JSON.stringify(headersvalue));
 		let options = new RequestOptions({
-        	headers: headersvalue
-			
+        	headers: headersvalue			
         });
+		let approvalcontent = new CompanyServiceApprovalContent(CompanyServicesString,CompanyServiceDestString);
+		console.log(JSON.stringify(approvalcontent));
 		console.log(JSON.stringify(options));	
-		return this.http.post(`${this.COMPANY_URL}`,"",options)
+		return this.http.post(`${this.COMPANY_URL}`,JSON.stringify(approvalcontent),options)
 			.map((res:Response) => res.json())
 			.catch((error:any) => Observable.throw(error.json().error || 'Server error'));
 	}

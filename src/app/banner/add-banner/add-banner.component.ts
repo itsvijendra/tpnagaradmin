@@ -16,7 +16,7 @@ import { DatePickerOptions, DateModel } from 'ng2-datepicker';
 export class AddBannerComponent implements OnInit {
   form: FormGroup;  
   private isInsert:boolean = true;
-	private banner:Banner = new Banner(null,'','select','',null,null,true);
+	private banner:Banner = new Banner(null,'','select','',null,null,null,true);
   private bannerList;
   private token;
   private errorMessage: string;
@@ -36,7 +36,8 @@ export class AddBannerComponent implements OnInit {
           Validators.minLength(3)
         ]],
         BannerSize:[],
-        BannerImageUrl:[],
+        BannerUrl:[],
+        BannerRedirectUrl:[],
         BannerStartDate:[],
         BannerEndDate:[],
         IsActive:[]
@@ -75,22 +76,33 @@ export class AddBannerComponent implements OnInit {
          this.errorMessage = "Please Banner Size.";
          return false;
       }
+      if(value.BannerUrl == null)
+      {
+         this.errorMessage = "Please enter banner URL";
+         return false;
+      }
+      if(value.BannerRedirectUrl == null)
+      {
+         this.errorMessage = "Please enter banner redirect URL";
+         return false;
+      }
       if(value.BannerStartDate == null)
       {
-         this.errorMessage = "Please select Banner Start Date.";
+         this.errorMessage = "Please enter Banner Start Date.";
          return false;
       }
       if(value.BannerEndDate == null)
       {
-         this.errorMessage = "Please select Banner End Date.";
+         this.errorMessage = "Please enter Banner End Date.";
          return false;
       }
       this.errorMessage = ""; 
       return true;
    }
    editBanner(banner)
-   {     
-     this.banner = banner;
+   { 
+     this.banner = banner;    
+     console.log(JSON.stringify(banner));
    }  
    deleteBanner(bannerid)
    {
@@ -107,14 +119,14 @@ export class AddBannerComponent implements OnInit {
    save() {
     var result,
         bannerValue = this.form.value;
-        bannerValue.BannerStartDate = this.form.value.BannerStartDate.formatted;
-        bannerValue.BannerEndDate = this.form.value.BannerEndDate.formatted;
-        
+        //bannerValue.BannerStartDate = this.form.value.BannerStartDate.formatted;
+        //bannerValue.BannerEndDate = this.form.value.BannerEndDate.formatted;
+        //JSON.stringify(bannerValue);
      //alert(bannerValue.BannerId);
      if(this.validateInput())
      {
         if (bannerValue.BannerId){
-          alert(bannerValue.BannerId)
+          //alert(bannerValue.BannerId)
           result = this.bannerServices.updateBanner(bannerValue);
         } else {
         // alert('calling add banner')
@@ -124,7 +136,7 @@ export class AddBannerComponent implements OnInit {
                           response => this.bannerList = response.recordset,
                           error=>  { this.errorMessage = 'Unable to retrieve token.' }
                         ));
-         this.banner = new Banner(null,'','select','',null,null,true);  
+         this.banner = new Banner(null,'','select','',null,null,null,true);  
        }
    }
 }

@@ -7,6 +7,7 @@ export class Service {
 		public ServiceDesc?: string,
         public IsApproved?: boolean,
         public Destinations?: CompanyServiceDestination[],
-        public CompanyName? : string
+        public CompanyName? : string,
+        public ServiceTypeId? : number
     ) {}
 }

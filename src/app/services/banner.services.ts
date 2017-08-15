@@ -46,7 +46,7 @@ export class BannerServices {
 		let options = new RequestOptions({
         	headers: headersvalue			
         });		
-		return this.http.get(`${this.BASE_URL + '?token=' + token }`,options)
+		return this.http.get(`${this.BASE_URL}`,options)
 			.map((res:Response) => res.json())
 			.catch((error:any) => Observable.throw(error.json().error || 'Server error'));
 	}
@@ -63,7 +63,7 @@ export class BannerServices {
 		let options = new RequestOptions({
         	headers: headersvalue			
         });			
-		return this.http.post(`${this.BASE_URL + '?token=' + localStorage.getItem('token')}`,JSON.stringify(body), options)
+		return this.http.post(`${this.BASE_URL}`,JSON.stringify(body), options)
 			.map((res:Response) => res.json())
 			.catch((error:any) => Observable.throw(error.json().error || 'Server error'));
 	}	
@@ -76,7 +76,7 @@ export class BannerServices {
         	headers: headersvalue			
         });	
 
-		return this.http.post(`${this.BASE_URL + '?token=' + localStorage.getItem('token')}`,JSON.stringify(body), options)
+		return this.http.post(`${this.BASE_URL}`,JSON.stringify(body), options)
 			.map((res:Response) => res.json())
 			.catch((error:any) => Observable.throw(error.json().error || 'Server error'));
 	}
@@ -89,7 +89,7 @@ export class BannerServices {
         	headers: headersvalue			
         });	
 
-		return this.http.delete(`${this.BASE_URL}${BannerId}`,options)
+		return this.http.delete(`${this.BASE_URL}/${BannerId}`,options)
 			.map((res:Response) => res.json())
 			.catch((error:any) => Observable.throw(error.json().error || 'Server error'));
 	}
@@ -123,7 +123,7 @@ export class BannerServices {
         let options = new RequestOptions({
         	headers: new Headers({ 'Content-Type': 'application/json;charset=UTF-8' }) 
         });
-		return this.http.delete(`${this.BASE_URL_BannerConfig}${BannerConfigId}`,options)
+		return this.http.delete(`${this.BASE_URL_BannerConfig}/${BannerConfigId}`,options)
 			.map((res:Response) => res.json())
 			.catch((error:any) => Observable.throw(error.json().error || 'Server error'));
 	}
@@ -164,7 +164,7 @@ export class BannerServices {
         let options = new RequestOptions({
         	headers: new Headers({ 'Content-Type': 'application/json;charset=UTF-8' }) 
         });
-		return this.http.delete(`${this.BASE_URL_BannerConfigDetail}${BannerConfigDetId}`,options)
+		return this.http.delete(`${this.BASE_URL_BannerConfigDetail}/${BannerConfigDetId}`,options)
 			.map((res:Response) => res.json())
 			.catch((error:any) => Observable.throw(error.json().error || 'Server error'));
 	}

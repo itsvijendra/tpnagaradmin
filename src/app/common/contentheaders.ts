@@ -9,14 +9,15 @@ export class ContentHeaders {
     getHeaders(headerContents)
     {
         this.headersvalue = new Headers();
-        this.headersvalue.append('Content-Type', 'application/json; text/html; charset=utf-8');
-        this.headersvalue.append('Access-Control-Allow-Origin', '*'); 
+        this.headersvalue.append('Content-Type', 'application/json');
+        this.headersvalue.append("Accept", "application/json");
         if(headerContents != null)
         {
             for(let header of headerContents)
             {
                 this.headercontent = header;
                 this.headersvalue.append(this.headercontent.Key, this.headercontent.Value);
+
             }
         }
         console.log(this.headersvalue);

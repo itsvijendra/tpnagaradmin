@@ -32,16 +32,17 @@ export class BannerConfigComponent implements OnInit {
   }
 
   ngOnInit() {
-      this.bannerServices.getToken().subscribe(
+      /*this.bannerServices.getToken().subscribe(
                    response => {  
                       localStorage.setItem('token', response.token);
-                         this.bannerServices.getAllBannerConfig(response.token).subscribe(
-                       response => this.bannerConfigList = response.recordset,
-                       error=>  { alert(`Can't get banner config.`); }
-                       );          
+                                  
                      },
                    error=>  { alert(`Can't get token.`); }
-                   );
+                   );*/
+      this.bannerServices.getAllBannerConfig('239847932874').subscribe(
+                       response => this.bannerConfigList = response.recordset,
+                       error=>  { alert(`Can't get banner config.`); }
+                       ); 
    
   }
    validateInput()

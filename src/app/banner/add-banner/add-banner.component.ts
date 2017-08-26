@@ -49,18 +49,18 @@ export class AddBannerComponent implements OnInit {
  
   ngOnInit() {
      
-    this.bannerServices.getToken().subscribe(
+    /*this.bannerServices.getToken().subscribe(
                    response => {                         
                       this.token = response.token;
                       localStorage.setItem('token', response.token);
-                        this.bannerServices.getAllBanner(this.token).subscribe(
-                       response => this.bannerList = response.recordset,
-                          error=>  { this.errorMessage = 'Unable to retrieve banner.' }
-                      );                  
+                                          
                      },
                    error=>  { this.errorMessage = 'Unable to retrieve token.' }
-                   );
-    
+                   );*/
+                   this.bannerServices.getAllBanner('dfaewrwe2542345').subscribe(
+                       response => this.bannerList = response.recordset,
+                          error=>  { this.errorMessage = 'Unable to retrieve banner.' }
+                      );
      
   }
    validateInput()

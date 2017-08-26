@@ -34,25 +34,23 @@ export class CompanyServicesComponent implements OnInit {
     private route: ActivatedRoute,
     private companyservice: CompanyService) { }
 
-  ngOnInit() {
-      this.companyservice.getToken().subscribe(
-                   response => {                         
-                      this.token = response.token;                      
-                      localStorage.setItem('token', response.token);
-                        this.companyservice.getCompanyDetailsForApproval(this.token,-1,-1,'').subscribe(
+  ngOnInit() {     
+        this.companyservice.getCompanyDetailsForApproval('23468732',-1,-1,'').subscribe(
                        response => {
                             this.CompanyServicesList = response.recordset; console.log(JSON.stringify(response.recordset))
                               this.companyservice.getServiceTypes().subscribe(
                                   response => {this.serviceTypes = response.recordset; console.log(JSON.stringify(response.recordset))},
-                                 error=>  { this.errorMessage = 'Unable to retrieve service types.' }
+                                 error=>  {
+                                    this.errorMessage = 'Unable to retrieve service types.' 
+                                    console.log(this.errorMessage);
+                                 }
                                );    
                            },
-                          error=>  { this.errorMessage = 'Unable to retrieve company services.' }
-                      );  
-                                    
-                     },
-                   error=>  { this.errorMessage = 'Unable to retrieve token.' }
-                   );
+                          error=>  { 
+                               this.errorMessage = 'Unable to retrieve company services.'
+                              console.log(this.errorMessage);
+                            }
+                      );
     
   }
   ApproveCompanyServices(comp)

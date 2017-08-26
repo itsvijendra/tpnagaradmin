@@ -16,11 +16,11 @@ import 'rxjs/add/operator/catch';
 
 @Injectable()
 export class BannerServices {
-	private TOKEN_URL:string = 'http://localhost:5001/api/gettoken';
-    private BASE_URL:string = 'http://localhost:5001/api/banner';
-	private BASE_URL_BannerConfig:string = 'http://localhost:5001/api/bannerconfig/';
-	private BASE_URL_BannerConfigDetail:string = 'http://localhost:5001/api/bannerconfigdetail/';
-	private BASE_URL_GetCity:string = 'http://localhost:5001/api/getcity';
+	private TOKEN_URL:string = 'http://admin.tpnagar.co.in:5001/api/gettoken';
+    private BASE_URL:string = 'http://admin.tpnagar.co.in:5001/api/banner';
+	private BASE_URL_BannerConfig:string = 'http://admin.tpnagar.co.in:5001/api/bannerconfig/';
+	private BASE_URL_BannerConfigDetail:string = 'http://admin.tpnagar.co.in:5001/api/bannerconfigdetail/';
+	private BASE_URL_GetCity:string = 'http://admin.tpnagar.co.in:5001/api/getcity';
 	constructor(
 	        private http: Http,		
 		    private contentHeaders:ContentHeaders
@@ -28,7 +28,7 @@ export class BannerServices {
     getToken()
 	{
 		console.log('getting token')
-		var headersvalue = this.contentHeaders.getHeaders([new Headercontent('userid','testapiresu'),new Headercontent('pwd','tsetapissapword') ]);
+		/*var headersvalue = this.contentHeaders.getHeaders([new Headercontent('userid','testapiresu'),new Headercontent('pwd','tsetapissapword') ]);
 		console.log(JSON.stringify(headersvalue));
 		let options = new RequestOptions({
         	headers: headersvalue
@@ -38,7 +38,8 @@ export class BannerServices {
 		
          return this.http.get(`${this.TOKEN_URL}`,options)
 			.map((res:Response) => res.json() )
-			.catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+			.catch((error:any) => Observable.throw(error.json().error || 'Server error'));*/
+		return null;
 	}
 	getAllBanner(token){
 		var headersvalue = this.contentHeaders.getHeaders(null);
@@ -46,7 +47,7 @@ export class BannerServices {
 		let options = new RequestOptions({
         	headers: headersvalue			
         });		
-		return this.http.get(`${this.BASE_URL}`,options)
+		return this.http.get(`${this.BASE_URL}`)
 			.map((res:Response) => res.json())
 			.catch((error:any) => Observable.throw(error.json().error || 'Server error'));
 	}

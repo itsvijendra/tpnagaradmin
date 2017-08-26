@@ -11,8 +11,8 @@ import 'rxjs/add/operator/catch';
 @Injectable()
 export class Authentication {
   
-  private TOKEN_URL:string = 'http://localhost:5001/api/gettoken';
-  private AUTH_URL:string = 'http://localhost:5001/api/authenticateuser';
+  private TOKEN_URL:string = 'http://admin.tpnagar.co.in:5001/api/gettoken';
+  private AUTH_URL:string = 'http://admin.tpnagar.co.in:5001/api/authenticateuser';
     constructor(
 	        private http: Http,		
 		    private contentHeaders:ContentHeaders
@@ -33,7 +33,7 @@ export class Authentication {
      getToken()
 	{
 		console.log('getting token')
-		var headersvalue = this.contentHeaders.getHeaders([new Headercontent('userid','testapiresu'),new Headercontent('pwd','tsetapissapword') ]);
+		/*var headersvalue = this.contentHeaders.getHeaders([new Headercontent('userid','testapiresu'),new Headercontent('pwd','tsetapissapword') ]);
 		console.log(JSON.stringify(headersvalue));
 		let options = new RequestOptions({
         	headers: headersvalue
@@ -43,7 +43,8 @@ export class Authentication {
 		
          return this.http.get(`${this.TOKEN_URL}`,options)
 			.map((res:Response) => res.json() )
-			.catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+			.catch((error:any) => Observable.throw(error.json().error || 'Server error'));*/
+		return null;
 	}
 
 

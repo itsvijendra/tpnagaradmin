@@ -3,15 +3,13 @@
              <li class="liheader" style="width:938px!important;">Company Name: {{service[0].CompanyName}}</li>  
              
         </ul>
-        <ul class="ulheader"> 
-             <li class="liheader" style="width:40px!important;">&nbsp;</li>  
+        <ul class="ulheader">              
              <li class="liheader" style="width:175px!important;">Service Name</li>
              <li class="liheader" style="width:170px!important;">Service Desc</li> 
              <li class="liheader" style="width:170px!important;">Service Category</li>
              <li class="liheader" style="width:352px!important;">Destination</li> 
         </ul>
-         <ul class="ulalternatebig" *ngFor="let srv of service;let i = index;trackBy:i;">  
-               <li class="lirow" style="width:40px!important;"><input type="checkbox"  [(ngModel)]="srv.IsApproved" (click) = "SelectServices(srv)" /></li>  
+         <ul class="ulalternatebig" *ngFor="let srv of service;let i = index;trackBy:i;">                 
                <li class="lirow" style="width:175px!important;">{{srv.ServiceName}}</li>
                <li class="lirow" style="width:170px!important;">{{srv.ServiceDesc}}</li> 
                <li class="lirow" style="width:170px!important;">
@@ -21,14 +19,14 @@
                     </select> 
                  </li> 
                <li class="lirow" style="width:352px!important;">
-                      <table>
-                        <tr *ngIf = "srv.Destinations.length > 0">
-                          <td></td>
-                           <td></td>
+                      <table style="margin-top:0px;">
+                        <tr *ngIf = "srv.Destinations.length > 0"> 
+                           <td class="roottd">+</td>                        
+                           <td>Destinations</td>
                             <td>Category</td>
                         </tr>
-                        <tr *ngFor="let dest of srv.Destinations">
-                          <td><input type="checkbox"  [(ngModel)]="dest.IsApproved" (click) = "SelectServiceDestinations(dest)"  /></td>
+                        <tr class="childtd" *ngFor="let dest of srv.Destinations">  
+                          <td></td>                        
                           <td>
                              {{dest.CompanyServiceDest}}
                           </td>

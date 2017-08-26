@@ -64,17 +64,18 @@ export class CompanyServicesComponent implements OnInit {
            var servicename = services[srv].split("####")[1];
            //console.log(serviceId);
            var servicedesc = services[srv].split('####')[2];
-           var IsApproved = services[srv].split('####')[3] == "1" ? true : false;
-           var Destinations = services[srv].split('####')[4] != "" ? services[srv].split('####')[4].split('[]') : [];
-           var servicetypeid = Number(services[srv].split('####')[5]);
+           var Destinations = services[srv].split('####')[3] != "" ? services[srv].split('####')[3].split('[]') : [];
+           console.log('dest');
+           console.log(Destinations);
+           var servicetypeid = Number(services[srv].split('####')[4]);
            let companyDestinations: CompanyServiceDestination[] = [];
            for(let dest in Destinations)
            {
                 console.log( "dest:" + Destinations[dest]);
                 companyDestinations.push(new CompanyServiceDestination(Number(Destinations[dest].split('@')[0])
-                ,Destinations[dest].split('@')[1],Number(Destinations[dest].split('@')[3]),(Destinations[dest].split('@')[2] == '1' ? true : false)));                
+                ,Destinations[dest].split('@')[1],Number(Destinations[dest].split('@')[2])));                
            }
-           this.service.push(new Service(this.company.CompanyId,serviceId,servicename,servicedesc,IsApproved,companyDestinations,this.company.CompanyName,servicetypeid));
+           this.service.push(new Service(this.company.CompanyId,serviceId,servicename,servicedesc,companyDestinations,this.company.CompanyName,servicetypeid));
            console.log(JSON.stringify(companyDestinations));         
         }
        this.isServiceSelected = true;
@@ -95,7 +96,7 @@ export class CompanyServicesComponent implements OnInit {
        {
          this.companyservices.splice(indx,1);
        }     
-       this.companyservices.push(new CompanyServices(srve.CompanyId,srve.ServiceId, srve.ServiceTypeId, srve.IsApproved));
+       this.companyservices.push(new CompanyServices(srve.CompanyId,srve.ServiceId, srve.ServiceTypeId));
        console.log(JSON.stringify(this.companyservices));     
        
   }
@@ -110,7 +111,7 @@ export class CompanyServicesComponent implements OnInit {
        {
          this.companyServiceDestinations.splice(indx,1);
        }     
-       this.companyServiceDestinations.push(new CompanyServiceDestination(dest.CompanyServiceDestId,dest.CompanyServiceDest,dest.ServiceTypeId,dest.IsApproved));
+       this.companyServiceDestinations.push(new CompanyServiceDestination(dest.CompanyServiceDestId,dest.CompanyServiceDest,dest.ServiceTypeId));
        console.log(JSON.stringify(this.companyServiceDestinations)); 
       
   }
@@ -122,7 +123,7 @@ export class CompanyServicesComponent implements OnInit {
              if(companyservicesstr != "") {
               companyservicesstr += "|"
              }
-             companyservicesstr += String(this.companyservices[srv].CompanyServiceId) + "@" + String(this.companyservices[srv].IsApproved ? true : false) + "#" + String(this.companyservices[srv].ServiceTypeId)
+             companyservicesstr += String(this.companyservices[srv].CompanyServiceId)  + "#" + String(this.companyservices[srv].ServiceTypeId)
          }
          console.log(companyservicesstr);
         
@@ -131,7 +132,7 @@ export class CompanyServicesComponent implements OnInit {
          for (let srvdest in this.companyServiceDestinations) {
              if(companyservicesdeststr != "")
               companyservicesdeststr += "|"
-             companyservicesdeststr += String(this.companyServiceDestinations[srvdest].CompanyServiceDestId) + "@" + String(this.companyServiceDestinations[srvdest].IsApproved ? true : false) + "#" + String(this.companyServiceDestinations[srvdest].ServiceTypeId);             
+             companyservicesdeststr += String(this.companyServiceDestinations[srvdest].CompanyServiceDestId) + "#" + String(this.companyServiceDestinations[srvdest].ServiceTypeId);             
          }
          console.log(companyservicesdeststr);
          var result = this.companyservice.approveCompanyServiceDetails(companyservicesstr,companyservicesdeststr);

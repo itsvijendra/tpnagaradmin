@@ -10,8 +10,8 @@ import { BannerConfigDetailComponent } from './banner/banner-config-detail/banne
 import { LoginComponent } from './login/login.component';
 import { CompanyServicesComponent } from './company/company-services/company-services.component';
 const appRoutes: Routes = [
-  { path: '', pathMatch: 'full', component: LoginComponent },
-  { path: 'home', pathMatch: 'full', component: HomeComponent },
+
+  { path: '', pathMatch: 'full', component: HomeComponent },
   { path: 'user', component: UserComponent },
   { path: 'bannermaster', component: AddBannerComponent },
   { path: 'bannerconfigmaster', component: BannerConfigComponent },
@@ -20,4 +20,7 @@ const appRoutes: Routes = [
   { path: 'not-found', component: NotFoundComponent },
   { path: '**', redirectTo: 'not-found' }
 ];
+/**
+ *   { path: '', pathMatch: 'full', component: LoginComponent },
+ */
 export const routes: ModuleWithProviders = RouterModule.forRoot(appRoutes);

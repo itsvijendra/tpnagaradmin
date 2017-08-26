@@ -16,9 +16,10 @@ import 'rxjs/add/operator/catch';
 
 @Injectable()
 export class CompanyService {
+	//admin.tpnagar.co.in
     private TOKEN_URL:string = 'http://admin.tpnagar.co.in:5001/api/gettoken';
     private COMPANY_URL:string = 'http://admin.tpnagar.co.in:5001/api/companyandserviceapproval/';
-	 private Service_URL:string = 'http://admin.tpnagar.co.in:5001/api/servicetype/';
+	private Service_URL:string = 'http://admin.tpnagar.co.in:5001/api/servicetype/';
     constructor(
 	        private http: Http,		
 		    private contentHeaders:ContentHeaders

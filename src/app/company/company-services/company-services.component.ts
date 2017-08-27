@@ -17,6 +17,8 @@ import { EmitterService } from '../../services/emitter.services';
 export class CompanyServicesComponent implements OnInit {
   orm: FormGroup;  
   private isInsert:boolean = true;
+  private desInd: string = "+";
+  private selectedServiceId:number = 0;
   private isServiceSelected:boolean = false;
 	private company:Company; 
   private CompanyServicesList;
@@ -52,6 +54,17 @@ export class CompanyServicesComponent implements OnInit {
                             }
                       );
     
+  }
+  destShowHide(serviceid)
+  {    
+    if(this.selectedServiceId == serviceid)
+    {
+      this.selectedServiceId = 0;
+    }
+    else
+    {
+       this.selectedServiceId = serviceid;
+    }
   }
   ApproveCompanyServices(comp)
   {

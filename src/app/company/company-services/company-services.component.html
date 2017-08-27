@@ -19,13 +19,20 @@
                     </select> 
                  </li> 
                <li class="lirow" style="width:352px!important;">
-                      <table style="margin-top:0px;">
-                        <tr *ngIf = "srv.Destinations.length > 0"> 
-                           <td class="roottd">+</td>                        
-                           <td>Destinations</td>
-                            <td>Category</td>
+                      <table  style="margin-top:0px;">
+                         <tr *ngIf = "srv.Destinations.length > 0"> 
+                           <td class="roottd"  (click)="destShowHide(srv.ServiceId)"><a href="javascript:;" style="font-size:15px;text-decoration: none;">{{srv.ServiceId == selectedServiceId ? "-" : "+"}}</a> Destinations</td>                        
+                           <td></td>
+                            <td></td>
                         </tr>
-                        <tr class="childtd" *ngFor="let dest of srv.Destinations">  
+                      </table>
+                      <table style="margin-top:0px;" *ngIf="srv.ServiceId == selectedServiceId"> 
+                        <tr *ngIf = "srv.Destinations.length > 0"> 
+                           <td></td>
+                           <td></td>
+                            <td>Category</td>
+                        </tr>                      
+                        <tr *ngFor="let dest of srv.Destinations">  
                           <td></td>                        
                           <td>
                              {{dest.CompanyServiceDest}}

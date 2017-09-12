@@ -26,12 +26,14 @@ export class AppComponent implements OnInit {
     //alert(this.user);
     if(this.user != null)
     {
-       this.router.navigate(['home']);
        this.isLoginRequired = false;
+        
+       //this.router.navigateByUrl('/home');      
     }
     else
     {
       this.isLoginRequired = true;
+      //this.router.navigateByUrl('');
     }
   }
    

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Observable} from 'rxjs/Observable'; 
+import { Authentication } from '../services/authentication.services'; 
 @Component({
   selector: 'app-left-menu',
   templateUrl: './left-menu.component.html',
@@ -7,7 +8,7 @@ import {Observable} from 'rxjs/Observable';
 })
 export class LeftMenuComponent implements OnInit {
    
-  constructor() {
+  constructor(private auth: Authentication) {
      
    }
    
@@ -15,6 +16,10 @@ export class LeftMenuComponent implements OnInit {
   ngOnInit() {
     
      
+  }
+  LogOut()
+  {
+    this.auth.logout();
   }
   public get LeftMenu()
   {

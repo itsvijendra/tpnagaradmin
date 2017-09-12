@@ -14,7 +14,9 @@ import { LeftMenuComponent } from './left-menu/left-menu.component';
 import { DatePickerModule } from 'ng2-datepicker';
 import { LoginComponent } from './login/login.component';
 import { Authentication } from './services/authentication.services';
+import { LoginService } from './services/login.services';
 import { CompanyModule } from "./company/company.module";
+import { LoginServicesComponent } from './login/login-services/login-services.component';
 
 //import { DatepickerModule } from 'ng2-bootstrap';
 
@@ -25,7 +27,8 @@ import { CompanyModule } from "./company/company.module";
     NotFoundComponent,
     NavBarComponent,
     LeftMenuComponent,
-    LoginComponent     
+    LoginComponent,
+    LoginServicesComponent     
   ],
   imports: [
     BrowserModule,
@@ -39,7 +42,7 @@ import { CompanyModule } from "./company/company.module";
     //DatepickerModule.forRoot(),  
     routes
   ],
-  providers: [Authentication],
+  providers: [Authentication,LoginService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

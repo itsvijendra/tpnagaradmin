@@ -9,14 +9,17 @@ import { BannerConfigComponent } from './banner/banner-config/banner-config.comp
 import { BannerConfigDetailComponent } from './banner/banner-config-detail/banner-config-detail.component';
 import { LoginComponent } from './login/login.component';
 import { CompanyServicesComponent } from './company/company-services/company-services.component';
+import { LoginServicesComponent } from './login/login-services/login-services.component';
 const appRoutes: Routes = [
 
-  { path: '', pathMatch: 'full', component: HomeComponent },
+  { path: '', pathMatch: 'full', component: LoginComponent },
+  { path: 'home', component: HomeComponent },
   { path: 'user', component: UserComponent },
   { path: 'bannermaster', component: AddBannerComponent },
   { path: 'bannerconfigmaster', component: BannerConfigComponent },
   { path: 'bannerconfigdetail', component: BannerConfigDetailComponent },
   { path: 'companyservice', component: CompanyServicesComponent },
+  { path: 'loginservice', component: LoginServicesComponent },
   { path: 'not-found', component: NotFoundComponent },
   { path: '**', redirectTo: 'not-found' }
 ];

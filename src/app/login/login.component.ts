@@ -29,12 +29,12 @@ export class LoginComponent implements OnInit {
       });
   }
   ngOnInit() {
-    this.auth.getToken().subscribe(
-                   response => {  
-                        localStorage.setItem('token', response.token);                            
-                     },
-                   error=>  { alert(`Can't get token.`); }
-                   );
+     
+    //alert(this.user);
+    if(localStorage.getItem('currentuser') != null)
+    {      
+       this.router.navigate(['home']);      
+    }
    
   }
   validateInput()
@@ -55,14 +55,16 @@ export class LoginComponent implements OnInit {
    login() {
         var result;
         var responsevalue;
-        var value = this.form.value;
-        alert(JSON.stringify(this.form.value));
+        var value = this.form.value;        
          if(this.validateInput())
          {
            
-           alert(value.UserName);
+          
           result = this.auth.login(value);
-          result.subscribe( response => alert(JSON.stringify(response.output)),
+          result.subscribe( response => {
+            localStorage.setItem('currentuser', response.output);
+            this.router.navigate(['home']);
+          },  
                           error=>  { this.errorMessage = 'login failed, please try after sometime.' });
          }
           

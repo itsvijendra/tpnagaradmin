@@ -11,8 +11,8 @@ import 'rxjs/add/operator/catch';
 @Injectable()
 export class Authentication {
   
-  private TOKEN_URL:string = 'http://admin.tpnagar.co.in:5001/api/gettoken';
-  private AUTH_URL:string = 'http://admin.tpnagar.co.in:5001/api/authenticateuser';
+  private TOKEN_URL:string = 'http://localhost:5001/api/gettoken';
+  private AUTH_URL:string = 'http://localhost:5001/api/authenticateuser';
     constructor(
 	        private http: Http,		
 		    private contentHeaders:ContentHeaders
@@ -53,7 +53,8 @@ export class Authentication {
 
         // remove user from local storage to log user out
 
-        localStorage.removeItem('currentUser');
+        localStorage.clear();
+		
 
     }
 }

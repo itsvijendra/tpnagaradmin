@@ -1,0 +1,32 @@
+<div class="divtablemain">
+        <ul class="ulheader">           
+             <li class="liheader" style="width:100%!important;"> 
+               Login Search: <input type="text" [(ngModel)]="searchtext"  id="txtLoginSearch"  style="width:150px!important;" /> 
+               <input type="button" value="Search"  (click) = "LoginDetailsSearch()" style="width:60px!important;" /></li>           
+             
+        </ul>
+        <ul class="ulheader">           
+             <li class="liheader" style="width:12%!important;">Company Name</li>
+             <li class="liheader" style="width:12%!important;">Login Email</li>
+             <li class="liheader" style="width:12%!important;">Phone No</li>          
+               <li class="liheader" style="width:12%!important;">Role</li>
+             <li class="liheader" style="width:12%!important;">Status</li>
+             <li class="liheader" style="width:12%!important;">Broker Search Enabled?</li>             
+              <li class="liheader" style="width:12%!important;">Action</li>       
+        </ul>
+         <ul class="ulalternatebig" *ngFor="let loginservice of LoginDetails;let i = index;trackBy:i;">       
+               <li class="lirow" style="width:12%!important;">{{loginservice.CompanyName}}</li>           
+               <li class="lirow" style="width:12%!important;">{{loginservice.LoginEmail}}</li>           
+               <li class="lirow" style="width:12%!important;text-align: center;">{{loginservice.LoginPhone}}</li>
+               <li class="lirow" style="width:12%!important;text-align: center;">{{loginservice.RoleName}}</li>
+               <li class="lirow" style="width:12%!important;text-align: center;">
+                  <select name="selLoginStatusType"  style="width:90px!important;"  [(ngModel)]="loginservice.Status">
+                       <option *ngFor="let x of LoginStatusTypes" [ngValue]="x.Id">{{x.StatusName}}</option>                                   
+                    </select> 
+               </li>
+               <li class="lirow" style="width:12%!important;text-align: center;">
+                 <input type="checkbox" [(ngModel)]="loginservice.Broker_Search_Enabled" />
+                 {{loginservice.Broker_Search_Enabled == 1 ? 'Yes' : 'No'}}</li>
+               <li class="lirow" style="width:12%!important;text-align: center;"><a href="javascript:;" (click)="ApproveLoginDetails(loginservice)" >Approve Login Details</a></li>
+         </ul>
+ </div>

@@ -2,8 +2,9 @@
         <ul class="ulheader">           
              <li class="liheader" style="width:100%!important;"> 
                Login Search: <input type="text" [(ngModel)]="searchtext"  id="txtLoginSearch"  style="width:150px!important;" /> 
-               <input type="button" value="Search"  (click) = "LoginDetailsSearch()" style="width:60px!important;" /></li>           
-             
+               <input type="button" value="Search"  (click) = "LoginDetailsSearch()" style="width:60px!important;" />
+               <span id="spnmessage">{{message}}</span>               </li>           
+              
         </ul>
         <ul class="ulheader">           
              <li class="liheader" style="width:12%!important;">Company Name</li>

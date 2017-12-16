@@ -18,9 +18,9 @@ import 'rxjs/add/operator/catch';
 export class LoginService {
 	//admin.tpnagar.co.in
  
-    private LoginDetail_URL:string = 'http://admin.tpnagar.co.in:5001/api/logindetails';
-	private LoginStatus_URL:string = 'http://admin.tpnagar.co.in:5001/api/loginstatustype';
-	private ApproveLogin_URL:string = 'http://admin.tpnagar.co.in:5001/api/approvelogindetails';
+    private LoginDetail_URL:string = 'http://localhost:5001/api/logindetails';
+	private LoginStatus_URL:string = 'http://localhost:5001/api/loginstatustype';
+	private ApproveLogin_URL:string = 'http://localhost:5001/api/approvelogindetails';
     constructor(
 	        private http: Http,		
 		    private contentHeaders:ContentHeaders

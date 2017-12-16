@@ -28,9 +28,9 @@ export class CompanyServicesComponent implements OnInit {
   private errorGridMessage: string;
   private companyServiceDestinations: CompanyServiceDestination[] = [];
   private companyservices: CompanyServices[] =[];
-  private companyType: number = -1;
+  private companyType: number = -1; 
   private searchtext: string = "";
-  private serviceTypes: ServiceType = [];
+  private serviceTypes: ServiceType[] = [];
   constructor(formBuilder: FormBuilder, 
     private router: Router,
     private route: ActivatedRoute,

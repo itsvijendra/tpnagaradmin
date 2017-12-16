@@ -313,6 +313,26 @@ mark {
 	margin:0px;
 	 
 }
+
+.lirowBr
+{
+	 
+	float:left;
+	padding-top:7px;
+	padding-left:2px;
+	padding-bottom:2px;
+	 border-width:1px;
+    border-style:solid;
+    border-color:#ffffff;
+    background-color:rgb(250, 238, 126);
+   	min-height:19px;
+	list-style-type:none;
+	text-align:left;
+	font-family:Arial;
+	font-size:11px;
+	margin:0px;
+	 
+}
 .lirowalternate
 {
 	
@@ -388,7 +408,23 @@ mark {
 	padding-top:5px;
 	font-size:11px;
 }
-
+.spanrow 
+{
+    height: 40px;
+    width: 100px;
+}
+.liCol24
+{
+	float:left;
+	list-style-type:none;
+	font-family:Arial;
+	width:24%;
+	height:50px;
+    padding-top:5px;
+    padding-bottom:2px;
+    padding-left:10px;
+    font-size:11px; 
+}
 .liCol50
 {
 	float:left;
@@ -1573,6 +1609,19 @@ html>body .subsection {
 .ulalternatebig
 { 
    background-color:#edefee;
+   border-width:0px;
+   border-style:solid;
+   border-color:#ffffff;
+  list-style-type : none;
+  float : left;
+  height:auto;
+  width:100%;
+  padding-left:0px;
+  margin:0px;
+}
+.ulalternatebigBr
+{ 
+   background-color:rgb(250, 238, 126);
    border-width:0px;
    border-style:solid;
    border-color:#ffffff;

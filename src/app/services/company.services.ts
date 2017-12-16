@@ -17,9 +17,11 @@ import 'rxjs/add/operator/catch';
 @Injectable()
 export class CompanyService {
 	//admin.tpnagar.co.in
-    private TOKEN_URL:string = 'http://admin.tpnagar.co.in:5001/api/gettoken';
-    private COMPANY_URL:string = 'http://admin.tpnagar.co.in:5001/api/companyandserviceapproval/';
-	private Service_URL:string = 'http://admin.tpnagar.co.in:5001/api/servicetype/';
+    private TOKEN_URL:string = 'http://localhost:5001/api/gettoken';
+    private COMPANY_URL:string = 'http://localhost:5001/api/companyandserviceapproval/';
+	private COMPANY_MAIN_URL:string = 'http://localhost:5001/api/company/';
+	private API_MAIN_URL:string = 'http://localhost:5001/api/';
+	private Service_URL:string = 'http://localhost:5001/api/servicetype/';
     constructor(
 	        private http: Http,		
 		    private contentHeaders:ContentHeaders
@@ -65,6 +67,36 @@ export class CompanyService {
 		console.log(JSON.stringify(approvalcontent));
 		console.log(JSON.stringify(options));	
 		return this.http.post(`${this.COMPANY_URL}`,JSON.stringify(approvalcontent),options)
+			.map((res:Response) => res.json())
+			.catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+	}
+	getCompanyDetailsForAdmin(companyid, IsBranch, searchText){			
+		return this.http.get(`${this.COMPANY_MAIN_URL + '?CompanyId=' + companyid + '&IsBranch=' + IsBranch + '&searchtxt=' + searchText }`)
+			.map((res:Response) => res.json())
+			.catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+	}
+	getCountry(){			
+		return this.http.get(`${this.API_MAIN_URL + '/getcountry/'}`)
+			.map((res:Response) => res.json())
+			.catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+	}
+	getState(CountryId){			
+		return this.http.get(`${this.API_MAIN_URL + '/getstate/?CountryId=' + CountryId }`)
+			.map((res:Response) => res.json())
+			.catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+	}
+	getCityByState(StateId){			
+		return this.http.get(`${this.API_MAIN_URL + '/getcitybystate/?StateId=' + StateId }`)
+			.map((res:Response) => res.json())
+			.catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+	}
+	getArea(CityId){			
+		return this.http.get(`${this.API_MAIN_URL + '/getcitybystate/?CityId=' + CityId }`)
+			.map((res:Response) => res.json())
+			.catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+	}
+	getService(){			
+		return this.http.get(`${this.API_MAIN_URL + '/getservicelist'}`)
 			.map((res:Response) => res.json())
 			.catch((error:any) => Observable.throw(error.json().error || 'Server error'));
 	}

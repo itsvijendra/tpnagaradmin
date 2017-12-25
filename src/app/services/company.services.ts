@@ -75,6 +75,21 @@ export class CompanyService {
 			.map((res:Response) => res.json())
 			.catch((error:any) => Observable.throw(error.json().error || 'Server error'));
 	}
+	saveCompanyDetails(companyDetail, isNew)
+	{
+		if(isNew)
+		{
+			var headersvalue = this.contentHeaders.getHeaders([]);
+			console.log(JSON.stringify(headersvalue));
+			let options = new RequestOptions({
+				headers: headersvalue			
+			});
+			return this.http.post(`${this.COMPANY_MAIN_URL}`,JSON.stringify(companyDetail),options)
+			.map((res:Response) => res.json())
+			.catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+		}
+
+	}
 	getCountry(){			
 		return this.http.get(`${this.API_MAIN_URL + '/getcountry/'}`)
 			.map((res:Response) => res.json())

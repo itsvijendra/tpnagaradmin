@@ -42,6 +42,9 @@ export class CompanyComponent implements OnInit {
   private IsError:boolean = false;
   private IsBranchAdd:boolean = false;
   private ErrorField:string = "";
+  private companyAddMode:boolean = false;
+  private ParentCompany;
+  private SaveAndAddNew:boolean = false;
   constructor(formBuilder: FormBuilder, 
     private router: Router,
     private route: ActivatedRoute,
@@ -380,9 +383,9 @@ export class CompanyComponent implements OnInit {
         ,-1
         ,""
         ,""
-        ,""
+        ,1
         ,null
-        ,""
+        ,1
         ,null
         ,""
         ,null
@@ -408,6 +411,7 @@ export class CompanyComponent implements OnInit {
   }
   validateInput()
   {
+    this.IsError = false;
     if(this.companyDetailNew.CompanyName == null || this.companyDetailNew.CompanyName == "")
     {
       this.IsError = true;  
@@ -444,24 +448,144 @@ export class CompanyComponent implements OnInit {
     {
       this.IsError = true;
     }
+    for (let contact in this.companyDetailNew.ContactDet) {
+      if(this.companyDetailNew.ContactDet[contact].ContactNo == null || this.companyDetailNew.ContactDet[contact].ContactNo == "")
+      {
+        this.IsError = true;       
+      }
+      if(this.companyDetailNew.ContactDet[contact].ContactType == null || this.companyDetailNew.ContactDet[contact].ContactType == "")
+      {
+        this.IsError = true;       
+      }
+    }
     return !(this.IsError) 
   }
-  SaveCompany()
-  {    
+  AddNewCompany() 
+  {
+    this.IsBranchAdd = false;
+    this.IsError = false;
+    this.companyAddMode = true;
+    this.setNewCompany();
+  }
+  AddBranchCompany(parentcompany) 
+  {   
+    this.IsError = false;    
+    this.companyAddMode = true;
+    this.setNewCompany();
+    this.companyDetailNew.ParentId = parentcompany.CompanyId;
+    this.companyDetailNew.CompanyName = parentcompany.CompanyName;
+    this.companyDetailNew.CompanyTypeId = parentcompany.CompanyTypeId;
+    this.companyDetailNew.CompanyType = parentcompany.CompanyType;
+    this.IsBranchAdd = true;
+    this.ParentCompany = parentcompany;
+
+  }
+  Save()
+  {   
     if(this.validateInput())
     {
-      this.IsError = false;
+      this.companyDetailNew.CompanyId = 0;
+      var CompanyContactStr = "";
+      for (let contact in this.companyDetailNew.ContactDet) {
+        if(CompanyContactStr != "")
+          CompanyContactStr += "|" 
+          CompanyContactStr += String(this.companyDetailNew.ContactDet[contact].ContactNo) + "#" + 
+                               this.companyDetailNew.ContactDet[contact].ContactType + "#" +
+                               String(this.companyDetailNew.ContactDet[contact].IsPrimary) + "#" +
+                               String(this.companyDetailNew.ContactDet[contact].IsActive)
+      }
+      var CompanyServicesStr = "";      
+      for (let srv in this.companyDetailNew.Services) {
+        if(CompanyServicesStr != "")
+            CompanyServicesStr += "|"
+            CompanyServicesStr +=  String(this.companyDetailNew.Services[srv].ServiceId) + "#" +
+                             String(this.companyDetailNew.Services[srv].ServiceId) + "#" + "1"
+           var deststr = ""; 
+           for(let dest in this.companyDetailNew.Services[srv].Destination) 
+           { 
+            if(deststr != "")
+                deststr += ","            
+                deststr += String(this.companyDetailNew.Services[srv].Destination[dest].ToState) + "#" +
+                       String(this.companyDetailNew.Services[srv].Destination[dest].ToCity) + "#" + "1";
+           }
+           if(deststr != "")
+           {
+                CompanyServicesStr = CompanyServicesStr + "@" + deststr
+           }
+      }
+      console.log(CompanyServicesStr);
+      console.log(CompanyContactStr);
+      this.companyDetailNew.CompanyServicesDestString = CompanyServicesStr;
+      this.companyDetailNew.ContactDetailsStr = CompanyContactStr;
+      this.companyservice.saveCompanyDetails(this.companyDetailNew, true).subscribe(
+        response => {
+                this.companyservice.getCompanyDetailsForAdmin(-1,0,'').subscribe(
+                  response => {
+                      this.CompanyDetList = response.recordset;
+                      //console.log(JSON.stringify(this.CompanyDetList));
+                      this.companyDetail = [];
+                      this.IsBranchDisplay = false;
+                      this.SetCompanyDetail(this.CompanyDetList);  
+                      this.loadCountryAndStateList(); 
+                       this.IsError = false;    
+                       this.setNewCompany();
+                        alert(JSON.stringify(this.ParentCompany));
+                        if(this.SaveAndAddNew)
+                        {
+                          if(this.IsBranchAdd)
+                          {
+                            if(this.ParentCompany != null)
+                            {
+                              this.companyDetailNew.ParentId = this.ParentCompany.CompanyId;
+                              this.companyDetailNew.CompanyName = this.ParentCompany.CompanyName;
+                              this.companyDetailNew.CompanyTypeId = this.ParentCompany.CompanyTypeId;
+                              this.companyDetailNew.CompanyType = this.ParentCompany.CompanyType;
+                              
+                            }
+                          }
+                          else
+                          {
+                            this.ParentCompany = null;                            
+                          }
+                        }
+                        else
+                        {
+                          this.ParentCompany = null;
+                          this.companyAddMode = false; 
+                        }                   
+                      },
+                    error=>  { 
+                          this.errorMessage = 'Unable to retrieve company services.'
+                        console.log(this.errorMessage);
+                      }
+                ); 
+            },
+           error=>  { 
+                this.errorMessage = 'Unable to retrieve company services.'
+               console.log(this.errorMessage);
+             }
+       );
+       this.IsError = false;
     }
     
   }
-  SaveCompanyAndAddNewCompany()
+  SaveCompany()
   {
-    this.IsError = false;
+    this.SaveAndAddNew = false;
+    this.Save();   
+  }
+  SaveCompanyAndAddNewCompany()
+  {    
+      this.SaveAndAddNew = true;
+      this.Save();      
   }
   Cancel()
   {
+    this.SaveAndAddNew = false;
+    this.companyAddMode = false;
     this.IsError = false;
     this.setNewCompany();
+    this.ParentCompany = null;
   }
 
 }

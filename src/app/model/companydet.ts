@@ -23,14 +23,16 @@ export class CompanyDet {
         public CompanyTypeId?: number,
         public CompanyType?: string,
         public CurrentStatusId?: string,
-        public ServiceType?: string,
+        public ServiceType?: number,
         public CreatedOn?: Date,
-        public CreatedBy?: string,
+        public CreatedBy?: number,
         public ModifiedOn?: Date,
         public ModifiedBy?: string,
         public AppSource?: string,
         public Services?: Service[],
         public ParentId?: number,
-        public BranchName?: string
+        public BranchName?: string,
+        public ContactDetailsStr?: string,
+        public CompanyServicesDestString?: string
 	) {}
 }

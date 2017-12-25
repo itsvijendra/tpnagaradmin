@@ -1,22 +1,23 @@
 <div id="Company Edit">
-      <div class="divtablemain">
+      <div class="divtablemain" *ngIf="companyAddMode">
             <ul class="ulheader">
                   <li class="liCol25"><span class="spacer10" style="font-size:14px;color:white;font-weight:bold;">Add Company Details</span></li>
                   <li class="liCol25"></li>
             </ul>           
             <ul class="ulmain" style="height:60px!important;">
                   <li class="liCol24"><span class="spanrow">* Company Name:</span><br>
-                        <input id="CompanyName"  name="CompanyName"  [(ngModel)]="companyDetailNew.CompanyName"  type="text" /> 
-                        <span  *ngIf="IsError && (companyDetailNew.CompanyName == null || companyDetailNew.CompanyName == '') " style="color:Red;">Required</span>
+                        <input id="CompanyName"  name="CompanyName" *ngIf = "!IsBranchAdd"  [(ngModel)]="companyDetailNew.CompanyName"  type="text" /> 
+                        <span *ngIf = "IsBranchAdd" style="padding-top:10px;padding-left:10px;">{{companyDetailNew.CompanyName}}</span>
+                        <span  *ngIf="IsError && (companyDetailNew.CompanyName == null || companyDetailNew.CompanyName == '') " style="color:Red;">*</span>
                   </li>
 
-                  <li class="liCol24"><span class="spanrow">* Branch Name:</span><br>
-                        <input id="BranchName"   name="BranchName" [(ngModel)]="companyDetailNew.BranchName"  type="text"  /> 
-                        <span  *ngIf="IsError && (IsBranchAdd && (companyDetailNew.BranchName == null || companyDetailNew.BranchName == '')) " style="color:Red;">Required</span>
+                  <li class="liCol24"><span class="spanrow"><span *ngIf="IsBranchAdd">*</span>Branch Name:</span><br>
+                        <input id="BranchName" name="BranchName" [(ngModel)]="companyDetailNew.BranchName" *ngIf="IsBranchAdd"  type="text"  /> 
+                        <span  *ngIf="IsError && (IsBranchAdd && (companyDetailNew.BranchName == null || companyDetailNew.BranchName == '')) " style="color:Red;">*</span>
                   </li>
-                  <li class="liCol24"><span class="spanrow">Owner Name:</span><br>
+                  <li class="liCol24"><span class="spanrow">* Owner Name:</span><br>
                         <input id="OwnerName"   name="OwnerName" [(ngModel)]="companyDetailNew.OwnerName"  type="text"  />
-                        <span  *ngIf="IsError && (companyDetailNew.OwnerName == null || companyDetailNew.OwnerName == '') " style="color:Red;">Required</span>
+                        <span  *ngIf="IsError && (companyDetailNew.OwnerName == null || companyDetailNew.OwnerName == '') " style="color:Red;">*</span>
                   </li>   
                   <li class="liCol24"><span class="spanrow">Company Desc:</span><br> 
                         <input id="CompanyDesc"   name="CompanyDesc" [(ngModel)]="companyDetailNew.CompanyDesc"  type="text"  />
@@ -24,48 +25,49 @@
             </ul>
             <ul class="ulalternate" style="height:60px!important;">
                   <li class="liCol24"><span class="spanrow">Type:</span><br>
-                        <select name="selCompanyType" [(ngModel)]="companyDetailNew.CompanyTypeId" style="width:150px!important;">
+                        <select *ngIf = "!IsBranchAdd" name="selCompanyType" [(ngModel)]="companyDetailNew.CompanyTypeId" style="width:150px!important;">
                               <option value="-1">Select</option>     
                               <option value="1">Broker</option> 
                               <option value="2">Contractor</option>                              
                         </select>
-                        <span  *ngIf="IsError && (companyDetailNew.CompanyTypeId == null || companyDetailNew.CompanyTypeId == -1) " style="color:Red;">Required</span> 
+                        <span *ngIf = "IsBranchAdd" style="padding-top:10px;padding-left:10px;">{{companyDetailNew.CompanyType}}</span>
+                        <span  *ngIf="IsError && (companyDetailNew.CompanyTypeId == null || companyDetailNew.CompanyTypeId == -1) " style="color:Red;">*</span> 
                   </li>            
                         <li class="liCol24"><span class="spanrow">Country:</span> <br>
                               <select name="selCountry" [(ngModel)]="companyDetailNew.CountryId"  style="width:150px!important;">
                                     <option *ngFor="let x of CountryList" [ngValue]="x.Id">{{x.Country_Name}}</option>                                 
                               </select>
-                              <span  *ngIf="IsError && (companyDetailNew.CountryId == null || companyDetailNew.CountryId == -1) " style="color:Red;">Required</span> 
+                              <span  *ngIf="IsError && (companyDetailNew.CountryId == null || companyDetailNew.CountryId == -1) " style="color:Red;">*</span> 
                         </li>
                         <li class="liCol24"><span class="spanrow">State:</span><br>
                               <select name="selState" (change) = "loadCity()"  [(ngModel)]="companyDetailNew.StateId" style="width:150px!important;">
                                     <option value="-1">Select State</option> 
                                     <option *ngFor="let x of StateList" [ngValue]="x.Id">{{x.State_Name}}</option>                           
                               </select> 
-                              <span  *ngIf="IsError && (companyDetailNew.StateId == null || companyDetailNew.StateId == -1) " style="color:Red;">Required</span>
+                              <span  *ngIf="IsError && (companyDetailNew.StateId == null || companyDetailNew.StateId == -1) " style="color:Red;">*</span>
                         </li>   
                         <li class="liCol24"><span class="spanrow">City:</span><br>
                               <select name="selCity" [(ngModel)]="companyDetailNew.CityId"  style="width:150px!important;">
                                            <option value="-1">Select City</option>     
                                           <option *ngFor="let x of CityList" [ngValue]="x.Id">{{x.City_Name}}</option>                             
                               </select> 
-                              <span  *ngIf="IsError && (companyDetailNew.CityId == null || companyDetailNew.CityId == -1) " style="color:Red;">Required</span>
+                              <span  *ngIf="IsError && (companyDetailNew.CityId == null || companyDetailNew.CityId == -1) " style="color:Red;">*</span>
                         </li>
                         
             </ul>
             <ul class="ulmain" style="height:60px!important;">
                         <li class="liCol24"><span class="spanrow">Address:</span> <br>
                               <textarea id="Address" style="width:200px!important;" [(ngModel)]="companyDetailNew.Address" name="Address"></textarea> 
-                              <span  *ngIf="IsError && (companyDetailNew.Address == null || companyDetailNew.Address == '') " style="color:Red;">Required</span>
+                              <span  *ngIf="IsError && (companyDetailNew.Address == null || companyDetailNew.Address == '') " style="color:Red;">*</span>
                         </li>
                         <li class="liCol24"><span class="spanrow">Pin Code:</span><br>
                               <input id="PinNo"  name="PinNo"  [(ngModel)]="companyDetailNew.PinCode" type="text"  /> 
-                              <span  *ngIf="IsError && (companyDetailNew.PinCode == null || companyDetailNew.PinCode == '') " style="color:Red;">Required</span>
+                              <span  *ngIf="IsError && (companyDetailNew.PinCode == null || companyDetailNew.PinCode == '') " style="color:Red;">*</span>
                         </li>                        
             </ul>
            
       </div>
-      <div class="divtablemain" >
+      <div class="divtablemain" *ngIf="companyAddMode">
             <ul class="ulheader">
                   <li class="liheader" style="width:20%!important;">Contact No</li>
                   <li class="liheader" style="width:19%!important;">Type</li>   
@@ -75,27 +77,29 @@
             </ul>
             <ul class="ulmain" *ngFor="let contact of companyDetailNew.ContactDet;let i = index;trackBy:i;">
                   <li class="lirow" style="width:20%!important;">
-                        <input id="txtContactNo" [(ngModel)]="contact.ContactNo"  name="txtContactNo"  type="text"  /> </li>
+                        <input id="txtContactNo" [(ngModel)]="contact.ContactNo"  name="txtContactNo"  type="text"  /> 
+                        <span  *ngIf="IsError && (contact.ContactNo == null || contact.ContactNo == '') " style="color:Red;">*</span>
+                  </li>
                   <li class="lirow" style="width:19%!important;">
                               <select name="selContactType" [(ngModel)]="contact.ContactType"  style="width:150px!important;">
                                                               <option value="-1">Select Type </option>     
                                                             <option value="P">Phone</option> 
                                                             <option value="M">Mobile</option> 
                                                             <option value="E">Email</option>                              
-                              </select>  
+                              </select> 
+                              <span  *ngIf="IsError && (contact.ContactType == null || contact.ContactType == -1) " style="color:Red;">*</span> 
                   </li>   
                   <li class="lirow" style="width:19%!important;">
                         <input id="chkIsPrimary" [(ngModel)]="contact.IsPrimary"   name="chkIsPrimary"  type="checkbox"  /> </li>
                   <li class="lirow" style="width:19%!important;">
                         <input id="chkIsActive" [(ngModel)]="contact.IsActive"   name="chkIsActive"  type="checkbox"  /> </li>
                   <li class="lirow" style="width:19%!important;"><a href="javascript:;" (click) = "DeleteContactRow(i)">Delete Row</a></li>
-            </ul>
-            <ul class="ulalternate">
-                        <li class="lirow" style="width:97%!important;"><a href="javascript:;" (click) = "AddContactRow()">Add Contact row</a></li>
-                        
+            </ul>           
+            <ul class="ulalternate">                      
+                  <li class="lirow" style="width:97%!important;"><a href="javascript:;" (click) = "AddContactRow()">Add Contact row</a></li>                        
             </ul>   
       </div>
-      <div class="divtablemain">
+      <div class="divtablemain" *ngIf="companyAddMode">
                   <ul class="ulheader">
                         <li class="liheader" style="width:20%!important;">Service Name</li>                      
                         <li class="liheader" style="width:62%!important;">Destinations</li>
@@ -142,14 +146,16 @@
                               </table>
                         </li>
                         <li class="lirow" style="width:15%!important;"><a href="javascript:;" (click) = "DeleteServiceRow(i)">Delete Row</a></li>
-                  </ul>
-                  <ul class="ulalternate">
-                              <li class="lirow" style="width:97%!important;"><a href="javascript:;" (click) = "AddServiceRow()">Add Service row</a></li>
-                              
+                  </ul>                
+                  <ul class="ulalternate">                           
+                        <li class="lirow" style="width:97%!important;"><a href="javascript:;" (click) = "AddServiceRow()">Add Service row</a></li>                              
                   </ul>   
             </div>
       </div>
-      <div class="divtablemain">
+      <div class="divtablemain" *ngIf="companyAddMode">
+            <ul class="ulalternate">
+                  <span *ngIf="IsError" style="color:Red;">All fields marked with * are required</span>                            
+            </ul>
             <ul class="ulheader">
                   <li class="lifooter" style="width:100%!important;text-align: center;margin-top:5px;">
                         <input type="button" value="Save" (click) = "SaveCompany()" style="width:60px!important;" />
@@ -158,13 +164,14 @@
                   </li>
                   
             </ul>   
-      </div>
-<div class="divtablemain">
+</div>
+<div class="divtablemain" *ngIf="!companyAddMode">
       <ul class="ulheader">           
       <li class="liheader" style="width:100%!important;">
             Company Name: <input type="text" [(ngModel)]="searchtext"  id="txtCompanySearch"  style="width:150px!important;" /> 
             <input type="button" value="Search"  (click) = "CompanySearch()" style="width:60px!important;" />
             <input type="button" value="Back to Company Detail"  (click) = "CompanySearch()" *ngIf="IsBranchDisplay" style="width:160px!important;" />                   
+            <input type="button" value="Add New Company" (click) = "AddNewCompany()"  style="width:160px!important;" /> 
       </ul>
       <ul class="ulheader">           
             <li class="liheader" style="width:15%!important;">Company</li>                  
@@ -181,6 +188,7 @@
                   <b>Type</b>- {{company.CompanyType}} <br><br>
                   <a href="javascript:;" >Edit Company Details </a> <br>
                   <a href="javascript:;" (click) = "ShowCompanyWithBranches(company.CompanyId,company)" *ngIf="!IsBranchDisplay" >Show Branches </a>
+                  <a href="javascript:;" (click) = "AddBranchCompany(company)" *ngIf="company.ParentId == 0">Add Branches </a>
                   
             </li>  
             <li class="{{company.ParentId == 0 ? 'lirow' : 'lirowBr'}}" style="width:20%!important;text-align:left;font-size:11px;">

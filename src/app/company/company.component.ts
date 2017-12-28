@@ -33,6 +33,7 @@ export class CompanyComponent implements OnInit {
   private DestSelectedCityName: string = "";
   private AreaList;
   private ServiceList;
+  private ServiceListByType;
   private IsBranchDisplay: boolean = false;
   private errorMessage: string;
   private searchtext: string = "";
@@ -109,6 +110,12 @@ export class CompanyComponent implements OnInit {
              console.log(this.errorMessage);
            }
      );
+  }
+  loadServiceByType(type)
+  {
+    //alert(JSON.stringify(this.ServiceList));
+    this.ServiceListByType = this.ServiceList.filter(x=> x.PublicType == type); 
+    //alert(JSON.stringify(this.ServiceListByType));
   }
   setServices(srv,indx)
   {
@@ -297,11 +304,8 @@ export class CompanyComponent implements OnInit {
     }
   }
   DeleteServiceRow(index)
-  {
-    if(this.companyDetailNew)
-    {
-      var services = this.companyDetailNew.Services;    
-      
+  {   
+      var services = this.companyDetailNew.Services; 
       if(services.length > 1)
       {
         if(services.length >= (index + 1))
@@ -313,15 +317,27 @@ export class CompanyComponent implements OnInit {
                 services.splice(index,1);
                 this.companyDetailNew.Services = services;
               }
-          }                 
+          } 
+          else
+          {
+            services.splice(index,1);
+            this.companyDetailNew.Services = services;
+          }                
          
         }
       }
       else
       {
-        alert("At least one service is required to register company.")
+         if(services[index].Destination.length > 0)
+         {
+            if(confirm("You have added destination for this service, Are you sure, you want to delete this Service?"))
+            {
+               services[index].Destination = [];
+            }
+          }
+        //alert("At least one service is required to register company.")
       }
-    }
+    
   }
   AddContactRow()
   {
@@ -465,6 +481,7 @@ export class CompanyComponent implements OnInit {
     this.IsBranchAdd = false;
     this.IsError = false;
     this.companyAddMode = true;
+    this.ServiceListByType = [];
     this.setNewCompany();
   }
   AddBranchCompany(parentcompany) 
@@ -472,6 +489,7 @@ export class CompanyComponent implements OnInit {
     this.IsError = false;    
     this.companyAddMode = true;
     this.setNewCompany();
+    this.loadServiceByType(parentcompany.CompanyTypeId);
     this.companyDetailNew.ParentId = parentcompany.CompanyId;
     this.companyDetailNew.CompanyName = parentcompany.CompanyName;
     this.companyDetailNew.CompanyTypeId = parentcompany.CompanyTypeId;

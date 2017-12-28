@@ -25,7 +25,7 @@
             </ul>
             <ul class="ulalternate" style="height:60px!important;">
                   <li class="liCol24"><span class="spanrow">Type:</span><br>
-                        <select *ngIf = "!IsBranchAdd" name="selCompanyType" [(ngModel)]="companyDetailNew.CompanyTypeId" style="width:150px!important;">
+                        <select *ngIf = "!IsBranchAdd" name="selCompanyType" (change) = "loadServiceByType(companyDetailNew.CompanyTypeId)" [(ngModel)]="companyDetailNew.CompanyTypeId" style="width:150px!important;">
                               <option value="-1">Select</option>     
                               <option value="1">Broker</option> 
                               <option value="2">Contractor</option>                              
@@ -109,7 +109,7 @@
                         <li class="lirow" style="width:20%!important;">
                                     <select name="selService" [(ngModel)]="service.ServiceId" (change) = "setServices(service,i)"  style="width:150px!important;">
                                           <option value="-1">Select Service</option> 
-                                          <option *ngFor="let x of ServiceList" [ngValue]="x.ServiceId">{{x.ServiceName}}</option>                           
+                                          <option *ngFor="let x of ServiceListByType" [ngValue]="x.ServiceId">{{x.ServiceName}}</option>                           
                                     </select>        
                         </li>                         
                         <li class="lirow" style="width:62%!important;">

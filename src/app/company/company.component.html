@@ -1,5 +1,5 @@
 <div id="Company Edit">
-      <div class="divtablemain" *ngIf="companyAddMode">
+      <div class="divtablemain" *ngIf="companyAddMode || companyEditMode">
             <ul class="ulheader">
                   <li class="liCol25"><span class="spacer10" style="font-size:14px;color:white;font-weight:bold;">Add Company Details</span></li>
                   <li class="liCol25"></li>
@@ -25,16 +25,16 @@
             </ul>
             <ul class="ulalternate" style="height:60px!important;">
                   <li class="liCol24"><span class="spanrow">Type:</span><br>
-                        <select *ngIf = "!IsBranchAdd" name="selCompanyType" (change) = "loadServiceByType(companyDetailNew.CompanyTypeId)" [(ngModel)]="companyDetailNew.CompanyTypeId" style="width:150px!important;">
+                        <select *ngIf = "!IsBranchAdd && !companyEditMode" name="selCompanyType" (change) = "loadServiceByType(companyDetailNew.CompanyTypeId)" [(ngModel)]="companyDetailNew.CompanyTypeId" style="width:150px!important;">
                               <option value="-1">Select</option>     
                               <option value="1">Broker</option> 
                               <option value="2">Contractor</option>                              
                         </select>
-                        <span *ngIf = "IsBranchAdd" style="padding-top:10px;padding-left:10px;">{{companyDetailNew.CompanyType}}</span>
+                        <span *ngIf = "IsBranchAdd || companyEditMode" style="padding-top:10px;padding-left:10px;">{{companyDetailNew.CompanyType}}</span>
                         <span  *ngIf="IsError && (companyDetailNew.CompanyTypeId == null || companyDetailNew.CompanyTypeId == -1) " style="color:Red;">*</span> 
                   </li>            
                         <li class="liCol24"><span class="spanrow">Country:</span> <br>
-                              <select name="selCountry" [(ngModel)]="companyDetailNew.CountryId"  style="width:150px!important;">
+                              <select name="selCountry" disabled ="true" [(ngModel)]="companyDetailNew.CountryId"  style="width:150px!important;">
                                     <option *ngFor="let x of CountryList" [ngValue]="x.Id">{{x.Country_Name}}</option>                                 
                               </select>
                               <span  *ngIf="IsError && (companyDetailNew.CountryId == null || companyDetailNew.CountryId == -1) " style="color:Red;">*</span> 
@@ -152,14 +152,14 @@
                   </ul>   
             </div>
       </div>
-      <div class="divtablemain" *ngIf="companyAddMode">
+      <div class="divtablemain" *ngIf="companyAddMode || companyEditMode">
             <ul class="ulalternate">
                   <span *ngIf="IsError" style="color:Red;">All fields marked with * are required</span>                            
             </ul>
             <ul class="ulheader">
                   <li class="lifooter" style="width:100%!important;text-align: center;margin-top:5px;">
                         <input type="button" value="Save" (click) = "SaveCompany()" style="width:60px!important;" />
-                        <input type="button" value="Save and Add New" (click) = "SaveCompanyAndAddNewCompany()" />
+                        <input type="button" *ngIf="!companyEditMode" value="Save and Add New" (click) = "SaveCompanyAndAddNewCompany()" />
                         <input type="button" value="Cancel" (click) ="Cancel()"  style="width:60px!important;" />
                   </li>
                   
@@ -186,7 +186,7 @@
                   <b>Desc</b>- {{company.CompanyDesc}} <br>
                   <b>Owner</b>- {{company.OwnerName}} <br>
                   <b>Type</b>- {{company.CompanyType}} <br><br>
-                  <a href="javascript:;" >Edit Company Details </a> <br>
+                  <a href="javascript:;" (click) = "EditCompanyDetails(company)" >Edit Company Details </a> <br>
                   <a href="javascript:;" (click) = "ShowCompanyWithBranches(company.CompanyId,company)" *ngIf="!IsBranchDisplay" >Show Branches </a>
                   <a href="javascript:;" (click) = "AddBranchCompany(company)" *ngIf="company.ParentId == 0">Add Branches </a>
                   

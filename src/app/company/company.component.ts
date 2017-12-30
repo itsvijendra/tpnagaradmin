@@ -44,6 +44,7 @@ export class CompanyComponent implements OnInit {
   private IsBranchAdd:boolean = false;
   private ErrorField:string = "";
   private companyAddMode:boolean = false;
+  private companyEditMode:boolean = false;
   private ParentCompany;
   private SaveAndAddNew:boolean = false;
   constructor(formBuilder: FormBuilder, 
@@ -114,7 +115,10 @@ export class CompanyComponent implements OnInit {
   loadServiceByType(type)
   {
     //alert(JSON.stringify(this.ServiceList));
-    this.ServiceListByType = this.ServiceList.filter(x=> x.PublicType == type); 
+    if(this.ServiceList != null)
+    {
+      this.ServiceListByType = this.ServiceList.filter(x=> x.PublicType == type); 
+    }    
     //alert(JSON.stringify(this.ServiceListByType));
   }
   setServices(srv,indx)
@@ -194,15 +198,32 @@ export class CompanyComponent implements OnInit {
             // console.log(servicename);
             //console.log(Destinations);
             var servicetypeid = Number(services[srv].split('####')[4]);
+            var hasDestination = services[srv].split('####')[5] == "1";
             let companyDestinations: CompanyServiceDestination[] = [];
+            let detinationvalues: Destination[] = [];
             for(let dest in Destinations)
             {
                 //console.log( "dest:" + Destinations[dest]);
                 companyDestinations.push(new CompanyServiceDestination(Number(Destinations[dest].split('@')[0])
-                ,Destinations[dest].split('@')[1],Number(Destinations[dest].split('@')[2])));                
+                ,Destinations[dest].split('@')[1],Number(Destinations[dest].split('@')[2]))); 
+                detinationvalues.push(new Destination(
+                        Number(Destinations[dest].split('@')[0]),
+                        Number(Destinations[dest].split('@')[5]),
+                        Number(Destinations[dest].split('@')[3]),
+                        Number(Destinations[dest].split('@')[4]),
+                        true,
+                        null,
+                        null,
+                        null,
+                        null,
+                        Number(Destinations[dest].split('@')[2]),
+                        Destinations[dest].split('@')[6],
+                        Destinations[dest].split('@')[7]
+
+                ));            
             }
             companyServices.push(new Service(companydetails[compdet].CompanyId,serviceId,servicename,servicedesc
-              ,companyDestinations,companydetails[compdet].CompanyName,servicetypeid));
+              ,companyDestinations,companydetails[compdet].CompanyName,servicetypeid,detinationvalues,hasDestination));
           }
       }
       if(companydetails[compdet].ContactNoDet != null && companydetails[compdet].ContactNoDet != '')
@@ -502,7 +523,10 @@ export class CompanyComponent implements OnInit {
   {   
     if(this.validateInput())
     {
-      this.companyDetailNew.CompanyId = 0;
+      if(!this.companyEditMode)
+      {
+        this.companyDetailNew.CompanyId = 0;
+      }
       var CompanyContactStr = "";
       for (let contact in this.companyDetailNew.ContactDet) {
         if(CompanyContactStr != "")
@@ -547,7 +571,7 @@ export class CompanyComponent implements OnInit {
                       this.loadCountryAndStateList(); 
                        this.IsError = false;    
                        this.setNewCompany();
-                        alert(JSON.stringify(this.ParentCompany));
+                        //alert(JSON.stringify(this.ParentCompany));
                         if(this.SaveAndAddNew)
                         {
                           if(this.IsBranchAdd)
@@ -570,6 +594,7 @@ export class CompanyComponent implements OnInit {
                         {
                           this.ParentCompany = null;
                           this.companyAddMode = false; 
+                          this.companyEditMode = false;
                         }                   
                       },
                     error=>  { 
@@ -601,9 +626,17 @@ export class CompanyComponent implements OnInit {
   {
     this.SaveAndAddNew = false;
     this.companyAddMode = false;
+    this.companyEditMode = false;
     this.IsError = false;
     this.setNewCompany();
     this.ParentCompany = null;
+  }
+  EditCompanyDetails(company)
+  {
+      alert(JSON.stringify(company));
+      this.companyEditMode = true;
+      this.loadServiceByType(company.CompanyTypeId)
+      this.companyDetailNew = company;
   }
 
 }

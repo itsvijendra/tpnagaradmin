@@ -39,9 +39,16 @@ export class BannerConfigComponent implements OnInit {
                      },
                    error=>  { alert(`Can't get token.`); }
                    );*/
+      this.showLoading();
       this.bannerServices.getAllBannerConfig('239847932874').subscribe(
-                       response => this.bannerConfigList = response.recordset,
-                       error=>  { alert(`Can't get banner config.`); }
+                       response => {
+                         this.bannerConfigList = response.recordset;
+                         this.hideLoading();
+                        },
+                       error=>  { 
+                         //alert(`Can't get banner config.`);
+                          this.hideLoading();
+                        }
                        ); 
    
   }
@@ -79,11 +86,28 @@ export class BannerConfigComponent implements OnInit {
        {
         
         result = this.bannerServices.deleteBannerConfig(bannerconfigid);
+        this.showLoading();
         result.subscribe(data => this.bannerServices.getAllBannerConfig(localStorage.getItem('token')).subscribe(
-                        response => this.bannerConfigList = response.recordset,
-                        error=>  { alert(`Can't delete banner config.`); }
+                        response => {
+                          this.bannerConfigList = response.recordset;
+                          this.hideLoading(); 
+                        },
+                        error=>  { 
+                          this.hideLoading();
+                          alert(`Can't delete banner config.`);                           
+                        }
                       ));
        }
+   }
+   showLoading()
+   {
+     var divloading = document.getElementById('loadingDiv');
+     divloading.setAttribute("style","display:block");
+   }
+   hideLoading()
+   {
+     var divloading = document.getElementById('loadingDiv');
+     divloading.setAttribute("style","display:none");
    }
    save() {
     var result,
@@ -94,10 +118,16 @@ export class BannerConfigComponent implements OnInit {
     } else {
       result = this.bannerServices.addBannerConfig(bannerconfigValue);
     }
-
+    this.showLoading();
     result.subscribe(data => this.bannerServices.getAllBannerConfig(localStorage.getItem('token')).subscribe(
-                       response => this.bannerConfigList = response.recordset,
-                       error=>  { alert(`Can't get banner config.`); }
+                       response => {
+                         this.bannerConfigList = response.recordset;
+                         this.hideLoading();
+                       },
+                       error=>  { 
+                         this.hideLoading();
+                         alert(`Can't get banner config.`); 
+                      }
                     ));
   }
 }

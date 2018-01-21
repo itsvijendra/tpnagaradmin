@@ -2118,3 +2118,20 @@ html>body .subsection {
  border-color:#c7cbc1;
  margin-bottom:20px;
 }
+#loadingDiv 
+{
+  position: fixed;
+  background:transparent;
+  text-align: center;
+  padding-top: 300px;
+  display: none;
+  height: 100%;
+  width: 100%;
+  z-index: 100000;
+}
+#progressImage
+{
+    height: 100px;
+    width: 100px;
+    z-index: 1000000;
+}

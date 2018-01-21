@@ -47,68 +47,93 @@ export class CompanyComponent implements OnInit {
   private companyEditMode:boolean = false;
   private ParentCompany;
   private SaveAndAddNew:boolean = false;
+  private IsContactEditMode:boolean = false;
   constructor(formBuilder: FormBuilder, 
     private router: Router,
     private route: ActivatedRoute,
     private companyservice: CompanyService) { }
 
   ngOnInit() {
-    
+    this.showLoading()
     this.companyservice.getCompanyDetailsForAdmin(-1,0,'').subscribe(
       response => {
            this.CompanyDetList = response.recordset;
            //console.log(JSON.stringify(this.CompanyDetList));
+           //alert('loading completed')
+           this.hideLoading();
            this.companyDetail = [];
            this.IsBranchDisplay = false;
            this.SetCompanyDetail(this.CompanyDetList);  
            this.loadCountryAndStateList();  
            
+           
           },
          error=>  { 
               this.errorMessage = 'Unable to retrieve company services.'
              console.log(this.errorMessage);
+             //alert('loading completed');
+             this.hideLoading();
            }
      ); 
      this.setNewCompany();   
 
   }
+  showLoading()
+  {
+    var divloading = document.getElementById('loadingDiv');
+    divloading.setAttribute("style","display:block");
+  }
+  hideLoading()
+  {
+    var divloading = document.getElementById('loadingDiv');
+    divloading.setAttribute("style","display:none");
+  }
   loadCity()
   {
     //alert(this.companyDetailNew.StateId);
+    this.showLoading();
     this.companyservice.getCityByState(this.companyDetailNew.StateId).subscribe(
       response => {
               this.CityList = response.recordset;
-              console.log(JSON.stringify(this.CityList));
+              //console.log(JSON.stringify(this.CityList));
+              this.hideLoading();
           },
          error=>  { 
               this.errorMessage = 'Unable to retrieve City.'
-             console.log(this.errorMessage);
+              console.log(this.errorMessage);
+              this.hideLoading();
            }
      ); 
   }
   loadDestCity()
   {
     //alert(this.DestSelectedStateId);
+    this.showLoading();
     this.companyservice.getCityByState(this.DestSelectedStateId).subscribe(
       response => {
               this.DestCityList = response.recordset;
               console.log(JSON.stringify(this.CityList));
+              this.hideLoading();
           },
          error=>  { 
-              this.errorMessage = 'Unable to retrieve City.'
+              this.errorMessage = 'Unable to retrieve City.';
              console.log(this.errorMessage);
+            this.hideLoading();            
            }
      ); 
   }
   loadService()
   {
+    this.showLoading();
     this.companyservice.getService().subscribe(
       response => {
-              this.ServiceList = response.recordset;                            //console.log(JSON.stringify(this.CountryList[0].Id));
+              this.ServiceList = response.recordset;  
+              this.hideLoading();                          //console.log(JSON.stringify(this.CountryList[0].Id));
           },
          error=>  { 
               this.errorMessage = 'Unable to retrieve Service List.'
-             console.log(this.errorMessage);
+              console.log(this.errorMessage);
+              this.hideLoading();
            }
      );
   }
@@ -157,6 +182,7 @@ export class CompanyComponent implements OnInit {
   }
   loadCountryAndStateList()
   {
+    this.showLoading();
     this.companyservice.getCountry().subscribe(
       response => {
               this.CountryList = response.recordset;
@@ -166,10 +192,12 @@ export class CompanyComponent implements OnInit {
                         this.StateList = response.recordset;
                         //console.log(JSON.stringify(this.StateList));
                         this.loadService();
+                        this.hideLoading();
                     },
                    error=>  { 
                         this.errorMessage = 'Unable to retrieve company services.'
                        console.log(this.errorMessage);
+                       this.hideLoading();
                      }
                ); 
               //console.log(JSON.stringify(this.CountryList[0].Id));
@@ -177,6 +205,7 @@ export class CompanyComponent implements OnInit {
          error=>  { 
               this.errorMessage = 'Unable to retrieve company services.'
              console.log(this.errorMessage);
+             this.hideLoading();
            }
      );
   }
@@ -280,7 +309,7 @@ export class CompanyComponent implements OnInit {
   }
   ShowCompanyWithBranches(companyId,parentCompany)
   {
-
+    this.showLoading();
     this.companyservice.getCompanyDetailsForAdmin(companyId,1,'').subscribe(
       response => {
            this.CompanyDetList = response.recordset;
@@ -288,27 +317,32 @@ export class CompanyComponent implements OnInit {
            this.companyDetail = [];
            this.companyDetail.push(parentCompany);
            this.SetCompanyDetail(this.CompanyDetList); 
-           this.IsBranchDisplay = true;   
+           this.IsBranchDisplay = true; 
+           this.hideLoading();  
           },
          error=>  { 
               this.errorMessage = 'Unable to retrieve company services.'
              console.log(this.errorMessage);
+             this.hideLoading();
            }
      );
   }
   CompanySearch()
-  {   
+  {
+    this.showLoading();   
     this.companyservice.getCompanyDetailsForAdmin(-1,0,this.searchtext).subscribe(
       response => {
            this.CompanyDetList = response.recordset;
            console.log(JSON.stringify(this.CompanyDetList));
            this.IsBranchDisplay = false;
            this.companyDetail = [];
-           this.SetCompanyDetail(this.CompanyDetList);    
+           this.SetCompanyDetail(this.CompanyDetList); 
+           this.hideLoading();   
           },
          error=>  { 
               this.errorMessage = 'Unable to retrieve company services.'
              console.log(this.errorMessage);
+             this.hideLoading();
            }
      );
   }
@@ -365,7 +399,7 @@ export class CompanyComponent implements OnInit {
     if(this.companyDetailNew)
     {
       var contact = this.companyDetailNew.ContactDet;
-      contact.push(new CompanyContact(null,null,"","-1",false,true));
+      contact.push(new CompanyContact(0,null,"","-1",false,true));
       this.companyDetailNew.ContactDet = contact;
     }
   }
@@ -389,7 +423,7 @@ export class CompanyComponent implements OnInit {
     }
   } 
   setNewCompany(){
-        var compcontact = new CompanyContact(null,null,"","-1",false,true);    
+        var compcontact = new CompanyContact(0,null,"","-1",false,true);    
         var contacts: CompanyContact[] = [];
         contacts.push(compcontact)
         var destinations : Destination[] = [];
@@ -534,7 +568,8 @@ export class CompanyComponent implements OnInit {
           CompanyContactStr += String(this.companyDetailNew.ContactDet[contact].ContactNo) + "#" + 
                                this.companyDetailNew.ContactDet[contact].ContactType + "#" +
                                String(this.companyDetailNew.ContactDet[contact].IsPrimary) + "#" +
-                               String(this.companyDetailNew.ContactDet[contact].IsActive)
+                               String(this.companyDetailNew.ContactDet[contact].IsActive) + "#" +
+                               String(this.companyDetailNew.ContactDet[contact].Id)
       }
       var CompanyServicesStr = "";      
       for (let srv in this.companyDetailNew.Services) {
@@ -555,10 +590,11 @@ export class CompanyComponent implements OnInit {
                 CompanyServicesStr = CompanyServicesStr + "@" + deststr
            }
       }
-      console.log(CompanyServicesStr);
+      //console.log(CompanyServicesStr);
       console.log(CompanyContactStr);
       this.companyDetailNew.CompanyServicesDestString = CompanyServicesStr;
       this.companyDetailNew.ContactDetailsStr = CompanyContactStr;
+      this.showLoading();
       this.companyservice.saveCompanyDetails(this.companyDetailNew, true).subscribe(
         response => {
                 this.companyservice.getCompanyDetailsForAdmin(-1,0,'').subscribe(
@@ -595,17 +631,21 @@ export class CompanyComponent implements OnInit {
                           this.ParentCompany = null;
                           this.companyAddMode = false; 
                           this.companyEditMode = false;
-                        }                   
+                          this.IsContactEditMode = false;
+                        } 
+                        this.hideLoading();                  
                       },
                     error=>  { 
                           this.errorMessage = 'Unable to retrieve company services.'
                         console.log(this.errorMessage);
+                        this.hideLoading();
                       }
                 ); 
             },
            error=>  { 
                 this.errorMessage = 'Unable to retrieve company services.'
                console.log(this.errorMessage);
+               this.hideLoading();
              }
        );
        this.IsError = false;
@@ -633,10 +673,20 @@ export class CompanyComponent implements OnInit {
   }
   EditCompanyDetails(company)
   {
-      alert(JSON.stringify(company));
-      this.companyEditMode = true;
+      //alert(JSON.stringify(company));
+      this.companyEditMode = true;  
+      this.IsContactEditMode = false;    
       this.loadServiceByType(company.CompanyTypeId)
       this.companyDetailNew = company;
+      this.loadCity()
+  }
+  EditCompanyContactDetails(company)
+  {
+    this.IsContactEditMode = true;  
+    this.companyEditMode = false;    
+    this.loadServiceByType(company.CompanyTypeId)
+    this.companyDetailNew = company;
+    this.loadCity()
   }
 
 }

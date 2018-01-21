@@ -57,11 +57,29 @@ export class AddBannerComponent implements OnInit {
                      },
                    error=>  { this.errorMessage = 'Unable to retrieve token.' }
                    );*/
+                   this.showLoading();
                    this.bannerServices.getAllBanner('dfaewrwe2542345').subscribe(
-                       response => this.bannerList = response.recordset,
-                          error=>  { this.errorMessage = 'Unable to retrieve banner.' }
+                       response =>
+                        { 
+                          this.bannerList = response.recordset;
+                          this.hideLoading();
+                        },
+                          error=>  { 
+                            this.errorMessage = 'Unable to retrieve banner.';
+                            this.hideLoading();
+                        }
                       );
      
+  }
+  showLoading()
+  {
+    var divloading = document.getElementById('loadingDiv');
+    divloading.setAttribute("style","display:block");
+  }
+  hideLoading()
+  {
+    var divloading = document.getElementById('loadingDiv');
+    divloading.setAttribute("style","display:none");
   }
    validateInput()
    {
@@ -110,9 +128,18 @@ export class AddBannerComponent implements OnInit {
        if(confirm("Are you sure you want to delete this record?"))
        {
         result = this.bannerServices.deleteBanner(bannerid);
+        this.showLoading();
         result.subscribe(data =>  this.bannerServices.getAllBanner(localStorage.getItem('token')).subscribe(
-                        response => this.bannerList = response.recordset,
-                        error=>  { this.errorMessage = 'Unable to retrieve token' }
+                        response => 
+                         {
+                           this.bannerList = response.recordset;
+                           this.hideLoading();
+                         }
+                         ,
+                        error=>  { 
+                          this.errorMessage = 'Unable to retrieve token';
+                          this.hideLoading();
+                        }
                       ));
        }
    }
@@ -132,9 +159,16 @@ export class AddBannerComponent implements OnInit {
         // alert('calling add banner')
           result = this.bannerServices.addBanner(bannerValue);
         }
+        this.showLoading();
          result.subscribe(data =>  this.bannerServices.getAllBanner(localStorage.getItem('token')).subscribe(
-                          response => this.bannerList = response.recordset,
-                          error=>  { this.errorMessage = 'Unable to retrieve token.' }
+                          response => {
+                            this.bannerList = response.recordset;
+                            this.hideLoading();
+                          },
+                          error=>  { 
+                            this.errorMessage = 'Unable to retrieve token.';
+                            this.hideLoading();
+                          }
                         ));
          this.banner = new Banner(null,'','select','',null,null,null,true);  
        }

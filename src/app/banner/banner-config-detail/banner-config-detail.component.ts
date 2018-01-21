@@ -32,6 +32,7 @@ export class BannerConfigDetailComponent implements OnInit {
      }
 
   ngOnInit() {
+    this.showLoading();
     this.bannerServices.getAllCity(localStorage.getItem('token')).subscribe(
                        response => {
                          this.cityList = response.recordset;
@@ -42,26 +43,52 @@ export class BannerConfigDetailComponent implements OnInit {
                                   response => {
                                     this.bannerList = response.recordset
                                     this.bannerServices.getAllBannerConfigDetail(localStorage.getItem('token')).subscribe(
-                                      response => this.bannerConfigdetailList = response.recordset,
-                                      error=>  { alert(`Can't get banner config detail.`); }
+                                      response => 
+                                      {
+                                         this.bannerConfigdetailList = response.recordset;
+                                         this.hideLoading();
+                                      },
+                                      error=>  { 
+                                        this.hideLoading();
+                                        alert(`Can't get banner config detail.`); 
+                                      }
                                     )
                                   },
-                                  error=>  { alert(`Can't get banners.`); }
+                                  error=>  { 
+                                    this.hideLoading();
+                                    alert(`Can't get banners.`); 
+                                  }
                                 );
                              },
-                             error=>  { alert(`Can't get banner config.`); }
+                             error=>  { 
+                               alert(`Can't get banner config.`);
+                               this.hideLoading();
+                            }
                           );
                         }
                        ,
-                       error=>  { alert(`Can't get city.`); }
+                       error=>  { 
+                         alert(`Can't get city.`);
+                         this.hideLoading();
+                      }
                     );
     
     
      
   }
+  showLoading()
+  {
+    var divloading = document.getElementById('loadingDiv');
+    divloading.setAttribute("style","display:block");
+  }
+  hideLoading()
+  {
+    var divloading = document.getElementById('loadingDiv');
+    divloading.setAttribute("style","display:none");
+  }
   editBannerConfigDetail(bannerconfigdetail)
    { 
-     alert(bannerconfigdetail.BannerConfigDetId);   
+     //alert(bannerconfigdetail.BannerConfigDetId);   
      this.bannerconfigdetail = new BannerConfigDetail(bannerconfigdetail.BannerConfigDetId,bannerconfigdetail.BannerId,bannerconfigdetail.BannerConfigId,bannerconfigdetail.BannerCityId,bannerconfigdetail.BannerDisplayOrder);
    } 
    deleteBannerConfigDetail(bannerconfigdetail)
@@ -71,9 +98,16 @@ export class BannerConfigDetailComponent implements OnInit {
        {
         
         result = this.bannerServices.deleteBannerConfigDetail(bannerconfigdetail);
+        this.showLoading();
         result.subscribe(data => this.bannerServices.getAllBannerConfigDetail(localStorage.getItem('token')).subscribe(
-                       response => this.bannerConfigdetailList = response.recordset,
-                       error=>  { alert(`Can't get banner config detail.`); }
+                       response => {
+                         this.bannerConfigdetailList = response.recordset;
+                         this.hideLoading(); 
+                        },
+                       error=>  { 
+                         alert(`Can't get banner config detail.`);
+                         this.hideLoading();
+                      }
                     ));
        }
    }
@@ -86,10 +120,16 @@ export class BannerConfigDetailComponent implements OnInit {
     } else {
       result = this.bannerServices.addBannerConfigDetail(bannerconfigdetailValue);
     }
-
+    this.showLoading();
     result.subscribe(data => this.bannerServices.getAllBannerConfigDetail(localStorage.getItem('token')).subscribe(
-                       response => this.bannerConfigdetailList = response.recordset,
-                       error=>  { alert(`Can't get banner config detail.`); }
+                       response => {
+                          this.bannerConfigdetailList = response.recordset;
+                          this.hideLoading();
+                        },
+                       error=>  {
+                         this.hideLoading();
+                         alert(`Can't get banner config detail.`);
+                      }
                     ));
     this.bannerconfigdetail = new BannerConfigDetail(0,0,0,0,0);
   }

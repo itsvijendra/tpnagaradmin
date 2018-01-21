@@ -36,7 +36,8 @@ export class CompanyServicesComponent implements OnInit {
     private route: ActivatedRoute,
     private companyservice: CompanyService) { }
 
-  ngOnInit() {     
+  ngOnInit() {    
+        this.showLoading(); 
         this.companyservice.getCompanyDetailsForApproval('23468732',-1,-1,'').subscribe(
                        response => {
                             this.CompanyServicesList = response.recordset; console.log(JSON.stringify(response.recordset))
@@ -46,14 +47,26 @@ export class CompanyServicesComponent implements OnInit {
                                     this.errorMessage = 'Unable to retrieve service types.' 
                                     console.log(this.errorMessage);
                                  }
-                               );    
+                               );   
+                               this.hideLoading(); 
                            },
                           error=>  { 
                                this.errorMessage = 'Unable to retrieve company services.'
                               console.log(this.errorMessage);
+                              this.hideLoading();
                             }
                       );
     
+  }
+  showLoading()
+  {
+    var divloading = document.getElementById('loadingDiv');
+    divloading.setAttribute("style","display:block");
+  }
+  hideLoading()
+  {
+    var divloading = document.getElementById('loadingDiv');
+    divloading.setAttribute("style","display:none");
   }
   destShowHide(serviceid)
   {    
@@ -149,6 +162,7 @@ export class CompanyServicesComponent implements OnInit {
          }
          console.log(companyservicesdeststr);
          var result = this.companyservice.approveCompanyServiceDetails(companyservicesstr,companyservicesdeststr);
+        this.showLoading();
         result.subscribe(data =>  this.companyservice.getCompanyDetailsForApproval(this.token,-1,-1,'').subscribe(
                        response => {
                             this.CompanyServicesList = response.recordset; console.log(JSON.stringify(response.recordset))
@@ -157,11 +171,18 @@ export class CompanyServicesComponent implements OnInit {
                                     this.serviceTypes = response.recordset; 
                                     console.log(JSON.stringify(response.recordset))
                                     this.isServiceSelected = false;
+                                    this.hideLoading();
                                   },
-                                 error=>  { this.errorMessage = 'Unable to retrieve service types.' }
+                                 error=>  { 
+                                   this.errorMessage = 'Unable to retrieve service types.';
+                                   this.hideLoading(); 
+                                  }
                                );    
                            },
-                          error=>  { this.errorMessage = 'Unable to retrieve company services.' }
+                          error=>  { 
+                            this.errorMessage = 'Unable to retrieve company services.';
+                            this.hideLoading();
+                           }
                       ));  
   }
   CompanySearch()

@@ -67,7 +67,7 @@
             </ul>
            
       </div>
-      <div class="divtablemain" *ngIf="companyAddMode">
+      <div class="divtablemain" *ngIf="companyAddMode || IsContactEditMode">
             <ul class="ulheader">
                   <li class="liheader" style="width:20%!important;">Contact No</li>
                   <li class="liheader" style="width:19%!important;">Type</li>   
@@ -152,14 +152,14 @@
                   </ul>   
             </div>
       </div>
-      <div class="divtablemain" *ngIf="companyAddMode || companyEditMode">
+      <div class="divtablemain" *ngIf="companyAddMode || companyEditMode || IsContactEditMode">
             <ul class="ulalternate">
                   <span *ngIf="IsError" style="color:Red;">All fields marked with * are required</span>                            
             </ul>
             <ul class="ulheader">
                   <li class="lifooter" style="width:100%!important;text-align: center;margin-top:5px;">
                         <input type="button" value="Save" (click) = "SaveCompany()" style="width:60px!important;" />
-                        <input type="button" *ngIf="!companyEditMode" value="Save and Add New" (click) = "SaveCompanyAndAddNewCompany()" />
+                        <input type="button" *ngIf="!(companyEditMode || IsContactEditMode)" value="Save and Add New" (click) = "SaveCompanyAndAddNewCompany()" />
                         <input type="button" value="Cancel" (click) ="Cancel()"  style="width:60px!important;" />
                   </li>
                   
@@ -214,46 +214,43 @@
                               <td>{{contact.IsActive ? 'Yes' : 'No'}}</td>
                         </tr>
                         <tr>
-                              <td colspan="4" style="text-align: right;"><a href="javascript:;" >Edit/Add Contact</a></td>
+                              <td colspan="4" style="text-align: right;"><a href="javascript:;" (click) = "EditCompanyContactDetails(company)" >Edit/Add Contact</a></td>
                         </tr>
                   </table>
             </li> 
             <li class="{{company.ParentId == 0 ? 'lirow' : 'lirowBr'}}" style="width:37%!important;text-align:left;font-size:11px;">
-                        <table style="margin-top:0px;font-size:11px;width:100%;"> 
-                              <tr style="background-color: rgb(147, 245, 171); font-weight: bold;"> 
-                                    <td>Service Name</td>
-                                    <td>Service Desc</td>
-                                    <td>Destinations</td>
-                                    
-                              </tr>                      
-                              <tr *ngFor="let srv of company.Services;">  
-                                    <td>{{srv.ServiceName}}</td>                        
-                                    <td>{{srv.ServiceDesc}}</td>
-                                    <td>
-                                                <table  style="margin-top:0px;width:100%;">
-                                                            <tr *ngIf = "srv.Destinations.length > 0"> 
-                                                              <td class="roottd"  (click)="destShowHide(srv.ServiceId)"><a href="javascript:;" style="font-size:13px;text-decoration: none;">{{srv.ServiceId == selectedServiceId ? "-" : "+"}}</a>Destinations</td>                        
-                                                              <td></td>
-                                                               <td></td>
-                                                           </tr>
-                                                         </table>
-                                                <table style="margin-top:0px;" *ngIf="srv.ServiceId == selectedServiceId"> 
-                                                                        
-                                                           <tr *ngFor="let dest of srv.Destinations">  
-                                                             <td></td>                        
-                                                             <td>
-                                                                {{dest.CompanyServiceDest}}
-                                                             </td>                                                             
-                                                           </tr>
-                                                </table>
-                                    
-                                    </td>                                    
-                              </tr>
-                              <tr>
-                                    <td colspan="4" style="text-align: right;"><a href="javascript:;" >Edit/Add Services</a></td>
-                              </tr>
-                        </table>
-                  </li> 
+                  <table style="margin-top:0px;font-size:11px;width:100%;"> 
+                        <tr style="background-color: rgb(147, 245, 171); font-weight: bold;"> 
+                              <td>Service Name</td>
+                              <td>Service Desc</td>
+                              <td>Destinations</td>                                    
+                        </tr>                      
+                        <tr *ngFor="let srv of company.Services;">  
+                              <td>{{srv.ServiceName}}</td>                        
+                              <td>{{srv.ServiceDesc}}</td>
+                              <td>
+                                    <table  style="margin-top:0px;width:100%;">
+                                                <tr *ngIf = "srv.Destinations.length > 0"> 
+                                                      <td class="roottd"  (click)="destShowHide(srv.ServiceId)"><a href="javascript:;" style="font-size:13px;text-decoration: none;">{{srv.ServiceId == selectedServiceId ? "-" : "+"}}</a>Destinations</td>                        
+                                                      <td></td>
+                                                      <td></td>
+                                                </tr>
+                                    </table>
+                                    <table style="margin-top:0px;" *ngIf="srv.ServiceId == selectedServiceId">                                                                      
+                                          <tr *ngFor="let dest of srv.Destinations">  
+                                                <td></td>                        
+                                                <td>
+                                                      {{dest.CompanyServiceDest}}
+                                                </td>                                                             
+                                          </tr>
+                                    </table>                                    
+                              </td>                                    
+                        </tr>
+                        <tr>
+                              <td colspan="4" style="text-align: right;"><a href="javascript:;" >Edit/Add Services</a></td>
+                        </tr>
+                  </table>
+            </li> 
       </ul>
 </div>
 

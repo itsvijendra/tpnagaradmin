@@ -1,5 +1,5 @@
 <div id="Company Edit">
-      <div class="divtablemain" *ngIf="companyAddMode || companyEditMode">
+      <div class="divtablemain" *ngIf="companyAddMode || companyEditMode || IsContactEditMode || IsServiceEditMode">
             <ul class="ulheader">
                   <li class="liCol25"><span class="spacer10" style="font-size:14px;color:white;font-weight:bold;">Add Company Details</span></li>
                   <li class="liCol25"></li>
@@ -25,12 +25,12 @@
             </ul>
             <ul class="ulalternate" style="height:60px!important;">
                   <li class="liCol24"><span class="spanrow">Type:</span><br>
-                        <select *ngIf = "!IsBranchAdd && !companyEditMode" name="selCompanyType" (change) = "loadServiceByType(companyDetailNew.CompanyTypeId)" [(ngModel)]="companyDetailNew.CompanyTypeId" style="width:150px!important;">
+                        <select *ngIf = "!IsBranchAdd && !companyEditMode && !IsContactEditMode && (ActiveServiceCount == 0)" name="selCompanyType" (change) = "loadServiceByType(companyDetailNew.CompanyTypeId)" [(ngModel)]="companyDetailNew.CompanyTypeId" style="width:150px!important;">
                               <option value="-1">Select</option>     
                               <option value="1">Broker</option> 
                               <option value="2">Contractor</option>                              
                         </select>
-                        <span *ngIf = "IsBranchAdd || companyEditMode" style="padding-top:10px;padding-left:10px;">{{companyDetailNew.CompanyType}}</span>
+                        <span *ngIf = "IsBranchAdd || companyEditMode || IsContactEditMode || (ActiveServiceCount > 0)" style="padding-top:10px;padding-left:10px;">{{companyDetailNew.CompanyType}}</span>
                         <span  *ngIf="IsError && (companyDetailNew.CompanyTypeId == null || companyDetailNew.CompanyTypeId == -1) " style="color:Red;">*</span> 
                   </li>            
                         <li class="liCol24"><span class="spanrow">Country:</span> <br>
@@ -99,20 +99,20 @@
                   <li class="lirow" style="width:97%!important;"><a href="javascript:;" (click) = "AddContactRow()">Add Contact row</a></li>                        
             </ul>   
       </div>
-      <div class="divtablemain" *ngIf="companyAddMode">
+      <div class="divtablemain" *ngIf="companyAddMode || IsServiceEditMode">
                   <ul class="ulheader">
                         <li class="liheader" style="width:20%!important;">Service Name</li>                      
                         <li class="liheader" style="width:62%!important;">Destinations</li>
                         <li class="liheader" style="width:15%!important;">Action</li>
                   </ul>
                   <ul class="ulalternatebig" *ngFor="let service of companyDetailNew.Services;let i = index;trackBy:i;">
-                        <li class="lirow" style="width:20%!important;">
+                        <li class="lirow" style="width:20%!important;" *ngIf="service.IsActive">
                                     <select name="selService" [(ngModel)]="service.ServiceId" (change) = "setServices(service,i)"  style="width:150px!important;">
                                           <option value="-1">Select Service</option> 
                                           <option *ngFor="let x of ServiceListByType" [ngValue]="x.ServiceId">{{x.ServiceName}}</option>                           
                                     </select>        
                         </li>                         
-                        <li class="lirow" style="width:62%!important;">
+                        <li class="lirow" style="width:62%!important;" *ngIf="service.IsActive">
                               <table style="margin-top:0px;" *ngIf="service.HasDestination">
                                     <tr>
                                           <td>
@@ -126,7 +126,7 @@
                                           </select> <a href="javascript:;" (click) = "addDestination(i)" >Add Destination</a>
                                             <table style="margin-left:50px;">                                                  
                                                   <tr style="background-color: rgb(147, 245, 171); font-weight: bold;">
-                                                        <td></td>
+                                                        <td ></td>
                                                         <td>To State</td>
                                                         <td>To City</td>
                                                         <td>
@@ -134,10 +134,10 @@
                                                         </td>
                                                   </tr>
                                                   <tr *ngFor="let y of service.Destination;let k = index;trackBy:k;"> 
-                                                        <td>{{k + 1}}</td>
-                                                        <td>{{y.ToStateName}}</td>
-                                                        <td>{{y.ToCityName}}</td>
-                                                        <td> <a href="javascript:;" (click) = "DeleteDestination(i,k)" >Delete</a> </td>
+                                                        <td *ngIf = "y.IsActive">{{k + 1}}</td>
+                                                        <td *ngIf = "y.IsActive">{{y.ToStateName}}</td>
+                                                        <td *ngIf = "y.IsActive">{{y.ToCityName}}</td>
+                                                        <td *ngIf = "y.IsActive"> <a href="javascript:;" (click) = "DeleteDestination(i,k)" >Delete</a> </td>
                                                   </tr>                                                  
                                             </table>
                                           </td>                                          
@@ -145,21 +145,21 @@
                                     </tr>
                               </table>
                         </li>
-                        <li class="lirow" style="width:15%!important;"><a href="javascript:;" (click) = "DeleteServiceRow(i)">Delete Row</a></li>
+                        <li class="lirow" style="width:15%!important;" *ngIf="service.IsActive"><a href="javascript:;" (click) = "DeleteServiceRow(i)">Delete Row</a></li>
                   </ul>                
                   <ul class="ulalternate">                           
                         <li class="lirow" style="width:97%!important;"><a href="javascript:;" (click) = "AddServiceRow()">Add Service row</a></li>                              
                   </ul>   
             </div>
       </div>
-      <div class="divtablemain" *ngIf="companyAddMode || companyEditMode || IsContactEditMode">
+      <div class="divtablemain" *ngIf="companyAddMode || companyEditMode || IsContactEditMode || IsServiceEditMode">
             <ul class="ulalternate">
                   <span *ngIf="IsError" style="color:Red;">All fields marked with * are required</span>                            
             </ul>
             <ul class="ulheader">
                   <li class="lifooter" style="width:100%!important;text-align: center;margin-top:5px;">
                         <input type="button" value="Save" (click) = "SaveCompany()" style="width:60px!important;" />
-                        <input type="button" *ngIf="!(companyEditMode || IsContactEditMode)" value="Save and Add New" (click) = "SaveCompanyAndAddNewCompany()" />
+                        <input type="button" *ngIf="!(companyEditMode || IsContactEditMode || IsServiceEditMode)" value="Save and Add New" (click) = "SaveCompanyAndAddNewCompany()" />
                         <input type="button" value="Cancel" (click) ="Cancel()"  style="width:60px!important;" />
                   </li>
                   
@@ -231,7 +231,7 @@
                               <td>
                                     <table  style="margin-top:0px;width:100%;">
                                                 <tr *ngIf = "srv.Destinations.length > 0"> 
-                                                      <td class="roottd"  (click)="destShowHide(srv.ServiceId)"><a href="javascript:;" style="font-size:13px;text-decoration: none;">{{srv.ServiceId == selectedServiceId ? "-" : "+"}}</a>Destinations</td>                        
+                                                      <td class="roottd"  (click)="destShowHide(srv.ServiceId)"><a href="javascript:;"  style="font-size:13px;text-decoration: none;">{{srv.ServiceId == selectedServiceId ? "-" : "+"}}</a>Destinations</td>                        
                                                       <td></td>
                                                       <td></td>
                                                 </tr>
@@ -247,7 +247,7 @@
                               </td>                                    
                         </tr>
                         <tr>
-                              <td colspan="4" style="text-align: right;"><a href="javascript:;" >Edit/Add Services</a></td>
+                              <td colspan="4" style="text-align: right;"><a href="javascript:;" (click) = "EditServiceDetails(company)" >Edit/Add Services</a></td>
                         </tr>
                   </table>
             </li> 

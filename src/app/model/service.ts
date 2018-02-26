@@ -10,6 +10,7 @@ export class Service {
         public CompanyName? : string,
         public ServiceTypeId? : number,
         public Destination?: Destination[],
-        public HasDestination? : boolean
+        public HasDestination? : boolean,
+        public IsActive? : boolean
     ) {}
 }

@@ -1,0 +1,37 @@
+
+<div class="divtablemain">
+  <ul class="ulheader">           
+       <li class="liheader" style="width:100%!important;"> Select City and Services for mapping
+         </li>           
+       
+  </ul>
+  <ul class="ulalternatebig">       
+         <li class="lirow" style="width:30%!important;">Select State :
+            <select name="selDestState" [(ngModel)]="selectedStateId" (change) = "loadCity()"  style="width:150px!important;">
+                <option value="-1">Select To State</option> 
+                <option *ngFor="let x of StateList" [ngValue]="x.Id">{{x.State_Name}}</option>                           
+          </select> 
+         </li>
+         <li class="lirow" style="width:68%!important;">Select city:
+            <select name="selCity" [(ngModel)] = "selectedCityId" (change) = "loadService()" style="width:150px!important;">
+                 <option value="-1">Select To City</option>     
+                <option *ngFor="let x of CityList" [ngValue]="x.Id">{{x.City_Name}}</option>                             
+            </select>
+         </li>    
+         <li class="lirow" style="width:68%!important;">
+               <table style="width:100%;margin-left:100px;">
+                   <tr *ngFor="let x of servicedetlist">
+                        <td><span>{{x.Service_Name}}</span></td>
+                        <td> <input type="checkbox" [(ngModel)]="x.IsSelected" />  </td>
+                   </tr>                  
+               </table>                
+           </li>       
+   </ul>
+   <ul class="ulheader"> 
+        <li class="lifooter" style="width:100%!important;text-align: center;margin-top:5px;">
+            <input type="button" value="Save" (click) = "Save()"  style="width:60px!important;" />
+            <input type="button" value="Cancel"  style="width:60px!important;" />
+        </li>
+    </ul>
+</div>
+

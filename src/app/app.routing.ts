@@ -11,6 +11,9 @@ import { LoginComponent } from './login/login.component';
 import { CompanyServicesComponent } from './company/company-services/company-services.component';
 import { LoginServicesComponent } from './login/login-services/login-services.component';
 import { CompanyComponent } from './company/company.component';
+import { CityServiceMappingComponent } from './nearbycityservicemapping/city-service-mapping/city-service-mapping.component';
+import { NearByCityMappingComponent } from './nearbycityservicemapping/near-by-city-mapping/near-by-city-mapping.component';
+
 const appRoutes: Routes = [
 
   { path: '', pathMatch: 'full', component: LoginComponent },
@@ -22,6 +25,7 @@ const appRoutes: Routes = [
   { path: 'companyservice', component: CompanyServicesComponent },
   { path: 'companymanagement', component: CompanyComponent },
   { path: 'loginservice', component: LoginServicesComponent },
+  { path: 'cityservicemapping', component: CityServiceMappingComponent},
   { path: 'not-found', component: NotFoundComponent },
   { path: '**', redirectTo: 'not-found' }
 ];

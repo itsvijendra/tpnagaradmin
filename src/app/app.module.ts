@@ -17,6 +17,8 @@ import { Authentication } from './services/authentication.services';
 import { LoginService } from './services/login.services';
 import { CompanyModule } from "./company/company.module";
 import { LoginServicesComponent } from './login/login-services/login-services.component';
+import { CityServiceMappingComponent } from './nearbycityservicemapping/city-service-mapping/city-service-mapping.component';
+import { NearByCityMappingComponent } from './nearbycityservicemapping/near-by-city-mapping/near-by-city-mapping.component';
 
 //import { DatepickerModule } from 'ng2-bootstrap';
 
@@ -28,7 +30,9 @@ import { LoginServicesComponent } from './login/login-services/login-services.co
     NavBarComponent,
     LeftMenuComponent,
     LoginComponent,
-    LoginServicesComponent     
+    LoginServicesComponent,
+    CityServiceMappingComponent,
+    NearByCityMappingComponent     
   ],
   imports: [
     BrowserModule,

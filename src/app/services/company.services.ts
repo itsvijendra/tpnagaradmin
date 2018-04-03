@@ -17,11 +17,12 @@ import 'rxjs/add/operator/catch';
 @Injectable()
 export class CompanyService {
 	//admin.tpnagar.co.in
-    private TOKEN_URL:string = 'http://admin.tpnagar.co.in:5004/api/gettoken';
-    private COMPANY_URL:string = 'http://admin.tpnagar.co.in:5004/api/companyandserviceapproval/';
-	private COMPANY_MAIN_URL:string = 'http://admin.tpnagar.co.in:5004/api/company/';
-	private API_MAIN_URL:string = 'http://admin.tpnagar.co.in:5004/api/';
-	private Service_URL:string = 'http://admin.tpnagar.co.in:5004/api/servicetype/';
+    private TOKEN_URL:string = 'http://localhost:5001/api/gettoken';
+    private COMPANY_URL:string = 'http://localhost:5001/api/companyandserviceapproval/';
+	private COMPANY_MAIN_URL:string = 'http://localhost:5001/api/company/';
+	private API_MAIN_URL:string = 'http://localhost:5001/api/';
+	private Service_URL:string = 'http://localhost:5001/api/servicetype/';
+	private Service_City_Url: string = 'http://localhost:5001/api/servicesitymapping/';
     constructor(
 	        private http: Http,		
 		    private contentHeaders:ContentHeaders
@@ -90,6 +91,18 @@ export class CompanyService {
 		}
 
 	}
+	saveServiceCityMapping(serviceCity)
+	{
+		var headersvalue = this.contentHeaders.getHeaders([]);
+		console.log(JSON.stringify(serviceCity));
+		let options = new RequestOptions({
+				headers: headersvalue			
+		});
+		return this.http.post(`${this.Service_City_Url}`,JSON.stringify(serviceCity),options)
+		.map((res:Response) => res.json())
+		.catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+		
+	}
 	getCountry(){			
 		return this.http.get(`${this.API_MAIN_URL + '/getcountry/'}`)
 			.map((res:Response) => res.json())
@@ -114,6 +127,10 @@ export class CompanyService {
 		return this.http.get(`${this.API_MAIN_URL + '/getservicelist'}`)
 			.map((res:Response) => res.json())
 			.catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+	}
+	getServiceDetails(CityId) {
+		return this.http.get(`${this.API_MAIN_URL + '/getServiceDetails?CityId=' + CityId}`)
+		.map((res:Response) => res.json())
 	}
 
 }

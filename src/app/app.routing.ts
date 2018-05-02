@@ -26,6 +26,7 @@ const appRoutes: Routes = [
   { path: 'companymanagement', component: CompanyComponent },
   { path: 'loginservice', component: LoginServicesComponent },
   { path: 'cityservicemapping', component: CityServiceMappingComponent},
+  { path: 'nearbycitymapping', component: NearByCityMappingComponent},
   { path: 'not-found', component: NotFoundComponent },
   { path: '**', redirectTo: 'not-found' }
 ];

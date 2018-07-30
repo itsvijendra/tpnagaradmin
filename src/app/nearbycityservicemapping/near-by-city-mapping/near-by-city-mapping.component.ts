@@ -148,10 +148,11 @@ export class NearByCityMappingComponent implements OnInit {
         { 
           if(nearbyCityStr != "") nearbyCityStr += "|"    
           nearbyCityStr += this.NearByCityList[nearByCity].NearByCityId + "#" + 
-          this.NearByCityList[nearByCity].IsBroker + "#" + this.NearByCityList[nearByCity].IsContractor
+          this.NearByCityList[nearByCity].IsBroker + "#" + this.NearByCityList[nearByCity].IsContractor + "#" +
+          this.NearByCityList[nearByCity].BrokerSeqNo + "#" + this.NearByCityList[nearByCity].ContractorSeqNo
         }
     }
-    
+        
      this.nearbyCityDetailStr.CityId = this.selectedCityId
      this.nearbyCityDetailStr.NearByCityString = nearbyCityStr
      console.log(JSON.stringify(this.nearbyCityDetailStr));

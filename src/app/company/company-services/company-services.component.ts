@@ -31,6 +31,7 @@ export class CompanyServicesComponent implements OnInit {
   private companyType: number = -1; 
   private searchtext: string = "";
   private serviceTypes: ServiceType[] = [];
+  private setAllCategory : string = "";
   constructor(formBuilder: FormBuilder, 
     private router: Router,
     private route: ActivatedRoute,
@@ -77,6 +78,23 @@ export class CompanyServicesComponent implements OnInit {
     else
     {
        this.selectedServiceId = serviceid;
+    }
+  }
+  SetCategoryToAll(destinations, srvId)
+  {
+    //this.destShowHide(srvId);
+    if(this.setAllCategory != "")
+    {
+      for (let dest in destinations) {
+        destinations[dest].ServiceTypeId = this.setAllCategory
+        var indx = this.companyServiceDestinations.findIndex(x => x.CompanyServiceDestId == destinations[dest].CompanyServiceDestId); 
+       console.log(indx); 
+       if(indx >= 0)
+       {
+         this.companyServiceDestinations.splice(indx,1);
+       }     
+       this.companyServiceDestinations.push(new CompanyServiceDestination(destinations[dest].CompanyServiceDestId,destinations[dest].CompanyServiceDest,destinations[dest].ServiceTypeId));
+      }
     }
   }
   ApproveCompanyServices(comp)
@@ -138,7 +156,7 @@ export class CompanyServicesComponent implements OnInit {
          this.companyServiceDestinations.splice(indx,1);
        }     
        this.companyServiceDestinations.push(new CompanyServiceDestination(dest.CompanyServiceDestId,dest.CompanyServiceDest,dest.ServiceTypeId));
-       console.log(JSON.stringify(this.companyServiceDestinations)); 
+       //console.log(JSON.stringify(this.companyServiceDestinations)); 
       
   }
   approveCompanyServiceDestination() {

@@ -16,14 +16,15 @@ import 'rxjs/add/operator/catch';
 
 @Injectable()
 export class CompanyService {
-	//admin.tpnagar.co.in
-    private TOKEN_URL:string = 'http://admin.tpnagar.co.in:5004/api/gettoken';
-    private COMPANY_URL:string = 'http://admin.tpnagar.co.in:5004/api/companyandserviceapproval/';
-	private COMPANY_MAIN_URL:string = 'http://admin.tpnagar.co.in:5004/api/company/';
-	private API_MAIN_URL:string = 'http://admin.tpnagar.co.in:5004/api/';
-	private Service_URL:string = 'http://admin.tpnagar.co.in:5004/api/servicetype/';
-	private Service_City_Url: string = 'http://admin.tpnagar.co.in:5004/api/servicesitymapping/';
-	private BASE_URL_GetCity:string = 'http://admin.tpnagar.co.in:5004/api/getcity';
+	//admin.tpnagar.co.in:5004
+	//localhost:5001
+    private TOKEN_URL:string = 'http://localhost:5001/api/gettoken';
+    private COMPANY_URL:string = 'http://localhost:5001/api/companyandserviceapproval/';
+	private COMPANY_MAIN_URL:string = 'http://localhost:5001/api/company/';
+	private API_MAIN_URL:string = 'http://localhost:5001/api/';
+	private Service_URL:string = 'http://localhost:5001/api/servicetype/';
+	private Service_City_Url: string = 'http://localhost:5001/api/servicesitymapping/';
+	private BASE_URL_GetCity:string = 'http://localhost:5001/api/getcity';
     constructor(
 	        private http: Http,		
 		    private contentHeaders:ContentHeaders

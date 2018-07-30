@@ -17,13 +17,19 @@
                     [(ngModel)]="srv.ServiceTypeId">
                        <option *ngFor="let x of serviceTypes" [ngValue]="x.Id">{{x.ServiceType}}</option>                                   
                     </select> 
+                    
                  </li> 
-               <li class="lirow" style="width:352px!important;">
-                      <table  style="margin-top:0px;">
+               <li class="lirow" style="width:352px!important;">  
+                    <table  style="margin-top:0px;">      x
                          <tr *ngIf = "srv.Destinations.length > 0"> 
                            <td class="roottd"  (click)="destShowHide(srv.ServiceId)"><a href="javascript:;" style="font-size:15px;text-decoration: none;">{{srv.ServiceId == selectedServiceId ? "-" : "+"}}</a> Destinations</td>                        
                            <td></td>
-                            <td></td>
+                            <td>
+                              <select name="selServiceType" style="width:90px!important;" [(ngModel)] = "setAllCategory" >                               
+                               <option *ngFor="let x of serviceTypes" [ngValue]="x.Id">{{x.ServiceType}}</option>                                   
+                              </select> 
+                              <input type="button" value="Set All" (click) = "SetCategoryToAll(srv.Destinations,srv.ServiceId)"  style="width:60px!important;" />
+                            </td>
                         </tr>
                       </table>
                       <table style="margin-top:0px;" *ngIf="srv.ServiceId == selectedServiceId"> 
@@ -75,7 +81,7 @@
                <li class="liheader" style="width:11%!important;">State Name</li>
              <li class="liheader" style="width:11%!important;">City Name</li>
              <li class="liheader" style="width:11%!important;">Company Type</li>
-              <li class="liheader" style="width:10%!important;">IsTPNagarApproved</li> 
+              <li class="liheader" style="width:10%!important;">Contact Person</li> 
               <li class="liheader" style="width:10%!important;">Action</li>       
         </ul>
          <ul class="ulalternatebig" *ngFor="let companyservice of CompanyServicesList;let i = index;trackBy:i;">       
@@ -85,7 +91,7 @@
                <li class="lirow" style="width:11%!important;text-align: center;">{{companyservice.StateName}}</li>
                <li class="lirow" style="width:11%!important;text-align: center;">{{companyservice.CityName}}</li>
                <li class="lirow" style="width:11%!important;text-align: center;">{{companyservice.CompanyType}}</li>
-               <li class="lirow" style="width:10%!important;text-align: center;">{{companyservice.IsTPNagarApproved ? 'Yes' : 'No'}}</li>
+               <li class="lirow" style="width:10%!important;text-align: center;">{{companyservice.ContactPerson}}</li>
                <li class="lirow" style="width:10%!important;text-align: center;"><a href="javascript:;" (click)="ApproveCompanyServices(companyservice)" >Approve/Reject </a></li>
          </ul>
  </div>

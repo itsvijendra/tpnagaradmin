@@ -54,23 +54,28 @@
         <input type="button" value=">>"  (click) = "AddNearByCity()"  style="width:60px!important;" />  </div>    
        </li>
       <li class="lirow" style="width:55%!important;">Selected Near By city:
-          <div style="width:302px;text-align: center;">
+          <div style="width:402px;text-align: center;">
               <li> <table style="width:100%;border-style: solid; border-width: 1px;border-bottom: 0px;margin-top:30px;">
                   
                                 <tr><td style="width:195px;">Select City    </td>
                                   <td style="text-align: center;">Is Broker</td>
-                                  <td style="text-align: center;">Is Contractor</td></tr>
+                                  <td style="text-align: center;">Is Contractor</td>
+                                  <td style="text-align: center;">Broker Seq No</td>
+                                  <td style="text-align: center;">Contractor Seq No</td>
+                                </tr>
                              </table>          
                               
                             </li>  
            </div>
-        <div style="width:300px;border-style: solid; border-width: 1px;height: 330px;overflow-y: scroll;border-top: 0px;">                   
+        <div style="width:400px;border-style: solid; border-width: 1px;height: 330px;overflow-y: scroll;border-top: 0px;">                   
           <li >
             <table style="width:100%;">               
               <tr *ngFor="let x of NearByCityList;let k = index;trackBy:k;">
                 <td style="width:170px;"> <input type="button" value="Delete" (click) = "DeleteNearByCity(k)"  style="height:20px;font-size:x-small;" /> {{x.NearByCityName}} </td>
                 <td style="text-align: left;"><input type="checkbox" [(ngModel)] = "x.IsBroker"  /></td>
                 <td style="text-align: left;"><input type="checkbox" [(ngModel)] = "x.IsContractor"  /></td>
+                <td style="text-align: left;"><input type="text" style="width:30px;"  [(ngModel)] = "x.BrokerSeqNo" /> </td>
+                <td style="text-align: left;"><input type="text" style="width:30px;"  [(ngModel)] = "x.ContractorSeqNo"  /></td>
               </tr>
             </table>
            

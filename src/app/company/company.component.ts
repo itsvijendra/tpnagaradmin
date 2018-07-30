@@ -207,6 +207,46 @@ export class CompanyComponent implements OnInit {
     }
    
   }
+  OnDpFocusIn(indx)
+  {
+    var x = document.getElementById('divDpList' + indx);
+    var y = document.getElementById('divSelectDp' + indx);
+    var z = document.getElementById('divAddDp' + indx);
+    x.style.display = "block";
+    z.style.display = "block";
+    y.style.display = "none";
+  }
+  OnDpFocusOut(indx)
+  {
+    var x = document.getElementById('divDpList' + indx);
+    var y = document.getElementById('divSelectDp' + indx);
+    var z = document.getElementById('divAddDp' + indx);
+    x.style.display = "none";
+    z.style.display = "none";
+    y.style.display = "block";
+  }
+  addDestCity(indx)
+  {   
+    //alert(indx);
+    for(let cty in this.DestCityList) { 
+      if(this.DestCityList[cty].IsSelected)
+      {
+        var toStateId = this.DestSelectedStateId;
+        var toCity = this.DestCityList[cty].Id;     
+        var State = this.StateList.find(x=> x.Id == this.DestSelectedStateId);
+        //var City = this.DestCityList.find(x=> x.Id == this.DestSelectedCityId);     
+        var toStateName =  State.State_Name;     
+        var toCityName = this.DestCityList[cty].City_Name;
+        var destination = new Destination(0,0,toStateId,toCity,true,"1",null,"1",null,-1,toStateName,toCityName);
+        var cityexists = this.companyDetailNew.Services[indx].Destination.find(x=> x.ToCity == toCity);
+        //alert(JSON.stringify(cityexists));
+        if(!cityexists)
+         this.companyDetailNew.Services[indx].Destination.push(destination); 
+      }       
+    }
+    this.loadDestCity();
+    this.OnDpFocusOut(indx);
+  }
   loadCountryAndStateList()
   {
     this.showLoading();
@@ -219,7 +259,7 @@ export class CompanyComponent implements OnInit {
                         this.StateList = response.recordset;
                         //console.log(JSON.stringify(this.StateList));
                         this.loadService();
-                        this.hideLoading();
+                        //this.hideLoading();
                     },
                    error=>  { 
                         this.errorMessage = 'Unable to retrieve company services.'
@@ -533,18 +573,18 @@ export class CompanyComponent implements OnInit {
     {
       this.IsError = true;
     }
-    if(this.companyDetailNew.OwnerName == null || this.companyDetailNew.OwnerName == "")
+   /* if(this.companyDetailNew.OwnerName == null || this.companyDetailNew.OwnerName == "")
     {
       this.IsError = true;
-    }
+    }*/
     if(this.companyDetailNew.CompanyTypeId == null || this.companyDetailNew.CompanyTypeId == -1)
     {
        this.IsError = true;
     }
-    if(this.companyDetailNew.CountryId == null || this.companyDetailNew.CountryId == -1)
+    /*if(this.companyDetailNew.CountryId == null || this.companyDetailNew.CountryId == -1)
     {
       this.IsError = true;
-    }
+    }*/
     if(this.companyDetailNew.StateId == null || this.companyDetailNew.StateId == -1)
     {
       this.IsError = true;

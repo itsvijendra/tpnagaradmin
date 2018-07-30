@@ -15,15 +15,20 @@
                         <input id="BranchName" name="BranchName" [(ngModel)]="companyDetailNew.BranchName" *ngIf="IsBranchAdd"  type="text"  /> 
                         <span  *ngIf="IsError && (IsBranchAdd && (companyDetailNew.BranchName == null || companyDetailNew.BranchName == '')) " style="color:Red;">*</span>
                   </li>
-                  <li class="liCol24"><span class="spanrow">* Owner Name:</span><br>
+                  <li class="liCol24"><span class="spanrow">* Contact Person:</span><br>
+                        <input id="ContactPerson"   name="ContactPerson" [(ngModel)]="companyDetailNew.ContactPerson"  type="text"  />
+                        <span  *ngIf="IsError && (companyDetailNew.ContactPerson == null || companyDetailNew.ContactPerson == '') " style="color:Red;">*</span>
+                  </li> 
+                  <li class="liCol24"><span class="spanrow">Owner Name:</span><br>
                         <input id="OwnerName"   name="OwnerName" [(ngModel)]="companyDetailNew.OwnerName"  type="text"  />
                         <span  *ngIf="IsError && (companyDetailNew.OwnerName == null || companyDetailNew.OwnerName == '') " style="color:Red;">*</span>
                   </li>   
+                 
+            </ul>
+            <ul class="ulalternate" style="height:60px!important;">
                   <li class="liCol24"><span class="spanrow">Company Desc:</span><br> 
                         <input id="CompanyDesc"   name="CompanyDesc" [(ngModel)]="companyDetailNew.CompanyDesc"  type="text"  />
                   </li>
-            </ul>
-            <ul class="ulalternate" style="height:60px!important;">
                   <li class="liCol24"><span class="spanrow">Type:</span><br>
                         <select *ngIf = "!IsBranchAdd && !companyEditMode && !IsContactEditMode && (ActiveServiceCount == 0)" name="selCompanyType" (change) = "loadServiceByType(companyDetailNew.CompanyTypeId)" [(ngModel)]="companyDetailNew.CompanyTypeId" style="width:150px!important;">
                               <option value="-1">Select</option>     
@@ -33,19 +38,23 @@
                         <span *ngIf = "IsBranchAdd || companyEditMode || IsContactEditMode || (ActiveServiceCount > 0)" style="padding-top:10px;padding-left:10px;">{{companyDetailNew.CompanyType}}</span>
                         <span  *ngIf="IsError && (companyDetailNew.CompanyTypeId == null || companyDetailNew.CompanyTypeId == -1) " style="color:Red;">*</span> 
                   </li>            
-                        <li class="liCol24"><span class="spanrow">Country:</span> <br>
-                              <select name="selCountry" disabled ="true" [(ngModel)]="companyDetailNew.CountryId"  style="width:150px!important;">
-                                    <option *ngFor="let x of CountryList" [ngValue]="x.Id">{{x.Country_Name}}</option>                                 
-                              </select>
-                              <span  *ngIf="IsError && (companyDetailNew.CountryId == null || companyDetailNew.CountryId == -1) " style="color:Red;">*</span> 
-                        </li>
-                        <li class="liCol24"><span class="spanrow">State:</span><br>
-                              <select name="selState" (change) = "loadCity()"  [(ngModel)]="companyDetailNew.StateId" style="width:150px!important;">
-                                    <option value="-1">Select State</option> 
-                                    <option *ngFor="let x of StateList" [ngValue]="x.Id">{{x.State_Name}}</option>                           
-                              </select> 
-                              <span  *ngIf="IsError && (companyDetailNew.StateId == null || companyDetailNew.StateId == -1) " style="color:Red;">*</span>
-                        </li>   
+                  <li class="liCol24"><span class="spanrow">Country:</span> <br>
+                        <select name="selCountry" disabled ="true" [(ngModel)]="companyDetailNew.CountryId"  style="width:150px!important;">
+                              <option *ngFor="let x of CountryList" [ngValue]="x.Id">{{x.Country_Name}}</option>                                 
+                        </select>
+                        <span  *ngIf="IsError && (companyDetailNew.CountryId == null || companyDetailNew.CountryId == -1) " style="color:Red;">*</span> 
+                  </li>
+                  <li class="liCol24"><span class="spanrow">State:</span><br>
+                        <select name="selState" (change) = "loadCity()"  [(ngModel)]="companyDetailNew.StateId" style="width:150px!important;">
+                              <option value="-1">Select State</option> 
+                              <option *ngFor="let x of StateList" [ngValue]="x.Id">{{x.State_Name}}</option>                           
+                        </select> 
+                        <span  *ngIf="IsError && (companyDetailNew.StateId == null || companyDetailNew.StateId == -1) " style="color:Red;">*</span>
+                  </li>   
+                        
+                        
+            </ul>
+            <ul class="ulmain" style="height:60px!important;">
                         <li class="liCol24"><span class="spanrow">City:</span><br>
                               <select name="selCity" [(ngModel)]="companyDetailNew.CityId"  style="width:150px!important;">
                                            <option value="-1">Select City</option>     
@@ -53,9 +62,6 @@
                               </select> 
                               <span  *ngIf="IsError && (companyDetailNew.CityId == null || companyDetailNew.CityId == -1) " style="color:Red;">*</span>
                         </li>
-                        
-            </ul>
-            <ul class="ulmain" style="height:60px!important;">
                         <li class="liCol24"><span class="spanrow">Address:</span> <br>
                               <textarea id="Address" style="width:200px!important;" [(ngModel)]="companyDetailNew.Address" name="Address"></textarea> 
                               <span  *ngIf="IsError && (companyDetailNew.Address == null || companyDetailNew.Address == '') " style="color:Red;">*</span>
@@ -116,14 +122,34 @@
                               <table style="margin-top:0px;" *ngIf="service.HasDestination">
                                     <tr>
                                           <td>
-                                                <select name="selDestState" [(ngModel)]="DestSelectedStateId" (change) = "loadDestCity()"  style="width:150px!important;">
-                                                      <option value="-1">Select To State</option> 
-                                                      <option *ngFor="let x of StateList" [ngValue]="x.Id">{{x.State_Name}}</option>                           
-                                                </select> 
-                                                <select name="selCity" [(ngModel)] = "DestSelectedCityId" style="width:150px!important;">
+                                                <div style="width:100%;">
+                                                      <select style="float:left;" name="selDestState" [(ngModel)]="DestSelectedStateId" (change) = "loadDestCity()"  style="width:150px!important;">
+                                                            <option value="-1">Select To State</option> 
+                                                            <option *ngFor="let x of StateList" [ngValue]="x.Id">{{x.State_Name}}</option>                           
+                                                      </select> 
+                                                      <div style="float:right;">
+                                                            <div [attr.id] ="'divSelectDp' + i"style="width:150px;height:20Px; border-style: solid;border-color: black;border-width: 1px;">
+                                                                   <input type="button" style="width:100%;" value="Select City" (click) = "OnDpFocusIn(i)" />
+                                                            </div>
+                                                            <div [attr.id]="'divAddDp' + i"  style="width:150px;display:none;text-align:center;height:20Px; border-style: solid;border-color: black;border-width: 1px;">
+                                                                              <input type="button" style="width:50%;" value="Add City" (click) = "addDestCity(i)" /><input type="button" style="width:49%;" value="Cancel" (click) = "OnDpFocusOut(i)" />
+                                                            </div>
+                                                            <div [attr.id]="'divDpList' + i" style="display:none;min-height: 50px; max-height: 250px; border-style: solid; border-width: 1px; overflow-y: scroll;width:150px;position: absolute;z-index:10000000;background-color:white;">                                                                 
+                                                                  <table style="width:100%;">               
+                                                                        <tr *ngFor="let x of DestCityList">
+                                                                              <td style="width:170px;"> <input type="checkbox" [(ngModel)] = "x.IsSelected" /> {{x.City_Name}} </td>                                                
+                                                                        </tr>                                                                       
+                                                                  </table>
+                                                                  
+                                                            </div>                                                           
+                                                      </div>
+                                                </div>
+                                                <!--<select name="selCity" [(ngModel)] = "DestSelectedCityId" style="width:150px!important;">
                                                        <option value="-1">Select To City</option>     
                                                       <option *ngFor="let x of DestCityList" [ngValue]="x.Id">{{x.City_Name}}</option>                             
-                                          </select> <a href="javascript:;" (click) = "addDestination(i)" >Add Destination</a>
+                                          </select>
+                                                
+                                            <a href="javascript:;" (click) = "addDestination(i)" >Add Destination</a> --> 
                                             <table style="margin-left:50px;">                                                  
                                                   <tr style="background-color: rgb(147, 245, 171); font-weight: bold;">
                                                         <td ></td>

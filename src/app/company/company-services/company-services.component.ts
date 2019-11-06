@@ -9,13 +9,16 @@ import { CompanyServiceDestination } from '../../model/companyservicedestination
 import { CompanyServices } from '../../model/companyservice'
 import { CompanyService } from '../../services/company.services';
 import { EmitterService } from '../../services/emitter.services';
+import { User } from '../../model/user';
 @Component({
   selector: 'app-company-services',
   templateUrl: './company-services.component.html',
   styleUrls: ['./company-services.component.css']
 })
 export class CompanyServicesComponent implements OnInit {
-  orm: FormGroup;  
+  orm: FormGroup; 
+  private user:User;
+  private userCompanyServiceApprovalAccess: boolean = false; 
   private isInsert:boolean = true;
   private desInd: string = "+";
   private selectedServiceId:number = 0;
@@ -32,6 +35,7 @@ export class CompanyServicesComponent implements OnInit {
   private searchtext: string = "";
   private serviceTypes: ServiceType[] = [];
   private setAllCategory : string = "";
+  
   constructor(formBuilder: FormBuilder, 
     private router: Router,
     private route: ActivatedRoute,
@@ -39,6 +43,9 @@ export class CompanyServicesComponent implements OnInit {
 
   ngOnInit() {    
         this.showLoading(); 
+        this.user = JSON.parse(localStorage.getItem('currentuser'));
+        var indx = this.user.userAccess.findIndex(x => x.PermissionName == 'CompanyServiceApprover');
+        if(indx >= 0) this.userCompanyServiceApprovalAccess = true; 
         this.companyservice.getCompanyDetailsForApproval('23468732',-1,-1,'').subscribe(
                        response => {
                             this.CompanyServicesList = response.recordset; console.log(JSON.stringify(response.recordset))

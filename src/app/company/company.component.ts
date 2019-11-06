@@ -15,6 +15,7 @@ import { Destination } from 'app/model/Destination';
 import { State } from 'app/model/State';
 import { City } from 'app/model/City';
 import { fail } from 'assert';
+import { User } from 'app/model/user';
 
 @Component({
   selector: 'app-company',
@@ -51,13 +52,30 @@ export class CompanyComponent implements OnInit {
   private IsContactEditMode:boolean = false;
   private IsServiceEditMode:boolean = false;
   private ActiveServiceCount: number = 0;
+  private user: User;
+  private CompanyManagementUpdate : boolean = false;
+  private CompanyManagementDelete : boolean = false;
+  private CompanyNameUpdate : boolean = false;
+  private CompanyManagementView: boolean = false;
   constructor(formBuilder: FormBuilder, 
     private router: Router,
     private route: ActivatedRoute,
     private companyservice: CompanyService) { }
 
   ngOnInit() {
-    this.loadCompanyDetails();     
+    if(localStorage.getItem('currentuser') != null)
+    {
+      this.user = JSON.parse(localStorage.getItem('currentuser'));
+      var indx = this.user.userAccess.findIndex(x => x.PermissionName == 'CompanyManagementUpdate');
+      if(indx >= 0) this.CompanyManagementUpdate = true; 
+      var indx = this.user.userAccess.findIndex(x => x.PermissionName == 'CompanyManagementDelete');
+      if(indx >= 0) this.CompanyManagementDelete = true; 
+      var indx = this.user.userAccess.findIndex(x => x.PermissionName == 'CompanyManagementView');
+      if(indx >= 0) this.CompanyManagementView = true; 
+      //console.log('user object');
+      //console.log(JSON.stringify(this.user));
+      this.loadCompanyDetails();         
+    }       
   }
   loadCompanyDetails()
   {

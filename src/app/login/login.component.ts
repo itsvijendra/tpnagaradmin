@@ -56,16 +56,16 @@ export class LoginComponent implements OnInit {
         var result;
         var responsevalue;
         var value = this.form.value;        
-         if(this.validateInput())
-         {
+         if(this.validateInput())        {
            
           
           result = this.auth.login(value);
           result.subscribe( response => {
-            localStorage.setItem('currentuser', response.output);
+            
+            //console.log(JSON.stringify(response));
             this.router.navigate(['home']);
           },  
-                          error=>  { this.errorMessage = 'login failed, please try after sometime.' });
+          error=>  { this.errorMessage = 'login failed, please try after sometime.' });
          }
           
    }

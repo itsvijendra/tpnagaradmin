@@ -1,15 +1,15 @@
 <div id="leftmenucontent1">
         <ul>
-                <li class="divleftmenuitem_1"><span class="arrowR"></span><a routerLink="bannermaster" routerLinkActive="active">Banner Master</a>
+                <li class="divleftmenuitem_1" *ngIf="BannerConfigurationAccess"><span class="arrowR"></span><a routerLink="bannermaster" routerLinkActive="active">Banner Master</a>
                 </li>
-                <li class="divleftmenuitem_1"><span class="arrowR"></span><a routerLink="bannerconfigmaster" routerLinkActive="active">Banner Config Master</a>
+                <li class="divleftmenuitem_1" *ngIf="BannerConfigurationAccess"><span class="arrowR"></span><a routerLink="bannerconfigmaster" routerLinkActive="active">Banner Config Master</a>
                 </li>
-                <li class="divleftmenuitem_1"><span class="arrowR"></span><a routerLink="bannerconfigdetail" routerLinkActive="active">Banner Config Details</a></li>
-                <li class="divleftmenuitem_1"><span class="arrowR"></span><a routerLink="companyservice" routerLinkActive="active">Company/Services (Approve/Reject)</a></li>
+                <li class="divleftmenuitem_1" *ngIf="BannerConfigurationAccess"><span class="arrowR"></span><a routerLink="bannerconfigdetail" routerLinkActive="active">Banner Config Details</a></li>
+                <li class="divleftmenuitem_1" ><span class="arrowR"></span><a routerLink="companyservice" routerLinkActive="active">Company/Services (Approve/Reject)</a></li>
                 <li class="divleftmenuitem_1"><span class="arrowR"></span><a routerLink="companymanagement" routerLinkActive="active">Company Management</a></li>
                 <li class="divleftmenuitem_1"><span class="arrowR"></span><a routerLink="loginservice" routerLinkActive="active">Login Services Approval</a></li>
-                <li class="divleftmenuitem_1"><span class="arrowR"></span><a routerLink="cityservicemapping" routerLinkActive="active">City Services Mapping</a></li>
-                <li class="divleftmenuitem_1"><span class="arrowR"></span><a routerLink="nearbycitymapping" routerLinkActive="active">Near By City Mapping</a></li>
+                <li class="divleftmenuitem_1" *ngIf="CityServiceMappingAccess"><span class="arrowR"></span><a routerLink="cityservicemapping" routerLinkActive="active">City Services Mapping</a></li>
+                <li class="divleftmenuitem_1" *ngIf="NearByCityMappingAccess"><span class="arrowR"></span><a routerLink="nearbycitymapping" routerLinkActive="active">Near By City Mapping</a></li>
                 
                 <li class="divleftmenuitem_1"><span class="arrowR"></span><a  href="#" (click) = "LogOut()">Logout</a></li>
         </ul>    

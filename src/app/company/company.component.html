@@ -178,7 +178,7 @@
                   </ul>   
             </div>
       </div>
-      <div class="divtablemain" *ngIf="companyAddMode || companyEditMode || IsContactEditMode || IsServiceEditMode">
+      <div class="divtablemain" *ngIf=" CompanyManagementUpdate && CompanyManagementDelete && (companyAddMode || companyEditMode || IsContactEditMode || IsServiceEditMode)">
             <ul class="ulalternate">
                   <span *ngIf="IsError" style="color:Red;">All fields marked with * are required</span>                            
             </ul>
@@ -197,7 +197,7 @@
             Company Name: <input type="text" [(ngModel)]="searchtext"  id="txtCompanySearch"  style="width:150px!important;" /> 
             <input type="button" value="Search"  (click) = "CompanySearch()" style="width:60px!important;" />
             <input type="button" value="Back to Company Detail"  (click) = "CompanySearch()" *ngIf="IsBranchDisplay" style="width:160px!important;" />                   
-            <input type="button" value="Add New Company" (click) = "AddNewCompany()"  style="width:160px!important;" /> 
+            <input type="button" value="Add New Company" (click) = "AddNewCompany()" *ngIf="CompanyManagementUpdate"  style="width:160px!important;" /> 
       </ul>
       <ul class="ulheader">           
             <li class="liheader" style="width:15%!important;">Company</li>                  
@@ -212,9 +212,9 @@
                   <b>Desc</b>- {{company.CompanyDesc}} <br>
                   <b>Owner</b>- {{company.OwnerName}} <br>
                   <b>Type</b>- {{company.CompanyType}} <br><br>
-                  <a href="javascript:;" (click) = "EditCompanyDetails(company)" >Edit Company Details </a> <br>
+                  <a href="javascript:;" (click) = "EditCompanyDetails(company)" *ngIf="CompanyManagementUpdate"  >Edit Company Details </a> <br>
                   <a href="javascript:;" (click) = "ShowCompanyWithBranches(company.CompanyId,company)" *ngIf="!IsBranchDisplay" >Show Branches </a>
-                  <a href="javascript:;" (click) = "AddBranchCompany(company)" *ngIf="company.ParentId == 0">Add Branches </a>
+                  <a href="javascript:;" (click) = "AddBranchCompany(company)" *ngIf="CompanyManagementUpdate && company.ParentId == 0">Add Branches </a>
                   
             </li>  
             <li class="{{company.ParentId == 0 ? 'lirow' : 'lirowBr'}}" style="width:20%!important;text-align:left;font-size:11px;">
@@ -240,7 +240,7 @@
                               <td>{{contact.IsActive ? 'Yes' : 'No'}}</td>
                         </tr>
                         <tr>
-                              <td colspan="4" style="text-align: right;"><a href="javascript:;" (click) = "EditCompanyContactDetails(company)" >Edit/Add Contact</a></td>
+                              <td colspan="4" style="text-align: right;"><a href="javascript:;" (click) = "EditCompanyContactDetails(company)" *ngIf="CompanyManagementUpdate" >Edit/Add Contact</a></td>
                         </tr>
                   </table>
             </li> 
@@ -273,7 +273,7 @@
                               </td>                                    
                         </tr>
                         <tr>
-                              <td colspan="4" style="text-align: right;"><a href="javascript:;" (click) = "EditServiceDetails(company)" >Edit/Add Services</a></td>
+                              <td colspan="4" style="text-align: right;"><a href="javascript:;" (click) = "EditServiceDetails(company)" *ngIf="CompanyManagementUpdate" >Edit/Add Services</a></td>
                         </tr>
                   </table>
             </li> 

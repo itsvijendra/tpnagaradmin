@@ -22,7 +22,11 @@ export class AppComponent implements OnInit {
   }
   ngOnInit()
   {
-    this.user = localStorage.getItem('currentuser')
+    if(localStorage.getItem('currentuser') != null)
+    {
+      this.user = JSON.parse(localStorage.getItem('currentuser'));
+      //alert(JSON.parse(localStorage.getItem('currentuser')))
+    }
     //alert(this.user);
     if(this.user != null)
     {

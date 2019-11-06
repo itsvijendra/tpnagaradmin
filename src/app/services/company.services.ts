@@ -9,7 +9,7 @@ import { Service } from '../model/service';
 import { CompanyServiceApprovalContent } from '../model/companyserviceapprovalcontent';
 import { ContentHeaders } from '../common/contentheaders';
 import {Observable} from 'rxjs/Rx';
-
+import { User } from '../model/user';
 // Import RxJs required methods
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -18,13 +18,14 @@ import 'rxjs/add/operator/catch';
 export class CompanyService {
 	//admin.tpnagar.co.in:5004
 	//localhost:5001
-    private TOKEN_URL:string = 'http://localhost:5001/api/gettoken';
-    private COMPANY_URL:string = 'http://localhost:5001/api/companyandserviceapproval/';
-	private COMPANY_MAIN_URL:string = 'http://localhost:5001/api/company/';
-	private API_MAIN_URL:string = 'http://localhost:5001/api/';
-	private Service_URL:string = 'http://localhost:5001/api/servicetype/';
-	private Service_City_Url: string = 'http://localhost:5001/api/servicesitymapping/';
-	private BASE_URL_GetCity:string = 'http://localhost:5001/api/getcity';
+	private user:User;
+    private TOKEN_URL:string = 'http://localhost:5004/api/gettoken';
+    private COMPANY_URL:string = 'http://localhost:5004/api/companyandserviceapproval/';
+	private COMPANY_MAIN_URL:string = 'http://localhost:5004/api/company/';
+	private API_MAIN_URL:string = 'http://localhost:5004/api/';
+	private Service_URL:string = 'http://localhost:5004/api/servicetype/';
+	private Service_City_Url: string = 'http://localhost:5004/api/servicesitymapping/';
+	private BASE_URL_GetCity:string = 'http://localhost:5004/api/getcity';
     constructor(
 	        private http: Http,		
 		    private contentHeaders:ContentHeaders
@@ -55,23 +56,29 @@ export class CompanyService {
 			.map((res:Response) => res.json())
 			.catch((error:any) => Observable.throw(error.json().error || 'Server error'));
 	}
-    getCompanyDetailsForApproval(token, companyid, companytypeid, searchText){			
-		return this.http.get(`${this.COMPANY_URL + '?companyid=' + companyid + '&companytypeid=' + companytypeid + '&searchtxt=' + searchText }`)
+    getCompanyDetailsForApproval(token, companyid, companytypeid, searchText){
+		 return this.http.get(`${this.COMPANY_URL + '?companyid=' + companyid + '&companytypeid=' + companytypeid + '&searchtxt=' + searchText }`)
 			.map((res:Response) => res.json())
-			.catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+			.catch((error:any) => Observable.throw(error.json().error || 'Server error'));		 
 	}
 	approveCompanyServiceDetails(CompanyServicesString, CompanyServiceDestString){
-		var headersvalue = this.contentHeaders.getHeaders([]);
-		console.log(JSON.stringify(headersvalue));
-		let options = new RequestOptions({
-        	headers: headersvalue			
-        });
-		let approvalcontent = new CompanyServiceApprovalContent(CompanyServicesString,CompanyServiceDestString);
-		console.log(JSON.stringify(approvalcontent));
-		console.log(JSON.stringify(options));	
-		return this.http.post(`${this.COMPANY_URL}`,JSON.stringify(approvalcontent),options)
-			.map((res:Response) => res.json())
-			.catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+		this.user = JSON.parse(localStorage.getItem('currentuser'));
+		var indx = this.user.userAccess.findIndex(x => x.PermissionName == 'CompanyServiceApprover');
+		//alert(indx);
+		if(indx >= 0)
+		{
+			var headersvalue = this.contentHeaders.getHeaders([]);
+			console.log(JSON.stringify(headersvalue));
+			let options = new RequestOptions({
+				headers: headersvalue			
+			});
+			let approvalcontent = new CompanyServiceApprovalContent(CompanyServicesString,CompanyServiceDestString);
+			console.log(JSON.stringify(approvalcontent));
+			console.log(JSON.stringify(options));	
+			return this.http.post(`${this.COMPANY_URL}`,JSON.stringify(approvalcontent),options)
+				.map((res:Response) => res.json())
+				.catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+		}
 	}
 	getCompanyDetailsForAdmin(companyid, IsBranch, searchText){			
 		return this.http.get(`${this.COMPANY_MAIN_URL + '?CompanyId=' + companyid + '&IsBranch=' + IsBranch + '&searchtxt=' + searchText }`)

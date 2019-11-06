@@ -5,6 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { LoginService } from '../../services/login.services';
 import { EmitterService } from '../../services/emitter.services';
 import { LoginServices } from '../../model/loginservice';
+import { User } from '../../model/user';
 
 @Component({
   selector: 'app-login-services',
@@ -13,6 +14,8 @@ import { LoginServices } from '../../model/loginservice';
 })
 export class LoginServicesComponent implements OnInit {
   private LoginDetails;
+  private user:User;
+  private userLoginApprovalAccess: boolean = false; 
   private loginService: LoginServices;
   private LoginStatusTypes;
   private message: string;
@@ -26,6 +29,9 @@ export class LoginServicesComponent implements OnInit {
   ngOnInit() {
        // this.message = "";
          this.showLoading();
+         this.user = JSON.parse(localStorage.getItem('currentuser'));
+        var indx = this.user.userAccess.findIndex(x => x.PermissionName == 'LoginApprover');
+        if(indx >= 0) this.userLoginApprovalAccess = true; 
          this.loginservice.getLoginDetails('').subscribe(
                        response => {
                             this.LoginDetails = response.recordset; 

@@ -92,6 +92,6 @@
                <li class="lirow" style="width:11%!important;text-align: center;">{{companyservice.CityName}}</li>
                <li class="lirow" style="width:11%!important;text-align: center;">{{companyservice.CompanyType}}</li>
                <li class="lirow" style="width:10%!important;text-align: center;">{{companyservice.ContactPerson}}</li>
-               <li class="lirow" style="width:10%!important;text-align: center;"><a href="javascript:;" (click)="ApproveCompanyServices(companyservice)" >Approve/Reject </a></li>
+               <li class="lirow" style="width:10%!important;text-align: center;" *ngIf="userCompanyServiceApprovalAccess"><a href="javascript:;" (click)="ApproveCompanyServices(companyservice)" >Approve/Reject </a></li>
          </ul>
  </div>

@@ -16,11 +16,11 @@ import 'rxjs/add/operator/catch';
 
 @Injectable()
 export class BannerServices {
-	private TOKEN_URL:string = 'http://admin.tpnagar.co.in:5004/api/gettoken';
-    private BASE_URL:string = 'http://admin.tpnagar.co.in:5004/api/banner';
-	private BASE_URL_BannerConfig:string = 'http://admin.tpnagar.co.in:5004/api/bannerconfig/';
-	private BASE_URL_BannerConfigDetail:string = 'http://admin.tpnagar.co.in:5004/api/bannerconfigdetail/';
-	private BASE_URL_GetCity:string = 'http://admin.tpnagar.co.in:5004/api/getcity';
+	private TOKEN_URL:string = 'http://localhost:5004/api/gettoken';
+    private BASE_URL:string = 'http://localhost:5004/api/banner';
+	private BASE_URL_BannerConfig:string = 'http://localhost:5004/api/bannerconfig/';
+	private BASE_URL_BannerConfigDetail:string = 'http://localhost:5004/api/bannerconfigdetail/';
+	private BASE_URL_GetCity:string = 'http://localhost:5004/api/getcity';
 	constructor(
 	        private http: Http,		
 		    private contentHeaders:ContentHeaders

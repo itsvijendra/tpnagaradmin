@@ -2,6 +2,7 @@ import { Component , OnInit} from '@angular/core';
 import { DatePickerOptions, DateModel } from 'ng2-datepicker';
 import { User } from './model/user';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Authentication } from './services/authentication.services';
 
 @Component({
   selector: 'app-root',
@@ -15,14 +16,32 @@ export class AppComponent implements OnInit {
   user: User;
   isLoginRequired = true;
   title = 'app works!!';
- 
+  currentUser: User;
   constructor(private router: Router,
-    private route: ActivatedRoute) {
-    this.options = new DatePickerOptions();    
+    private route: ActivatedRoute,private authenticationService: Authentication) {
+    this.options = new DatePickerOptions();  
+    this.authenticationService.currentUser.subscribe(x => this.currentUser = x);  
   }
   ngOnInit()
   {
-    if(localStorage.getItem('currentuser') != null)
+    console.log(JSON.stringify(this.currentUser));
+    if(!(this.currentUser && this.currentUser.IsValidUser))
+    {
+      this.router.navigateByUrl('');
+    }
+    else
+    {
+      this.currentUser.getUserPermissions = false;
+      this.authenticationService.login(this.currentUser).subscribe(
+          response => {
+            this.authenticationService.currentUser.subscribe(x => this.currentUser = x); 
+          },
+            error=>  { 
+              this.authenticationService.logout();
+          }
+        );  
+    }
+    /*if(localStorage.getItem('currentuser') != null)
     {
       this.user = JSON.parse(localStorage.getItem('currentuser'));
       //alert(JSON.parse(localStorage.getItem('currentuser')))
@@ -38,7 +57,7 @@ export class AppComponent implements OnInit {
     {
       this.isLoginRequired = true;
       //this.router.navigateByUrl('');
-    }
+    }*/
   }
    
 }

@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ContentHeaders } from '../common/contentheaders';
 import { Headercontent } from '../model/headercontent';
 import { User } from '../model/user';
 import { UserAccess } from '../model/useraccess';
+import { Router, ActivatedRoute } from '@angular/router'; 
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -14,10 +15,16 @@ export class Authentication {
   private user: User = new User(); 
   private TOKEN_URL:string = 'http://localhost:5004/api/gettoken';
   private AUTH_URL:string = 'http://localhost:5004/api/authenticateuser';
+  private currentUserSubject: BehaviorSubject<User>;
+  public currentUser: Observable<User>;
     constructor(
-	        private http: Http,		
+			private http: Http,	
+			private router: Router,	
 			private contentHeaders:ContentHeaders
-	) {}
+	) {
+		this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentuser')));
+        this.currentUser = this.currentUserSubject.asObservable();
+	}
 
      login(body:User) {  
         var headersvalue = this.contentHeaders.getHeaders(null);
@@ -25,17 +32,31 @@ export class Authentication {
 		let options = new RequestOptions({
         	headers: headersvalue			
         });	
-        console.log(JSON.stringify(body));
+        //console.log(JSON.stringify(body));
          return this.http.post(`${this.AUTH_URL + '?token=' + localStorage.getItem('token')}`,JSON.stringify(body), options)
 			.map((res:Response) =>
 			 { 
-				this.setUserDetail(res.json().recordset);
+				//console.log('login response' + JSON.stringify(res.json().success));
+				if(res.json().recordset)
+				{
+				   this.setUserDetail(res.json().recordset);
+				}
+				else
+				{
+					if(!res.json().success)
+					{
+						this.router.navigateByUrl('');
+					}
+				}
 				//localStorage.setItem('currentuser', JSON.stringify(res.json().recordset));
 				//console.log(JSON.stringify(this.userdet));
 			 })
 			.catch((error:any) => Observable.throw(error.json().error || 'Server error'));  
 
 	}
+	public get currentUserValue(): User {
+        return this.currentUserSubject.value;
+    }
 	setUserDetail(userdetails)
 	{		
 		for(let usr in userdetails) { 
@@ -44,6 +65,7 @@ export class Authentication {
 		   //alert(JSON.stringify(userdetails[usr].IsValidUser));   
 		   this.user.IsValidUser =  userdetails[usr].IsValidUser;
 		   this.user.CityList = userdetails[usr].CityList; 
+		   this.user.token = userdetails[usr].token;
 		   //alert(JSON.stringify(userdetails[usr]));	
 		   var uaccess = userdetails[usr].UserAccess;
 		   var usrAccesses: UserAccess[] = [];
@@ -61,6 +83,8 @@ export class Authentication {
 		}
 		//alert(JSON.stringify(this.user));	
 		localStorage.setItem('currentuser', JSON.stringify(this.user));	
+		this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentuser')));
+        this.currentUser = this.currentUserSubject.asObservable();
 	}
      getToken()
 	{
@@ -79,14 +103,11 @@ export class Authentication {
 		return null;
 	}
 
-
+    
 
     logout() {
-
         // remove user from local storage to log user out
-
-        localStorage.clear();
-		
-
+		localStorage.removeItem('currentuser');
+        this.currentUserSubject.next(null);  
     }
 }

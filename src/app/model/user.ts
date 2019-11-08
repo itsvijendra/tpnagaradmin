@@ -7,6 +7,8 @@ export class User {
 		public IsValidUser?: string,
 		public UserRole?: boolean,
 		public CityList?: string,
-		public userAccess?: UserAccess[]
+		public userAccess?: UserAccess[],
+		public token? : string,
+		public getUserPermissions? : boolean
 	) {}
 }

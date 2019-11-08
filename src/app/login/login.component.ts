@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
    form: FormGroup;  
    private errorMessage:string;
    private user: User  = new User('','','','',false);
+   currentUser: User;
   constructor( formBuilder: FormBuilder, 
     private router: Router,
     private route: ActivatedRoute,
@@ -27,11 +28,12 @@ export class LoginComponent implements OnInit {
           UserRole:[''],
           IsValidUser: [false]
       });
+      this.auth.currentUser.subscribe(x => this.currentUser = x);  
   }
   ngOnInit() {
      
     //alert(this.user);
-    if(localStorage.getItem('currentuser') != null)
+    if(this.currentUser && this.currentUser.IsValidUser)
     {      
        this.router.navigate(['home']);      
     }
@@ -63,7 +65,7 @@ export class LoginComponent implements OnInit {
           result.subscribe( response => {
             
             //console.log(JSON.stringify(response));
-            this.router.navigate(['home']);
+            this.router.navigate(['/home']);
           },  
           error=>  { this.errorMessage = 'login failed, please try after sometime.' });
          }
